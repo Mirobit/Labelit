@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>LableIt - Editor</title>
+  <meta name="description" content="Anonmize and annotate text">
+  <meta name="author" content="Mirobit">
+
+  <link rel="shortcut icon" type="image/x-icon" href="../images/favicon.ico">
+  <link rel="stylesheet" href="../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../css/styles.css">
+
+</head>
+
+<body>
+    <!-- contenteditable -->
+    <div class="inline">
+        <div id="texteditor" onclick="clickWord()"></div>
+        <div id="lablemenu">
+            <button type="button" class="btn btn-primary">
+                Person <span class="badge badge-light">P</span>
+                <span class="sr-only">key</span>
+            </button>
+            <br /><br />
+            <button type="button" class="btn btn-info">
+                Place <span class="badge badge-light">W</span>
+                <span class="sr-only">key</span>
+            </button>
+            <br /><br />
+            <button type="button" class="btn btn-secondary">
+                Company <span class="badge badge-light">C</span>
+                <span class="sr-only">key</span>
+            </button>
+            </button>
+            <br /><br />
+            <button type="button" class="btn btn-dark">
+                Other <span class="badge badge-light">O</span>
+                <span class="sr-only">key</span>
+            </button>
+        </div>
+    </div>
+    
+    <div class="save">
+        <button type="button" class="btn btn-success">Save</button>
+    </div>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

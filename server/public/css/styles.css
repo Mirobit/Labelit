@@ -1,0 +1,48 @@
+body{
+    background-color: #f3f3f3;
+}
+.inline{
+    display: flex;
+    align-items: flex-start;
+}
+.container {
+    margin-top: 40px;
+    margin-left: 40px;
+}
+.labled {
+    color: white;
+    background-color: #429ef5;
+}
+.originalWord {
+    color: rgb(22, 21, 21);
+    background-color: #f5b642;  
+}
+.remove{
+    color: lightcoral;
+}
+.confirm{
+    color: rgb(114, 143, 87);
+}
+.save {
+    margin-top: 20px;
+    margin-left: 10%;
+}
+
+#lablemenu {
+    box-shadow: 0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1);
+    background-color: white;
+    margin-top: 50px;
+    margin-left: 20px;
+    padding: 15px;
+}
+#texteditor {
+    margin-left: 10%;
+    margin-top: 50px;
+    font-size: 18px;
+    font-weight: 500;
+    background-color: white;
+    padding: 15px;
+    overflow: auto;
+    width: 600px;
+    box-shadow: 0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1);
+}
