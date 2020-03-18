@@ -7,27 +7,23 @@ var text = "there Far far away, behind the word mountains, far from countries Vo
 document.getElementById("texteditor").innerHTML = text
 
 function clickWord() {
-  // selection = window.getSelection()
-  // var range = selection.getRangeAt(0)
-  // var node = selection.anchorNode
-  // while(range.startOffset > 0 ) {
-  //   range.setStart(node, range.startOffset -1)
-  //   if(range.toString().indexOf(' ') == 0){
-  //     range.setStart(node, range.startOffset +1)
-  //     break
-  //   }
-  // }
-  // while(range.endOffset < 30 ) {
-  //   range.setEnd(node, range.EndOffset +1)
-  //   console.log(range)
-  //   if(range.toString().indexOf(' ') != -1){
-  //     range.setEnd(node, range.endOffset -1)
-  //     break
-  //   }
-  // }
-
-
-  //console.log(range)
+  selection = window.getSelection()
+  var range = selection.getRangeAt(0)
+  var node = selection.anchorNode
+  while(range.startOffset > 0 ) {
+    range.setStart(node, range.startOffset -1)
+    if(range.toString().indexOf(' ') == 0){
+      range.setStart(node, range.startOffset +1)
+      break
+    }
+  }
+  while(range.endOffset <= text.length) {
+    range.setEnd(node, range.endOffset + 1)
+    if(range.toString().indexOf(' ') != -1 || range.toString().indexOf(',') != -1 || range.toString().indexOf('.') != -1 || range.toString().indexOf(';') != -1 || range.toString().indexOf(':') != -1){
+      range.setEnd(node, range.endOffset - 1)
+      break
+    }
+  }
 }
 
 function addLable(category) {
