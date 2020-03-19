@@ -1,7 +1,8 @@
 var text = "there Far far away, behind the word mountains, far from countries Vokalia the there and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the, coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia."
 // text = "<span>" + text
 // text = text.replace(" ", "</span> <span>")
-document.getElementById("texteditor").innerHTML = text
+const textEditiorDiv = document.getElementById("texteditor")
+textEditiorDiv.innerHTML = text
 
 labels = [
   {
@@ -9,14 +10,14 @@ labels = [
     keyString: "P",
     name: "Person",
     color: "primary",
-    colorHex: "#0069D9",
+    colorHex: "#007BFF",
   },
   {
     keyCode: 87,
     keyString: "W",
     name: "Place",
     color: "info",
-    colorHex: "#138496",
+    colorHex: "#17A2B8",
   },
   {
     keyCode: 67,
@@ -30,7 +31,7 @@ labels = [
     keyString: "o",
     name: "Other",
     color: "dark",
-    colorHex: "#23272B",
+    colorHex: "#343A40",
   }
 ]
 
@@ -46,6 +47,8 @@ function clickWord() {
   selection = window.getSelection()
   var range = selection.getRangeAt(0)
   var node = selection.anchorNode
+  if(node.parentElement.className !== "texteditor") return
+
   while(range.startOffset > 0 ) {
     range.setStart(node, range.startOffset -1)
     if(range.toString().indexOf(' ') == 0){
@@ -54,8 +57,11 @@ function clickWord() {
     }
   }
   while(range.endOffset <= text.length) {
+    console.log("end while start",range.endOffset)
     range.setEnd(node, range.endOffset + 1)
-    if(range.toString().indexOf(' ') != -1 || range.toString().indexOf(',') != -1 || range.toString().indexOf('.') != -1 || range.toString().indexOf(';') != -1 || range.toString().indexOf(':') != -1){
+    console.log("end while next",range.endOffset)
+    const newChar = range.toString().slice(-1)
+    if(newChar === ' ' || newChar === ',' || newChar === '.' || newChar === ';' || newChar === ':'){
       range.setEnd(node, range.endOffset - 1)
       break
     }
@@ -66,7 +72,6 @@ function clickWord() {
 function addLable(label) {
     var highlight = window.getSelection()
     var selected = highlight.toString().trim()
-    //var text = document.getElementById("texteditor")
 
     range = window.getSelection().getRangeAt(0)
     // TODO check if trim
@@ -88,28 +93,23 @@ function addLable(label) {
     spanRemove.onclick = () => removeLable(span)
     //spanRemove.addEventListener("click", "removeLable(this)"); 
 
-    console.log(span)
     range.insertNode(span)
-    console.log(range)
     window.getSelection().removeAllRanges()
 
     var selectedHTML = '<span class="labeledarea"><span class="labled" style="background-color:'+ label.colorHex + '">' + label.name + '</span><span hidden>' + selected + '</span><span class="remove" onclick="removeLable(this)">x</span></span>'
-    console.log(selectedHTML)
     
-   // text.innerHTML = text.innerHTML.replace(new RegExp('\\b' + selected + '\\b', 'g'), selected)
-    //addLabelsGlobal(label.name, selected, text)
+    // text.innerHTML = text.innerHTML.replace(new RegExp('\\b' + selected + '\\b', 'g'), selected)
+    addLabelsGlobal(label.name, selected)
   }
 
-function addLabelsGlobal(labelname, selected, text) {
+function addLabelsGlobal(labelname, selected) {
     var confirmHTML = '<span class="labledarea"><span class="labled">' + labelname + '</span><span class="originalWord">' + selected + '</span><span class="confirm" onclick="confirmLable(this)">c</span> <span class="remove" onclick="removeLable(this)">x</span></span>'
-    text.innerHTML = text.innerHTML.replace(new RegExp('\\b' + selected + '\\b', 'g'), confirmHTML)
+    textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(new RegExp('\\b' + selected + '\\b', 'g'), confirmHTML)
 }
 
 function removeLabel(element) {
-  var text = document.getElementById("texteditor")
   var orgWord = element.childNodes[1].innerText
-  console.log(orgWord)
-  text.insertBefore(document.createTextNode(orgWord), element)
+  textEditiorDiv.insertBefore(document.createTextNode(orgWord), element)
   element.remove()
    // window.getSelection().removeAllRanges()
   }
