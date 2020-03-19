@@ -1,4 +1,4 @@
-var text = "there Far far away, behind the word mountains, far from countries Vokalia the there and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the, coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia."
+var text = ".there Far far away, behind the word mountains, far from countries Vokalia the there and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the, coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia."
 // text = "<span>" + text
 // text = text.replace(" ", "</span> <span>")
 const textEditiorDiv = document.getElementById("texteditor")
@@ -49,20 +49,32 @@ function clickWord() {
   var node = selection.anchorNode
   if(node.parentElement.className !== "texteditor") return
 
-  while(range.startOffset > 0 ) {
-    range.setStart(node, range.startOffset -1)
-    if(range.toString().indexOf(' ') == 0){
+  while(range.startOffset >= 0 ) {
+    const firstChar = range.toString().charAt(0)
+    if(firstChar === ' ' || firstChar === ',' || firstChar === '.' || firstChar === ';' || firstChar === ':'){
       range.setStart(node, range.startOffset +1)
       break
     }
+    if(range.startOffset > 0) {
+    range.setStart(node, range.startOffset -1)
+    }else {
+      break
+    }
   }
+  
+  console.log("length", text.length)
   while(range.endOffset <= text.length) {
-    console.log("end while start",range.endOffset)
-    range.setEnd(node, range.endOffset + 1)
-    console.log("end while next",range.endOffset)
-    const newChar = range.toString().slice(-1)
-    if(newChar === ' ' || newChar === ',' || newChar === '.' || newChar === ';' || newChar === ':'){
+    const lastChar = range.toString().slice(-1)
+    console.log("last chat", lastChar)
+    if(lastChar === ' ' || lastChar === ',' || lastChar === '.' || lastChar === ';' || lastChar === ':'){
+      console.log("invalid last char")
       range.setEnd(node, range.endOffset - 1)
+      break
+    }
+    console.log("end", range.endOffset)
+    if(range.endOffset < text.length) {
+      range.setEnd(node, range.endOffset + 1)
+    }else {
       break
     }
   }
