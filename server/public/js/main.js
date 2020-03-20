@@ -117,10 +117,10 @@ function addLable(label) {
   }
 
 function addLabelsGlobal(labelName, labelColor, selected) {
-    const confirmHTML = ' <span class="labeledarea"><span class="labeled" style="background-color:' + labelColor + '">' + labelName + '</span><span class="confirmDivider">|</span><span class="originalWord">' + selected + '</span><span class="confirm" onclick="confirmLabel(this)">c</span> <span class="remove" onclick="removeLabel(this)">x</span></span>'
+    const confirmHTML = ' <span class="labeledarea"><span class="originalWord">' + selected + '</span><span class="confirmDivider">></span><span class="labeled" style="background-color:' + labelColor + '">' + labelName + '</span><span class="confirm" onclick="confirmLabel(this)"></span><span class="remove" onclick="removeLabel(this)"></span></span>'
     textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(new RegExp('((?!>).)\\b' + selected + '\\b', 'g'), confirmHTML)
     // Necessary since all previously set eventlisteners are remove during innerHTMLreplace
-    textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(new RegExp('<span class="removeInit"><\/span>', 'g'), ' <span class="remove" onclick="removeLabel(this)">x</span>')
+    textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(new RegExp('<span class="removeInit"><\/span>', 'g'), '<span class="remove" onclick="removeLabel(this)"></span>')
 
 
 }

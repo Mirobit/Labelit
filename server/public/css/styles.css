@@ -17,15 +17,31 @@ body{
 }
 .originalWord {
     color: rgb(22, 21, 21);
-    background-color: #f5b642;  
+    background-color: #f5b642;
+    border-radius: 0.25rem;
+    padding-left: 4px;
+    padding-right: 4px;
 }
 .remove{
     color: lightcoral;
     cursor: pointer;
+    background: url("..//images/cancel.png");
+    background-size: 100% 100%;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
+
 }
 .confirm{
     color: rgb(114, 143, 87);
     cursor: pointer;
+    background: url("..//images/confirm.png");
+    background-size: 100% 100%;
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    margin-left: 5px;
 }
 .save {
     margin-top: 20px;
