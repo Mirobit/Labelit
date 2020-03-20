@@ -44,9 +44,15 @@ document.addEventListener('keydown', (event) => {
 
 // Enables single click word selection
 function clickWord() {
+
   selection = window.getSelection()
-  var range = selection.getRangeAt(0)
-  var node = selection.anchorNode
+  // Prevent error after auto click from removeLabel -> removeAllranges
+  if(selection.anchorNode === null) return
+
+  const node = selection.anchorNode
+  const range = selection.getRangeAt(0)
+
+  // Why?? 
   if(node.parentElement.className !== "texteditor") return
 
   while(range.startOffset >= 0 ) {
@@ -62,16 +68,12 @@ function clickWord() {
     }
   }
   
-  console.log("length", text.length)
   while(range.endOffset <= text.length) {
     const lastChar = range.toString().slice(-1)
-    console.log("last chat", lastChar)
     if(lastChar === ' ' || lastChar === ',' || lastChar === '.' || lastChar === ';' || lastChar === ':'){
-      console.log("invalid last char")
       range.setEnd(node, range.endOffset - 1)
       break
     }
-    console.log("end", range.endOffset)
     if(range.endOffset < text.length) {
       range.setEnd(node, range.endOffset + 1)
     }else {
@@ -82,11 +84,11 @@ function clickWord() {
 
 // Adds lable to selected text
 function addLable(label) {
-    var highlight = window.getSelection()
-    var selected = highlight.toString().trim()
 
+    // Get selected text and delete text
+    var highlight = window.getSelection()
+    var selected = highlight.toString()
     range = window.getSelection().getRangeAt(0)
-    // TODO check if trim
     range.deleteContents()
 
     // Create elements for labeled area
@@ -97,32 +99,47 @@ function addLable(label) {
     spanLabel.innerText = label.name
     spanLabel.style= 'background-color:'+ label.colorHex
     var spanOriginal = span.appendChild(document.createElement('span'))
+    spanOriginal.classList.add("originalWord")
     spanOriginal.hidden = true
     spanOriginal.innerText = selected
     var spanRemove = span.appendChild(document.createElement('span'))
-    spanRemove.classList.add("remove")
-    spanRemove.innerText = "x"
-    spanRemove.onclick = () => removeLable(span)
-    //spanRemove.addEventListener("click", "removeLable(this)"); 
-
+    spanRemove.classList.add("removeInit")
+ 
+    // Insert created element and remove selection
     range.insertNode(span)
     window.getSelection().removeAllRanges()
 
-    var selectedHTML = '<span class="labeledarea"><span class="labled" style="background-color:'+ label.colorHex + '">' + label.name + '</span><span hidden>' + selected + '</span><span class="remove" onclick="removeLable(this)">x</span></span>'
-    
-    // text.innerHTML = text.innerHTML.replace(new RegExp('\\b' + selected + '\\b', 'g'), selected)
-    addLabelsGlobal(label.name, selected)
+    // Replace other occurrences
+    addLabelsGlobal(label.name, label.colorHex, selected, spanRemove, span)
+
+    // No working, see comment in addLabelsGlobal
+    //spanRemove.onclick = () => removeLabel(spanRemove)
   }
 
-function addLabelsGlobal(labelname, selected) {
-    var confirmHTML = '<span class="labledarea"><span class="labled">' + labelname + '</span><span class="originalWord">' + selected + '</span><span class="confirm" onclick="confirmLable(this)">c</span> <span class="remove" onclick="removeLable(this)">x</span></span>'
-    textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(new RegExp('\\b' + selected + '\\b', 'g'), confirmHTML)
+function addLabelsGlobal(labelName, labelColor, selected) {
+    const confirmHTML = ' <span class="labeledarea"><span class="labeled" style="background-color:' + labelColor + '">' + labelName + '</span><span class="confirmDivider">|</span><span class="originalWord">' + selected + '</span><span class="confirm" onclick="confirmLabel(this)">c</span> <span class="remove" onclick="removeLabel(this)">x</span></span>'
+    textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(new RegExp('((?!>).)\\b' + selected + '\\b', 'g'), confirmHTML)
+    // Necessary since all previously set eventlisteners are remove during innerHTMLreplace
+    textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(new RegExp('<span class="removeInit"><\/span>', 'g'), ' <span class="remove" onclick="removeLabel(this)">x</span>')
+
+
+}
+
+function confirmLabel(element){
+  const parent = element.parentElement
+  const divider = parent.getElementsByClassName("confirmDivider")[0]
+  divider.remove()
+  element.remove()
+  parent.getElementsByClassName("originalWord")[0].hidden = true
+  window.getSelection().removeAllRanges()
 }
 
 function removeLabel(element) {
-  var orgWord = element.childNodes[1].innerText
-  textEditiorDiv.insertBefore(document.createTextNode(orgWord), element)
-  element.remove()
-   // window.getSelection().removeAllRanges()
-  }
+  const parent = element.parentElement
+  const originalWord = parent.getElementsByClassName("originalWord")[0].innerText
+  textEditiorDiv.insertBefore(document.createTextNode(originalWord), parent)
+  parent.remove()
+  textEditiorDiv.normalize()
+  //window.getSelection().removeAllRanges()
+}
 

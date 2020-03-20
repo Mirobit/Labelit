@@ -21,9 +21,11 @@ body{
 }
 .remove{
     color: lightcoral;
+    cursor: pointer;
 }
 .confirm{
     color: rgb(114, 143, 87);
+    cursor: pointer;
 }
 .save {
     margin-top: 20px;
