@@ -1,0 +1,27 @@
+{
+  "name": "labelit",
+  "version": "1.0.0",
+  "description": "Anononymize and classify data",
+  "main": "server/index.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "express-fileupload": "^1.1.6",
+    "mongoose": "^5.9.4",
+    "path": "^0.12.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node server/index.js",
+    "dev": "nodemon server/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Mirobit/LableIt.git"
+  },
+  "author": "Michael Rotarius",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Mirobit/LableIt/issues"
+  },
+  "homepage": "https://github.com/Mirobit/LableIt#readme"
+}
