@@ -1,13 +1,16 @@
+require("dotenv-safe").config()
+
 const express = require("express")
 const path = require("path")
 const mongoose = require("mongoose")
 const routes = require("./routes")
 
-const MONGODB_URI = "mongodb://localhost/lableit"
-
 mongoose.Promise = Promise
 mongoose
-  .connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
+  .connect(process.env.MONGODB_URI, {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
+  })
   .then(() => {
     console.log("Connected to Mongo!")
   })
