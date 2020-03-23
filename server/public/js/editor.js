@@ -3,45 +3,57 @@ var text =
 const textEditiorDiv = document.getElementById('texteditor')
 textEditiorDiv.innerHTML = text
 
-labels = [
-  {
-    keyCode: 80,
-    keyString: 'P',
-    name: 'Person',
-    color: 'primary',
-    colorHex: '#007BFF'
-  },
-  {
-    keyCode: 87,
-    keyString: 'W',
-    name: 'Place',
-    color: 'info',
-    colorHex: '#17A2B8'
-  },
-  {
-    keyCode: 67,
-    keyString: 'C',
-    name: 'Company',
-    color: 'secondary',
-    colorHex: '#6C757D'
-  },
-  {
-    keyCode: 79,
-    keyString: 'o',
-    name: 'Other',
-    color: 'dark',
-    colorHex: '#343A40'
-  }
-]
+const initLabels = () => {
+  labels = [
+    {
+      keyCode: 80,
+      keyString: 'P',
+      name: 'Person',
+      color: 'primary',
+      colorHex: '#007BFF'
+    },
+    {
+      keyCode: 87,
+      keyString: 'W',
+      name: 'Place',
+      color: 'info',
+      colorHex: '#17A2B8'
+    },
+    {
+      keyCode: 67,
+      keyString: 'C',
+      name: 'Company',
+      color: 'secondary',
+      colorHex: '#6C757D'
+    },
+    {
+      keyCode: 79,
+      keyString: 'O',
+      name: 'Other',
+      color: 'dark',
+      colorHex: '#343A40'
+    }
+  ]
 
-document.addEventListener('keydown', event => {
-  const selectedLabel = labels.find(
-    element => element.keyCode === event.keyCode
-  )
-  if (selectedLabel) {
-    addLable(selectedLabel)
-  }
-})
+  const labelMenu = document.getElementById('labelmenu')
+  let labelMenuHTML = ''
+  labels.forEach(label => {
+    labelMenuHTML += `<div class="labelButton"><button type="button" class="btn btn-${label.color}">${label.name} <span class="badge badge-light">${label.keyString}</span><span class="sr-only">key</span></button></div>
+    `
+  })
+  labelMenu.innerHTML = labelMenuHTML
+
+  document.addEventListener('keydown', event => {
+    const selectedLabel = labels.find(
+      element => element.keyCode === event.keyCode
+    )
+    if (selectedLabel) {
+      addLable(selectedLabel)
+    }
+  })
+}
+
+initLabels()
 
 // Enables single click word selection
 function clickWord() {

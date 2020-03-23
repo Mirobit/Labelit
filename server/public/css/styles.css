@@ -1,68 +1,76 @@
-body{
-    background-color: #f3f3f3;
+body {
+  background-color: #f3f3f3;
 }
-.inline{
-    display: flex;
-    align-items: flex-start;
+.inline {
+  display: flex;
+  align-items: flex-start;
 }
 .container {
-    margin-top: 40px;
-    margin-left: 40px;
+  margin-top: 40px;
+  margin-left: 40px;
 }
 .labeled {
-    color: white;
-    border-radius: 0.25rem;
-    padding-left: 4px;
-    padding-right: 4px;
+  color: white;
+  border-radius: 0.25rem;
+  padding-left: 4px;
+  padding-right: 4px;
 }
 .originalWord {
-    color: rgb(22, 21, 21);
-    background-color: #f5b642;
-    border-radius: 0.25rem;
-    padding-left: 4px;
-    padding-right: 4px;
+  color: rgb(22, 21, 21);
+  background-color: #f5b642;
+  border-radius: 0.25rem;
+  padding-left: 4px;
+  padding-right: 4px;
 }
-.remove{
-    color: lightcoral;
-    cursor: pointer;
-    background: url("..//images/cancel.png");
-    background-size: 100% 100%;
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    margin-left: 5px;
-
+.remove {
+  color: lightcoral;
+  cursor: pointer;
+  background: url('..//images/cancel.png');
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 5px;
 }
-.confirm{
-    color: rgb(114, 143, 87);
-    cursor: pointer;
-    background: url("..//images/confirm.png");
-    background-size: 100% 100%;
-    display: inline-block;
-    width: 16px;
-    height: 16px;
-    margin-left: 5px;
+.confirm {
+  color: rgb(114, 143, 87);
+  cursor: pointer;
+  background: url('..//images/confirm.png');
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 5px;
 }
 .save {
-    margin-top: 20px;
-    margin-left: 10%;
+  margin-top: 20px;
+  margin-left: 10%;
+}
+.labelButton {
+  margin-bottom: 10px;
+}
+.labelButton > :last-child {
+  margin-bottom: 0 !important;
 }
 
 #labelmenu {
-    box-shadow: 0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1);
-    background-color: white;
-    margin-top: 50px;
-    margin-left: 20px;
-    padding: 15px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  background-color: white;
+  margin-top: 50px;
+  margin-left: 20px;
+  padding: 15px;
+}
+#labelmenu > :last-child {
+  margin-bottom: 0 !important;
 }
 #texteditor {
-    margin-left: 10%;
-    margin-top: 50px;
-    font-size: 18px;
-    font-weight: 500;
-    background-color: white;
-    padding: 15px;
-    overflow: auto;
-    width: 600px;
-    box-shadow: 0 2px 3px rgba(10,10,10,.1),0 0 0 1px rgba(10,10,10,.1);
+  margin-left: 10%;
+  margin-top: 50px;
+  font-size: 18px;
+  font-weight: 500;
+  background-color: white;
+  padding: 15px;
+  overflow: auto;
+  width: 600px;
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
 }
