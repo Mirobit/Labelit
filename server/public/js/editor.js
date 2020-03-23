@@ -1,8 +1,10 @@
-var text =
+// Place text
+const text =
   '.there Far far away, behind the word mountains, far from countries Vokalia the there and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the, coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.'
 const textEditiorDiv = document.getElementById('texteditor')
 textEditiorDiv.innerHTML = text
 
+// Create labels
 const initLabels = () => {
   labels = [
     {
@@ -48,15 +50,16 @@ const initLabels = () => {
       element => element.keyCode === event.keyCode
     )
     if (selectedLabel) {
-      addLable(selectedLabel)
+      addLabel(selectedLabel)
     }
   })
 }
 
+// Initialise the labels
 initLabels()
 
 // Enables single click word selection
-function clickWord() {
+const clickWord = () => {
   selection = window.getSelection()
   // Prevent error after auto click from removeLabel -> removeAllranges
   if (selection.anchorNode === null) return
@@ -106,26 +109,26 @@ function clickWord() {
   }
 }
 
-// Adds lable to selected text
-function addLable(label) {
+// Adds label to selected text
+const addLabel = label => {
   // Get selected text and delete text
-  var highlight = window.getSelection()
-  var selected = highlight.toString()
+  const highlight = window.getSelection()
+  const selected = highlight.toString()
   range = window.getSelection().getRangeAt(0)
   range.deleteContents()
 
   // Create elements for labeled area
-  var span = document.createElement('span')
+  const span = document.createElement('span')
   span.classList.add('labeledarea')
-  var spanLabel = span.appendChild(document.createElement('span'))
+  const spanLabel = span.appendChild(document.createElement('span'))
   spanLabel.classList.add('labeled')
   spanLabel.innerText = label.name
   spanLabel.style = 'background-color:' + label.colorHex
-  var spanOriginal = span.appendChild(document.createElement('span'))
+  const spanOriginal = span.appendChild(document.createElement('span'))
   spanOriginal.classList.add('originalWord')
   spanOriginal.hidden = true
   spanOriginal.innerText = selected
-  var spanRemove = span.appendChild(document.createElement('span'))
+  const spanRemove = span.appendChild(document.createElement('span'))
   spanRemove.classList.add('removeInit')
 
   // Insert created element and remove selection
@@ -139,7 +142,7 @@ function addLable(label) {
   //spanRemove.onclick = () => removeLabel(spanRemove)
 }
 
-function addLabelsGlobal(labelName, labelColor, selected) {
+const addLabelsGlobal = (labelName, labelColor, selected) => {
   const confirmHTML =
     ' <span class="labeledarea"><span class="originalWord">' +
     selected +
@@ -159,7 +162,7 @@ function addLabelsGlobal(labelName, labelColor, selected) {
   )
 }
 
-function confirmLabel(element) {
+const confirmLabel = element => {
   const parent = element.parentElement
   const divider = parent.getElementsByClassName('confirmDivider')[0]
   divider.remove()
@@ -168,7 +171,7 @@ function confirmLabel(element) {
   window.getSelection().removeAllRanges()
 }
 
-function removeLabel(element) {
+const removeLabel = element => {
   const parent = element.parentElement
   const originalWord = parent.getElementsByClassName('originalWord')[0]
     .innerText
