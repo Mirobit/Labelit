@@ -47,7 +47,7 @@ body {
   margin-left: 10%;
 }
 .labelButton {
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 .labelButton > :last-child {
   margin-bottom: 0 !important;

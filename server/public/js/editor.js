@@ -180,3 +180,12 @@ const removeLabel = element => {
   textEditiorDiv.normalize()
   //window.getSelection().removeAllRanges()
 }
+
+const saveText = () => {
+  if (textEditiorDiv.innerHTML.includes('<span class="confirmDivider">')) {
+    // TODO error message
+    console.log('unconfirmed elments')
+    return
+  }
+  console.log(textEditiorDiv.innerText)
+}
