@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "description": "Anononymize and classify data",
   "main": "server/index.js",
+  "engines": {
+    "node": ">=12.13.0"
+  },
   "dependencies": {
     "dotenv-safe": "^8.2.0",
     "express": "^4.17.1",
     "express-fileupload": "^1.1.6",
-    "mongoose": "^5.9.4",
+    "mongoose": "^5.9.5",
     "path": "^0.12.7"
   },
   "devDependencies": {},
