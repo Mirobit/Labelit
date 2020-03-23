@@ -1,9 +1,9 @@
-require("dotenv-safe").config()
+require('dotenv-safe').config()
 
-const express = require("express")
-const path = require("path")
-const mongoose = require("mongoose")
-const routes = require("./routes")
+const express = require('express')
+const path = require('path')
+const mongoose = require('mongoose')
+const routes = require('./routes')
 
 mongoose.Promise = Promise
 mongoose
@@ -12,16 +12,28 @@ mongoose
     useUnifiedTopology: true
   })
   .then(() => {
-    console.log("Connected to Mongo!")
+    console.log('Connected to Mongo!')
   })
   .catch(err => {
-    console.error("Error connecting to mongo", err)
+    console.error('Error connecting to mongo', err)
   })
 
 const app = express()
-app.use(express.static(path.join(__dirname, "public")))
+
+app.use((req, res, next) => {
+  res.header(
+    'Access-Control-Allow-Origin',
+    `http://localhost: ${process.env.PORT}`
+  )
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  )
+  next()
+})
+app.use(express.static(path.join(__dirname, 'public')))
 app.use(routes)
 
-app.listen(8000, () => {
-  console.log("Server is up and running: http://localhost:8000")
+app.listen(process.env.PORT, () => {
+  console.log(`Server is up and running: http://localhost: ${process.env.PORT}`)
 })
