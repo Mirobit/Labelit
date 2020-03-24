@@ -1,47 +1,20 @@
 import { sendData, getData } from './api.js'
 
 // global vars
-let text, textEditiorDiv
+let text, textId, textEditiorDiv
 
 // Initialize text editor area
-const initTextEditor = () => {
+const initTextEditor = async () => {
+  const result = await getData('/editor/test/init')
+
   // Place text
+  text = result.text.content
   textEditiorDiv = document.getElementById('texteditor')
-  text =
-    '.there Far far away, behind the word mountains, far from countries Vokalia the there and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the, coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.'
   textEditiorDiv.innerHTML = text
+  textId = result.text.id
 
-  const labels = [
-    {
-      keyCode: 80,
-      keyString: 'P',
-      name: 'Person',
-      color: 'primary',
-      colorHex: '#007BFF'
-    },
-    {
-      keyCode: 87,
-      keyString: 'W',
-      name: 'Place',
-      color: 'info',
-      colorHex: '#17A2B8'
-    },
-    {
-      keyCode: 67,
-      keyString: 'C',
-      name: 'Company',
-      color: 'secondary',
-      colorHex: '#6C757D'
-    },
-    {
-      keyCode: 79,
-      keyString: 'O',
-      name: 'Other',
-      color: 'dark',
-      colorHex: '#343A40'
-    }
-  ]
-
+  // Create label menu
+  const labels = result.categories
   const labelMenu = document.getElementById('labelmenu')
   let labelMenuHTML = ''
   labels.forEach(label => {
@@ -50,6 +23,7 @@ const initTextEditor = () => {
   })
   labelMenu.innerHTML = labelMenuHTML
 
+  // Init key event listener
   document.addEventListener('keydown', event => {
     const selectedLabel = labels.find(
       element => element.keyCode === event.keyCode
@@ -181,9 +155,9 @@ const saveText = async () => {
     console.log('unconfirmed elments')
     return
   }
-  const finalText = textEditiorDiv.innerText
   const result = await sendData('/editor/save', 'POST', {
-    data: finalText,
+    text: textEditiorDiv.innerText,
+    htmlText: textEditiorDiv.innerHTML,
     textId: 1,
     projectName: 'test',
     user: 'admin'
