@@ -12,11 +12,12 @@ const sendData = async (endpoint, type, data) => {
     body: JSON.stringify(data)
   }
   const response = await fetch(url, options)
-  return true
+  return response.json()
 }
 
 const getData = async endpoint => {
   const url = BASE_URL + endpoint
+  console.log(url)
   const options = {
     method: 'GET',
     headers: {
@@ -27,3 +28,5 @@ const getData = async endpoint => {
   const response = await fetch(url, options)
   return response.json()
 }
+
+export { sendData, getData }

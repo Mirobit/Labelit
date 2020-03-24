@@ -20,18 +20,39 @@
   <body>
     <!-- contenteditable -->
     <div class="inline">
-      <div id="texteditor" class="texteditor" onclick="clickWord()"></div>
+      <div
+        id="texteditor"
+        class="texteditor"
+        onclick="window.editor.clickWord()"
+      ></div>
       <div id="labelmenu"></div>
     </div>
 
     <div class="save">
-      <button type="button" class="btn btn-success" onclick="saveText()">
+      <button
+        id="savetext"
+        type="button"
+        class="btn btn-success"
+        onclick="window.editor.saveText()"
+      >
         Save
       </button>
     </div>
 
     <script src="../js/vendor/jquery-3.4.1.slim.min.js"></script>
     <script src="../js/vendor/bootstrap.bundle.min.js"></script>
-    <script src="../js/editor.js"></script>
+    <!-- <script src="../js/editor.js"></script> -->
+    <script type="module">
+      import * as editor from '../js/editor.js'
+      // Initialise the labels/onlick
+      // document
+      //   .getElementById('texteditor')
+      //   .addEventListener('click', editor.clickWord)
+      // document
+      //   .getElementById('savetext')
+      //   .addEventListener('click', editor.saveText)
+      window.editor = editor
+      editor.initTextEditor()
+    </script>
   </body>
 </html>

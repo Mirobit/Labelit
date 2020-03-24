@@ -1,12 +1,17 @@
-// Place text
-const text =
-  '.there Far far away, behind the word mountains, far from countries Vokalia the there and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the, coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.'
-const textEditiorDiv = document.getElementById('texteditor')
-textEditiorDiv.innerHTML = text
+import { sendData, getData } from './api.js'
 
-// Create labels
-const initLabels = () => {
-  labels = [
+// global vars
+let text, textEditiorDiv
+
+// Initialize text editor area
+const initTextEditor = () => {
+  // Place text
+  textEditiorDiv = document.getElementById('texteditor')
+  text =
+    '.there Far far away, behind the word mountains, far from countries Vokalia the there and Consonantia, there live the blind texts. Separated they live in Bookmarksgrove right at the, coast of the Semantics, a large language ocean. A small river named Duden flows by their place and supplies it with the necessary regelialia.'
+  textEditiorDiv.innerHTML = text
+
+  const labels = [
     {
       keyCode: 80,
       keyString: 'P',
@@ -55,12 +60,9 @@ const initLabels = () => {
   })
 }
 
-// Initialise the labels
-initLabels()
-
 // Enables single click word selection
 const clickWord = () => {
-  selection = window.getSelection()
+  const selection = window.getSelection()
   // Prevent error after auto click from removeLabel -> removeAllranges
   if (selection.anchorNode === null) return
 
@@ -114,7 +116,7 @@ const addLabel = label => {
   // Get selected text and delete text
   const highlight = window.getSelection()
   const selected = highlight.toString()
-  range = window.getSelection().getRangeAt(0)
+  const range = window.getSelection().getRangeAt(0)
   range.deleteContents()
 
   // Create elements for labeled area
@@ -136,29 +138,23 @@ const addLabel = label => {
   window.getSelection().removeAllRanges()
 
   // Replace other occurrences
-  addLabelsGlobal(label.name, label.colorHex, selected, spanRemove, span)
-
-  // No working, see comment in addLabelsGlobal
-  //spanRemove.onclick = () => removeLabel(spanRemove)
-}
-
-const addLabelsGlobal = (labelName, labelColor, selected) => {
   const confirmHTML =
     ' <span class="labeledarea"><span class="originalWord">' +
     selected +
     '</span><span class="confirmDivider"></span><span class="labeled" style="background-color:' +
-    labelColor +
+    label.colorHex +
     '">' +
-    labelName +
-    '</span><span class="confirm" onclick="confirmLabel(this)"></span><span class="remove" onclick="removeLabel(this)"></span></span>'
+    label.name +
+    '</span><span class="confirm" onclick="window.editor.confirmLabel(this)"></span><span class="remove" onclick="window.editor.removeLabel(this)"></span></span>'
   textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(
     new RegExp('((?!>).)\\b' + selected + '\\b', 'g'),
     confirmHTML
   )
   // Necessary since all previously set eventlisteners are remove during innerHTMLreplace
+  // No working -> spanRemove.onclick = () => removeLabel(spanRemove)
   textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(
     new RegExp('<span class="removeInit"></span>', 'g'),
-    '<span class="remove" onclick="removeLabel(this)"></span>'
+    '<span class="remove" onclick="window.editor.removeLabel(this)"></span>'
   )
 }
 
@@ -180,12 +176,30 @@ const removeLabel = element => {
   textEditiorDiv.normalize()
   //window.getSelection().removeAllRanges()
 }
-
-const saveText = () => {
+const saveText = async () => {
   if (textEditiorDiv.innerHTML.includes('<span class="confirmDivider">')) {
-    // TODO error message
     console.log('unconfirmed elments')
     return
   }
-  console.log(textEditiorDiv.innerText)
+  const finalText = textEditiorDiv.innerText
+  const result = await sendData('/editor/save', 'POST', {
+    data: finalText,
+    textId: 1,
+    projectName: 'test',
+    user: 'admin'
+  })
+  if (result === true) {
+    console.log('Text successfully saved')
+  } else {
+    console.log("Text couldn't be saved")
+  }
+}
+
+export {
+  saveText,
+  removeLabel,
+  confirmLabel,
+  addLabel,
+  clickWord,
+  initTextEditor
 }
