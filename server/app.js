@@ -3,6 +3,7 @@ require('dotenv-safe').config()
 const express = require('express')
 const path = require('path')
 const mongoose = require('mongoose')
+// var compression = require('compression')
 const routes = require('./routes')
 
 mongoose.Promise = Promise
@@ -20,6 +21,7 @@ mongoose
 
 const app = express()
 app.use(express.json())
+//app.use(compression())
 app.use((req, res, next) => {
   res.header(
     'Access-Control-Allow-Origin',

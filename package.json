@@ -2,7 +2,7 @@
   "name": "labelit",
   "version": "1.0.0",
   "description": "Anononymize and classify data",
-  "main": "server/index.js",
+  "main": "server/app.js",
   "engines": {
     "node": ">=12.13.0"
   },
@@ -15,8 +15,8 @@
   },
   "devDependencies": {},
   "scripts": {
-    "start": "node server/index.js",
-    "dev": "nodemon server/index.js"
+    "start": "node server/app.js",
+    "dev": "nodemon server/app.js"
   },
   "repository": {
     "type": "git",
