@@ -1,64 +1,63 @@
-const express = require("express")
+const express = require('express')
 const router = express.Router()
-const Project = require("../models/Project")
+const projectsService = require('../services/projects')
 
-router.get("/", (req, res) => {
-    Project.find({}).then(projects => {
-        res.send({ result: projects })
-    })
+router.get('/', (req, res) => {
+  try {
+    const projects = await projectsService.list()
+    res.json(projects)
+  } catch(error) {
+    console.log(error)
+    res.json({ result: false })
+  }
 })
 
-router.post("/", (req, res) => {
-    console.log("body", req.body)
-    new Project({
-      title: req.body.title,
-      content: req.body.content,
-      to: req.body.to,
-      from: req.user._id,
-      date: Date.now()
+router.get('/:name', (req, res) => {
+  try {
+    const project = await projectsService.get(req.params.name)
+    res.json(project)
+  } catch(error) {
+    console.log(error)
+    res.json({ result: false })
+  }
+})
+
+router.post('/', (req, res) => {
+  try {
+    await projectsService.create({
+      name: req.body.name,
+      descripion: req.body.description,
+      filePath: req.body.filePath
     })
-      .save()
-      .then(result => {
-        console.log("message saved in db")
-        res.send({ result: true })
-      })
-      .catch(error => {
-        console.log(error)
-        res.send({ result: false })
-      })
-  })
+    res.json({ result: true })
+  } catch(error) {
+    console.log(error)
+    res.json({ result: false })
+  }
+})
 
-  router.delete("/:id", (req, res) => {
-    Project.deleteOne({ _id: req.params.id })
-      .then(result => {
-        res.send(true)
-      })
-      .catch(error => {
-        console.log(error)
-        res.send(false)
-      })
-  })
+router.put('/update', (req, res) => {
+  try {
+    const project = await projectsService.update({
+      name: req.body.name,
+      descripion: req.body.description,
+      filePath: req.body.filePath
+    })
+    res.json(project)
+  } catch(error) {
+    console.log(error)
+    res.json({ result: false })
+  }
+})
 
-// router.post("/update", (req, res) => {
-//   console.log("incoming", req.body.data);
-//   const newData = {
-//     name: req.body.data.name,
-//     age: req.body.data.age,
-//     description: req.body.data.description,
-//     skills: req.body.data.skills,
-//     gender: req.body.data.gender,
-//     available: req.body.data.available
-//   };
-//   User.findOneAndUpdate({ _id: req.user._id }, newData, { new: true, runValidators: true })
-//     .then(result => {
-//       console.log(result);
-//       console.log("profile updated");
-//       res.send({ result: true });
-//     })
-//     .catch(error => {
-//       console.log(error);
-//       res.send({ result: false });
-//     });
-// });
+router.delete('/:id', (req, res) => {
+  try {
+    await projectsService.remove(req.body.name)
+    res.json({ result: true })
+  } catch(error) {
+    console.log(error)
+    res.json({ result: false })
+  }
+})
 
 module.exports = router
