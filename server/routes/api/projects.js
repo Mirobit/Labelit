@@ -1,7 +1,19 @@
 const express = require('express')
 const router = express.Router()
-const projectsService = require('../services/projects')
+const projectsService = require('../../services/projects')
 
+// Single
+router.get('/:id', (req, res) => {
+  try {
+    const project = await projectsService.get(req.params.id)
+    res.json(project)
+  } catch(error) {
+    console.log(error)
+    res.json({ result: false })
+  }
+})
+
+// All
 router.get('/', (req, res) => {
   try {
     const projects = await projectsService.list()
@@ -12,20 +24,11 @@ router.get('/', (req, res) => {
   }
 })
 
-router.get('/:name', (req, res) => {
-  try {
-    const project = await projectsService.get(req.params.name)
-    res.json(project)
-  } catch(error) {
-    console.log(error)
-    res.json({ result: false })
-  }
-})
-
+// New
 router.post('/', (req, res) => {
   try {
     await projectsService.create({
-      name: req.body.name,
+      name: req.body.id,
       descripion: req.body.description,
       filePath: req.body.filePath
     })
@@ -36,10 +39,11 @@ router.post('/', (req, res) => {
   }
 })
 
-router.put('/update', (req, res) => {
+// Update
+router.put('/:id', (req, res) => {
   try {
     const project = await projectsService.update({
-      name: req.body.name,
+      name: req.body.id,
       descripion: req.body.description,
       filePath: req.body.filePath
     })
@@ -50,6 +54,7 @@ router.put('/update', (req, res) => {
   }
 })
 
+// Remove
 router.delete('/:id', (req, res) => {
   try {
     await projectsService.remove(req.body.name)

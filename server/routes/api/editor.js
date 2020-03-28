@@ -2,13 +2,6 @@ const express = require('express')
 const path = require('path')
 const router = express.Router()
 
-// Page
-router.get('/:id', (req, res) => {
-  console.log('Project name:', req.params.id)
-  res.sendFile(path.join(__dirname, '../public/pages/editor.html'))
-})
-
-// API - Init text editor
 router.get('/:id/init', (req, res) => {
   console.log(
     'Getting text ' +
@@ -55,8 +48,8 @@ router.get('/:id/init', (req, res) => {
   })
 })
 
-// API - Save edited text
-router.post('/save', (req, res) => {
+// Save edited text
+router.post('/', (req, res) => {
   console.log('body', req.body)
   res.json(true)
 })
