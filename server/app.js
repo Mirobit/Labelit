@@ -3,7 +3,6 @@ require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const mongoose = require('mongoose')
-// var compression = require('compression')
 const routes = require('./routes')
 
 mongoose.Promise = Promise
@@ -16,13 +15,12 @@ mongoose
   .then(() => {
     console.log('Connected to Mongo!')
   })
-  .catch(err => {
-    console.error('Error connecting to mongo', err)
+  .catch(error => {
+    console.error('Error connecting to mongo', error)
   })
 
 const app = express()
 app.use(express.json())
-//app.use(compression())
 app.use((req, res, next) => {
   res.header(
     'Access-Control-Allow-Origin',
@@ -34,6 +32,7 @@ app.use((req, res, next) => {
   )
   next()
 })
+
 app.use(express.static(path.join(__dirname, 'public')))
 app.use(routes)
 

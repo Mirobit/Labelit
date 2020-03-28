@@ -1,5 +1,5 @@
 const Project = require('../../models/Project')
-const fs = require('fs')
+const fileHandler = require('../../utils/fileHandler')
 
 const get = async name => {
   try {
@@ -21,6 +21,7 @@ const list = async () => {
 
 const create = async data => {
   try {
+    const text = fileHandler.read(data.path)
     await new Project(data).save()
     return true
   } catch (error) {
