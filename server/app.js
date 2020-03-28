@@ -1,4 +1,4 @@
-require('dotenv-safe').config()
+require('dotenv').config()
 
 const express = require('express')
 const path = require('path')
@@ -10,7 +10,8 @@ mongoose.Promise = Promise
 mongoose
   .connect(process.env.MONGODB_URI, {
     useNewUrlParser: true,
-    useUnifiedTopology: true
+    useUnifiedTopology: true,
+    useCreateIndex: true
   })
   .then(() => {
     console.log('Connected to Mongo!')
