@@ -2,7 +2,7 @@ const express = require('express')
 const path = require('path')
 const router = express.Router()
 
-router.get('/:id/init', (req, res) => {
+router.get('/:id/init', async (req, res) => {
   console.log(
     'Getting text ' +
       req.params.textid +
@@ -49,7 +49,7 @@ router.get('/:id/init', (req, res) => {
 })
 
 // Save edited text
-router.post('/', (req, res) => {
+router.post('/', async (req, res) => {
   console.log('body', req.body)
   res.json(true)
 })
