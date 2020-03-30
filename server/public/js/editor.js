@@ -1,7 +1,7 @@
 import { sendData, getData } from './api.js'
 
 // global vars
-let text, textId, textEditiorDiv
+let text, textId, textEditiorDiv, salt
 
 // Initialize text editor area
 const initTextEditor = async () => {
@@ -22,6 +22,9 @@ const initTextEditor = async () => {
     `
   })
   labelMenu.innerHTML = labelMenuHTML
+
+  // Set salt
+  salt = result.salt
 
   // Init key event listener
   document.addEventListener('keydown', event => {
@@ -149,6 +152,10 @@ const removeLabel = element => {
   parent.remove()
   textEditiorDiv.normalize()
   //window.getSelection().removeAllRanges()
+}
+
+const hashWord = word => {
+  var hash = new Hashes.SHA256().hex(word + secret)
 }
 const saveText = async () => {
   if (textEditiorDiv.innerHTML.includes('<span class="confirmDivider">')) {
