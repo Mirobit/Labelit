@@ -7,6 +7,10 @@ const wordSchema = new Schema(
       type: String,
       required: true
     },
+    category: {
+      type: String,
+      required: true
+    },
     project: {
       type: Schema.Types.ObjectId,
       required: true

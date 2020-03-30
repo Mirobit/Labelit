@@ -1,12 +1,12 @@
 import { sendData, getData } from './api.js'
 
 // global vars
-let text, textId, textEditiorDiv, salt
+let text, textId, textEditiorDiv, salt, wordlist
 
 // Initialize text editor area
 const initTextEditor = async () => {
-  const result = await getData('/editor/test/init')
-
+  const result = await getData('/texts/test/init')
+  console.log(result)
   // Place text
   text = result.text.content
   textEditiorDiv = document.getElementById('texteditor')
@@ -25,6 +25,8 @@ const initTextEditor = async () => {
 
   // Set salt
   salt = result.salt
+  // Init wordlist
+  wordlist = []
 
   // Init key event listener
   document.addEventListener('keydown', event => {
@@ -133,6 +135,9 @@ const addLabel = label => {
     new RegExp('<span class="removeInit"></span>', 'g'),
     '<span class="remove" onclick="window.editor.removeLabel(this)"></span>'
   )
+
+  // Add word to wordlist
+  wordlist.push({ hash: hashWord(selected), category: label.name })
 }
 
 const confirmLabel = element => {
@@ -155,14 +160,19 @@ const removeLabel = element => {
 }
 
 const hashWord = word => {
-  var hash = new Hashes.SHA256().hex(word + secret)
+  return new Hashes.SHA256().hex(word + salt)
 }
+
+const removeWord = word => {
+  // TODO
+}
+
 const saveText = async () => {
   if (textEditiorDiv.innerHTML.includes('<span class="confirmDivider">')) {
     console.log('unconfirmed elments')
     return
   }
-  const result = await sendData('/editor/save', 'POST', {
+  const result = await sendData('/texts', 'POST', {
     text: textEditiorDiv.innerText,
     htmlText: textEditiorDiv.innerHTML,
     textId: 1,

@@ -1,7 +1,7 @@
 const BASE_URL = window.location.origin
 
 const sendData = async (endpoint, type, data) => {
-  const url = BASE_URL + endpoint
+  const url = BASE_URL + '/api' + endpoint
   const options = {
     method: type,
     headers: {
@@ -16,7 +16,7 @@ const sendData = async (endpoint, type, data) => {
 }
 
 const getData = async endpoint => {
-  const url = BASE_URL + endpoint
+  const url = BASE_URL + '/api' + endpoint
   console.log(url)
   const options = {
     method: 'GET',
