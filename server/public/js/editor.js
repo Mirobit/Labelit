@@ -177,7 +177,8 @@ const saveText = async () => {
     htmlText: textEditiorDiv.innerHTML,
     textId: 1,
     projectName: 'test',
-    user: 'admin'
+    user: 'admin',
+    wordlist
   })
   if (result === true) {
     console.log('Text successfully saved')

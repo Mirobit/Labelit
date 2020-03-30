@@ -24,7 +24,7 @@ app.use(express.json())
 app.use((req, res, next) => {
   res.header(
     'Access-Control-Allow-Origin',
-    `http://localhost: ${process.env.PORT}`
+    `http://localhost:${process.env.PORT}`
   )
   res.header(
     'Access-Control-Allow-Headers',
