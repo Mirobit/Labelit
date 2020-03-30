@@ -4,25 +4,26 @@ const router = express.Router()
 
 // Main
 router.get('/', (req, res) => {
-  console.log('Project name:', req.params.id)
-  res.sendFile(path.join(__dirname, '../../views/pages/index.html'))
+  console.log('default app route')
+  res.sendFile(path.join(__dirname, '../../views/index.html'))
 })
 
 // Editor
 router.get('/text/:id', (req, res) => {
-  console.log('Project name:', req.params.id)
-  res.sendFile(path.join(__dirname, '../../views/pages/editor.html'))
+  console.log('Text route: Project name:', req.params.id)
+  res.sendFile(path.join(__dirname, '../../views/editor.html'))
 })
 
 // Project
 router.get('/projects/:id', (req, res) => {
   console.log('Project name:', req.params.id)
-  res.sendFile(path.join(__dirname, '../../views/pages/projects.html'))
+  res.sendFile(path.join(__dirname, '../../views/projects.html'))
 })
 
 // Projects
 router.get('/projects', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../views/pages/projects.html'))
+  console.log('projects route')
+  res.sendFile(path.join(__dirname, '../../views/projects.html'))
 })
 
 module.exports = router

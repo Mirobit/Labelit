@@ -61,9 +61,10 @@ const projectSchema = new Schema(
           required: true
         }
       }
-    ]
+    ],
+    texts: [Schema.Types.ObjectId],
+    words: [Schema.Types.ObjectId]
     //user: Schema.Types.ObjectId,
-    //texts: [Schema.Types.ObjectId],
   },
   {
     timestamps: {

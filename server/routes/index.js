@@ -5,7 +5,7 @@ const apiRoutes = require('./api')
 const appRoutes = require('./app')
 
 router.use('/api', apiRoutes)
-router.get('/', appRoutes)
+router.use('/', appRoutes)
 
 router.use((req, res) => {
   res.status(404).send({ error: 'not-found' })

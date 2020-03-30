@@ -1,8 +1,7 @@
 const fs = require('fs').promises
 
 const read = async (path, id) => {
-  const texts = ''
-  const stat = ''
+  let stat, texts
 
   // Check if path is valid
   try {
