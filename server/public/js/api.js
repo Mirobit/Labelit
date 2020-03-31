@@ -1,6 +1,6 @@
 const BASE_URL = window.location.origin
 
-const sendData = async (endpoint, type, data) => {
+const sendData = async (endpoint, type, data = '') => {
   const url = BASE_URL + '/api' + endpoint
   const options = {
     method: type,
@@ -27,6 +27,12 @@ const getData = async endpoint => {
 
   const response = await fetch(url, options)
   return response.json()
+}
+
+const handleError = result => {
+  if (result.status === false) {
+    // TODO: display error
+  }
 }
 
 export { sendData, getData }

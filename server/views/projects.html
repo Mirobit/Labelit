@@ -11,10 +11,10 @@
     <link
       rel="shortcut icon"
       type="image/x-icon"
-      href="../public/images/favicon.ico"
+      href="../images/favicon.ico"
     />
-    <link rel="stylesheet" href="../public/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="../public/css/styles.css" />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
   </head>
 
   <body>
@@ -49,15 +49,15 @@
               >
             </div>
             <div class="form-group">
-              <label for="customFile">Data Source</label>
+              <label for="filePath">Data Source</label>
               <div class="custom-file">
                 <input
                   type="file"
                   class="custom-file-input"
-                  id="customFile"
+                  id="filePath"
                   aria-describedby="fileHelp"
                 />
-                <label class="custom-file-label" for="customFile"
+                <label class="custom-file-label" for="filePath"
                   >Choose file</label
                 >
               </div>
@@ -65,7 +65,11 @@
                 >Multiple file import not supported yet</small
               >
             </div>
-            <button type="button" class="btn btn-primary">
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="window.createProject()"
+            >
               Create Project
             </button>
           </form>
@@ -73,33 +77,19 @@
         <div class="col-1"></div>
         <div class="col-4">
           <strong>List of Projects</strong>
-          <br /><br />
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <h5 class="card-title">Example Project</h5>
-              <h6 class="card-subtitle mb-2 text-muted">142 texts</h6>
-              <p class="card-text">Example description of the project</p>
-              <div class="progress">
-                <div
-                  class="progress-bar bg-success"
-                  role="progressbar"
-                  style="width: 25%;"
-                  aria-valuenow="25"
-                  aria-valuemin="0"
-                  aria-valuemax="100"
-                >
-                  25%
-                </div>
-              </div>
-            </div>
-          </div>
+          <div id="projectlist"></div>
         </div>
       </div>
     </div>
 
-    <script src="../public/js/jquery-3.3.1.slim.min.js"></script>
-    <script src="../public/js/bootstrap.min.js"></script>
-    <script>
+    <script src="../js/vendor/jquery-3.4.1.slim.min.js"></script>
+    <script src="../js/vendor/bootstrap.bundle.min.js"></script>
+    <script type="module">
+      // Init
+      import { createProject, initProjectList } from '../js/projects.js'
+      window.createProject = createProject
+      initProjectList()
+
       // Name of file in custom file upload input
       $('.custom-file-input').on('change', function() {
         var fileName = $(this)

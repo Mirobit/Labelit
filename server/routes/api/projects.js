@@ -6,10 +6,10 @@ const projectsService = require('../../services/projects')
 router.get('/:id', async (req, res) => {
   try {
     const project = await projectsService.get(req.params.id)
-    res.json(project)
+    res.json({ status: true, project })
   } catch (error) {
     console.log(error)
-    res.json({ result: false })
+    res.json({ status: false })
   }
 })
 
@@ -17,10 +17,10 @@ router.get('/:id', async (req, res) => {
 router.get('/', async (req, res) => {
   try {
     const projects = await projectsService.list()
-    res.json(projects)
+    res.json({ status: true, projects })
   } catch (error) {
     console.log(error)
-    res.json({ result: false })
+    res.json({ status: false })
   }
 })
 
@@ -28,14 +28,15 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   try {
     await projectsService.create({
-      name: req.body.id,
-      descripion: req.body.description,
-      filePath: req.body.filePath
+      name: req.body.name,
+      description: req.body.description,
+      filePath: req.body.filePath,
+      textCount: req.body.textCount
     })
-    res.json({ result: true })
+    res.json({ status: true })
   } catch (error) {
     console.log(error)
-    res.json({ result: false })
+    res.json({ status: false })
   }
 })
 
@@ -47,21 +48,21 @@ router.put('/:id', async (req, res) => {
       descripion: req.body.description,
       filePath: req.body.filePath
     })
-    res.json(project)
+    res.json({ status: true, project })
   } catch (error) {
     console.log(error)
-    res.json({ result: false })
+    res.json({ status: false })
   }
 })
 
 // Remove
 router.delete('/:id', async (req, res) => {
   try {
-    await projectsService.remove(req.body.name)
-    res.json({ result: true })
+    await projectsService.remove(req.params.id)
+    res.json({ status: true })
   } catch (error) {
     console.log(error)
-    res.json({ result: false })
+    res.json({ status: false })
   }
 })
 

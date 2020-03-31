@@ -1,5 +1,5 @@
 const Project = require('../../models/Project')
-const fileHandler = require('../../utils/fileHandler')
+//const fileHandler = require('../../utils/fileHandler')
 
 const get = async name => {
   try {
@@ -12,7 +12,7 @@ const get = async name => {
 
 const list = async () => {
   try {
-    const projects = await Project.find({}) // .select({ "name": 1, "_id": 0})
+    const projects = await Project.find({}, null, { sort: { created_at: -1 } }) // .select({ "name": 1, "_id": 0})
     return projects
   } catch (error) {
     throw new Error(error.message)
@@ -21,7 +21,7 @@ const list = async () => {
 
 const create = async data => {
   try {
-    const text = fileHandler.read(data.path)
+    //const text = fileHandler.read(data.path)
     await new Project(data).save()
     return true
   } catch (error) {
