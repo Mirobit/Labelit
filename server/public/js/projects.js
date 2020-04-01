@@ -6,7 +6,7 @@ const initProjectList = async () => {
   if (result.status === true) {
     console.log('Project list loaded')
   } else {
-    console.log('Project list could not be loaded')
+    displayMessage(result.status, 'Could not load project list')
   }
 
   const projectList = document.getElementById('projectlist')
@@ -36,26 +36,50 @@ const initProjectList = async () => {
 }
 
 const createProject = async () => {
-  const name = document.getElementById('projectname').value
-  const description = document.getElementById('projectdescription').value
+  const name = document.getElementById('name').value
+  const description = document.getElementById('description').value
   const folderPath = document.getElementById('folderPath').value
-  const password = document.getElementById('projectpassword').value
+  const password = document.getElementById('password')
+  const passwordRepeat = document.getElementById('passwordRepeat')
+
+  if (password.value !== passwordRepeat.value) {
+    password.classList.add('is-invalid')
+    passwordRepeat.classList.add('is-invalid')
+    console.log('password not the same')
+    return
+  }
+
+  // Remove invlaid styling
+  if (password.classList.contains('is-invalid')) {
+    password.classList.remove('is-invalid')
+    passwordRepeat.classList.remove('is-invalid')
+  }
 
   const result = await sendData('/projects', 'POST', {
     name,
     description,
     folderPath,
-    password
+    password: password.value
   })
   if (result.status === true) {
-    console.log('Project successfully created')
-    document.getElementById('projectname').value = ''
-    document.getElementById('projectdescription').value = ''
+    document.getElementById('name').value = ''
+    document.getElementById('description').value = ''
     document.getElementById('folderPath').value = ''
-    document.getElementById('projectpassword').value = ''
+    document.getElementById('password').value = ''
+    document.getElementById('passwordRepeat').value = ''
     initProjectList()
+    displayMessage(result.status, 'Project successfully created')
   } else {
-    console.log("Project couldn't be created")
+    displayMessage(result.status, 'Could not create project')
+  }
+}
+
+const displayMessage = (status, message) => {
+  const messageDiv = document.getElementById('message')
+  if (status === true) {
+    messageDiv.innerHTML = `<div class="alert alert-success" role="alert">${message}</div>`
+  } else {
+    messageDiv.innerHTML = `<div class="alert alert-danger" role="alert">${message}</div>`
   }
 }
 

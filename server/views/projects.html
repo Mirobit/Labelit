@@ -20,16 +20,17 @@
   <body>
     <div class="container">
       <div class="row">
-        <div class="col-3">
+        <div class="col-4">
           <strong>Create a new Project</strong>
           <br /><br />
           <form>
             <div class="form-group">
-              <label for="projectname">Name</label>
+              <label for="name">Name</label>
               <input
                 type="text"
                 class="form-control"
-                id="projectname"
+                placeholder="name"
+                id="name"
                 aria-describedby="nameHelp"
               />
               <small id="nameHelp" class="form-text text-muted"
@@ -37,11 +38,12 @@
               >
             </div>
             <div class="form-group">
-              <label for="projectdescription">Description</label>
+              <label for="description">Description</label>
               <input
                 type="text"
                 class="form-control"
-                id="projectdescription"
+                placeholder="description"
+                id="description"
                 aria-describedby="descriptionHelp"
               />
               <small id="descriptionHelp" class="form-text text-muted"
@@ -49,14 +51,26 @@
               >
             </div>
             <div class="form-group">
-              <label for="projectpassword">Password</label>
-              <input
-                type="password"
-                class="form-control"
-                id="projectpassword"
-                aria-describedby="projectpasswordHelp"
-              />
-              <small id="projectpasswordHelp" class="form-text text-muted"
+              <label for="password">Password</label>
+              <div class="form-check form-check-inline">
+                <input
+                  style="width:170px;margin-right:10px"
+                  type="password"
+                  placeholder="password"
+                  class="form-control"
+                  id="password"
+                  aria-describedby="passwordHelp"
+                />
+                <input
+                  style="width:170px"
+                  type="password"
+                  placeholder="repeat password"
+                  class="form-control"
+                  id="passwordRepeat"
+                  aria-describedby="passwordHelp"
+                />
+              </div>
+              <small id="passwordHelp" class="form-text text-muted"
                 >The password is used to store all texts encrypted in the
                 db</small
               >
@@ -82,6 +96,7 @@
               Create Project
             </button>
           </form>
+          <div id="message"></div>
         </div>
         <div class="col-1"></div>
         <div class="col-4">
