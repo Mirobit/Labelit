@@ -12,7 +12,7 @@ const projectSchema = new Schema(
       type: String,
       required: true
     },
-    filePath: {
+    folderPath: {
       type: String,
       required: true
     },
@@ -20,14 +20,18 @@ const projectSchema = new Schema(
       type: Number,
       required: true
     },
+    password: {
+      type: String,
+      required: true
+    },
     textUpdatedCount: {
       type: Number,
-      required: true,
+      required: false,
       default: 0
     },
     currentText: {
       type: Number,
-      requured: true,
+      requured: false,
       default: 0
     },
     categories: [
@@ -62,9 +66,9 @@ const projectSchema = new Schema(
         }
       }
     ],
-    texts: [Schema.Types.ObjectId],
-    words: [Schema.Types.ObjectId]
-    //user: Schema.Types.ObjectId,
+    texts: { type: [Schema.Types.ObjectId], required: true },
+    words: [Schema.Types.ObjectId],
+    user: { type: Schema.Types.ObjectId, required: false }
   },
   {
     timestamps: {

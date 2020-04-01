@@ -38,21 +38,21 @@ const initProjectList = async () => {
 const createProject = async () => {
   const name = document.getElementById('projectname').value
   const description = document.getElementById('projectdescription').value
-  const filePath = document.getElementById('filePath').value
+  const folderPath = document.getElementById('folderPath').value
+  const password = document.getElementById('projectpassword').value
 
   const result = await sendData('/projects', 'POST', {
     name,
     description,
-    filePath,
-    textCount: 111
+    folderPath,
+    password
   })
   if (result.status === true) {
     console.log('Project successfully created')
     document.getElementById('projectname').value = ''
     document.getElementById('projectdescription').value = ''
-    document.getElementById('filePath').value = ''
-    document.getElementsByClassName('custom-file-label')[0].innerText =
-      'Choose File'
+    document.getElementById('folderPath').value = ''
+    document.getElementById('projectpassword').value = ''
     initProjectList()
   } else {
     console.log("Project couldn't be created")

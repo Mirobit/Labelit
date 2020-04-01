@@ -1,33 +1,41 @@
 const fs = require('fs').promises
+const path = require('path')
+const { encrypt } = require('./crypter')
 
-const read = async (path, id) => {
-  let stat, texts
+const read = async (folderPath, projectId, password) => {
+  let stat
+  let textCount = 0
+  const texts = []
 
   // Check if path is valid
   try {
-    stat = await fs.lstat(path)
+    stat = await fs.lstat(folderPath)
   } catch (error) {
     throw new Error('Path does not exist')
   }
 
   // Check if directory or file
   if (stat.isFile()) {
-    texts = await fs.readFile(data.path)
+    const content = await fs.readFile(folderPath)
+    texts[0] = { name: stat.name, content, project: projectId }
   } else {
-    const files = fs.readdir(path, { withFileTypes: true })
+    const files = await fs.readdir(folderPath, { withFileTypes: true })
     for (const file of files) {
       if (file.isDirectory()) return
-      const content = await fs.readFile(file.name)
-      texts.push(content)
+      textCount++
+      const content = await fs.readFile(
+        path.join(folderPath, file.name),
+        'utf8'
+      )
+      texts.push({
+        name: file.name,
+        text: encrypt(content, password),
+        project: projectId
+      })
     }
   }
 
-  // Return specific text
-  if (typeof id !== 'undefined') {
-    return texts[id]
-  } else {
-    return texts
-  }
+  return { textCount, texts }
 }
 
 module.exports = { read }

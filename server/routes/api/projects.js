@@ -30,8 +30,8 @@ router.post('/', async (req, res) => {
     await projectsService.create({
       name: req.body.name,
       description: req.body.description,
-      filePath: req.body.filePath,
-      textCount: req.body.textCount
+      folderPath: req.body.folderPath,
+      password: req.body.password
     })
     res.json({ status: true })
   } catch (error) {

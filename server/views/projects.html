@@ -49,20 +49,29 @@
               >
             </div>
             <div class="form-group">
-              <label for="filePath">Data Source</label>
-              <div class="custom-file">
-                <input
-                  type="file"
-                  class="custom-file-input"
-                  id="filePath"
-                  aria-describedby="fileHelp"
-                />
-                <label class="custom-file-label" for="filePath"
-                  >Choose file</label
-                >
-              </div>
-              <small id="fileHelp" class="form-text text-muted"
-                >Multiple file import not supported yet</small
+              <label for="projectpassword">Password</label>
+              <input
+                type="password"
+                class="form-control"
+                id="projectpassword"
+                aria-describedby="projectpasswordHelp"
+              />
+              <small id="projectpasswordHelp" class="form-text text-muted"
+                >The password is used to store all texts encrypted in the
+                db</small
+              >
+            </div>
+            <div class="form-group">
+              <label for="folderPath">Data Source</label>
+              <input
+                type="text"
+                class="form-control"
+                id="folderPath"
+                placeholder="C:\projectfolder"
+                aria-describedby="folderPathHelp"
+              />
+              <small id="folderPathHelp" class="form-text text-muted"
+                >Path to the folder with the .txt files</small
               >
             </div>
             <button
@@ -89,18 +98,6 @@
       import { createProject, initProjectList } from '../js/projects.js'
       window.createProject = createProject
       initProjectList()
-
-      // Name of file in custom file upload input
-      $('.custom-file-input').on('change', function() {
-        var fileName = $(this)
-          .val()
-          .split('\\')
-          .pop()
-        $(this)
-          .siblings('.custom-file-label')
-          .addClass('selected')
-          .html(fileName)
-      })
     </script>
   </body>
 </html>

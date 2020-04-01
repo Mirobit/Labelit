@@ -3,35 +3,36 @@ const Schema = mongoose.Schema
 
 const textSchema = new Schema(
   {
-    externalId: {
+    name: {
       type: String,
       required: true
-    },
-    filePath: {
-      type: String,
-      required: false
-    },
-    originalText: {
-      type: String,
-      required: false
-    },
-    updatedText: {
-      type: String,
-      required: true
-    },
-    updatedTextHtml: {
-      type: String,
-      required: true
-    },
-    classification: {
-      type: String,
-      required: false
     },
     project: {
       type: Schema.Types.ObjectId,
       required: true
+    },
+    filePath: {
+      type: String,
+      required: false,
+      default: ''
+    },
+    text: {
+      type: String,
+      required: true
+    },
+    updatedText: {
+      type: String,
+      required: false
+    },
+    updatedTextHtml: {
+      type: String,
+      required: false
+    },
+    classification: {
+      type: String,
+      required: false
     }
-    //user: Schema.Types.ObjectId,
+    // user: { type: Schema.Types.ObjectId, required: true }
   },
   {
     timestamps: {

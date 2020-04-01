@@ -1,5 +1,7 @@
 const Project = require('../../models/Project')
-//const fileHandler = require('../../utils/fileHandler')
+const Text = require('../../models/Text')
+const fileHandler = require('../../utils/fileHandler')
+const { hash } = require('../../utils/crypter')
 
 const get = async name => {
   try {
@@ -21,10 +23,21 @@ const list = async () => {
 
 const create = async data => {
   try {
-    //const text = fileHandler.read(data.path)
-    await new Project(data).save()
+    // TODO: parallelise?
+    const project = await new Project(data)
+    const textData = await fileHandler.read(
+      data.folderPath,
+      project._id,
+      data.password
+    )
+    project.textCount = textData.textCount
+    const texts = await Text.insertMany(textData.texts)
+    project.texts = texts.map(text => text._id)
+    project.password = hash(data.password + process.env.SALT_SCERET)
+    await project.save()
     return true
   } catch (error) {
+    console.log('service', error)
     throw new Error(error.message)
   }
 }
