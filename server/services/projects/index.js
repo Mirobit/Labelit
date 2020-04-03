@@ -62,4 +62,58 @@ const remove = async name => {
   }
 }
 
-module.exports = { get, list, create, update, remove }
+const addCategory = async (projectId, data) => {
+  console.log(data)
+  try {
+    const project = await Project.findOneAndUpdate(
+      { _id: projectId },
+      { $push: { categories: data } },
+      { new: true, runValidators: true }
+    )
+    return project
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+const updateCategory = async (projectId, categoryName, data) => {
+  try {
+    const project = await Project.findOneAndUpdate(
+      { _id: projectId, 'categories.name': categoryName },
+      {
+        $set: {
+          'categories.$.name': data.name,
+          'categories.$.keyCode': data.keyCode,
+          'categories.$.color': data.color
+        }
+      },
+      { runValidators: true, new: true }
+    )
+    return project
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+const removeCategory = async (projectId, categoryName) => {
+  try {
+    const project = await Project.findOneAndUpdate(
+      { _id: projectId },
+      { $pull: { categories: { name: categoryName } } }
+    )
+    return project
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+module.exports = {
+  get,
+  list,
+  create,
+  update,
+  remove,
+  addCategory,
+  updateCategory,
+  removeCategory
+}

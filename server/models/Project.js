@@ -29,6 +29,11 @@ const projectSchema = new Schema(
       required: false,
       default: 0
     },
+    process: {
+      type: Number,
+      required: false,
+      default: 0
+    },
     currentText: {
       type: Number,
       requured: false,
@@ -38,15 +43,23 @@ const projectSchema = new Schema(
       {
         name: {
           type: String,
-          required: true
+          required: true,
+          unique: true
         },
         key: {
           type: String,
-          required: true
+          required: true,
+          unique: true
+        },
+        keyCode: {
+          type: String,
+          required: true,
+          unique: true
         },
         color: {
           type: String,
-          required: true
+          required: true,
+          unique: true
         }
       }
     ],

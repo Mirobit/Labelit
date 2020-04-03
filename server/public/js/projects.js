@@ -12,9 +12,11 @@ const initProjectList = async () => {
   const projectList = document.getElementById('projectlist')
   let projectListHTML = ''
   result.projects.forEach(project => {
-    projectListHTML += `<div class="card projectcard" style="width: 18rem;">
+    const nameURI = encodeURI(project.name)
+    console.log(nameURI)
+    projectListHTML += `<div class="card projectcard" style="width: 22rem;">
     <div class="card-body">
-      <h5 class="card-title">${project.name}</h5>
+      <h5 class="card-title"><a href="/projects/${nameURI}">${project.name}</a></h5>
       <h6 class="card-subtitle mb-2 text-muted">${project.textCount} texts</h6>
       <p class="card-text">${project.description}</p>
       <div class="progress">
@@ -39,20 +41,20 @@ const createProject = async () => {
   const name = document.getElementById('name').value
   const description = document.getElementById('description').value
   const folderPath = document.getElementById('folderPath').value
-  const password = document.getElementById('password')
-  const passwordRepeat = document.getElementById('passwordRepeat')
+  const passwordEl = document.getElementById('password')
+  const passwordRepeatEl = document.getElementById('passwordRepeat')
 
-  if (password.value !== passwordRepeat.value) {
-    password.classList.add('is-invalid')
-    passwordRepeat.classList.add('is-invalid')
+  if (passwordEl.value !== passwordRepeatEl.value) {
+    passwordEl.classList.add('is-invalid')
+    passwordRepeatEl.classList.add('is-invalid')
     console.log('password not the same')
     return
   }
 
-  // Remove invlaid styling
-  if (password.classList.contains('is-invalid')) {
-    password.classList.remove('is-invalid')
-    passwordRepeat.classList.remove('is-invalid')
+  // Remove invalid styling
+  if (passwordEl.classList.contains('is-invalid')) {
+    passwordEl.classList.remove('is-invalid')
+    passwordRepeatEl.classList.remove('is-invalid')
   }
 
   const result = await sendData('/projects', 'POST', {

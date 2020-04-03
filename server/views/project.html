@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+
+    <title>LabeliT -</title>
+    <meta name="description" content="Anonmize and annotate text" />
+    <meta name="author" content="Mirobit" />
+
+    <link
+      rel="shortcut icon"
+      type="image/x-icon"
+      href="../images/favicon.ico"
+    />
+    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../css/styles.css" />
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-4">
+          <div class="card projectcard" style="width: 22rem;">
+            <div class="card-body">
+              <h5 class="card-title"><div id="projectName"></div></h5>
+              <div id="projectDescription"></div>
+              <div
+                class="progress"
+                id="projectProgress"
+                style="width: 60%;"
+              ></div>
+              Categories:
+              <div id="projectCategories"></div>
+              <form>
+                <div class="form-check">
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Name"
+                    id="categoryName"
+                    aria-describedby="nameHelp"
+                  />
+                  <small id="nameHelp" class="form-text text-muted"
+                    >Category name</small
+                  >
+                  <input
+                    type="text"
+                    class="form-control"
+                    placeholder="Enter key"
+                    id="categoryKey"
+                    aria-describedby="descriptionHelp"
+                    maxlength="1"
+                  />
+                  <small id="descriptionHelp" class="form-text text-muted"
+                    >Keyboard shortcut</small
+                  >
+                  <select class="form-control" id="categoryColor">
+                    <option value="" disabled selected>Choose Color</option>
+                    <option value="primary" style="color:#007BFF">Blue</option>
+                    <option value="secondary" style="color:#6C757D"
+                      >Grey</option
+                    >
+                    <option value="success" style="color:#28A745">Green</option>
+                    <option value="warning" style="color:#FFC107"
+                      >Yellow</option
+                    >
+                    <option value="info" style="color:#17A2B8">Cyan</option>
+                    <option value="dark" style="color:#343A40">Black</option>
+                  </select>
+                  <small id="categoryColorHelp" class="form-text text-muted"
+                    >Choose the color of the category</small
+                  >
+                </div>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="window.addCategory()"
+                >
+                  Add Category
+                </button>
+              </form>
+            </div>
+          </div>
+          <div id="message"></div>
+        </div>
+        <div class="col-1"></div>
+        <div class="col-4">
+          <strong>Texts</strong>
+          <div id="texts"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/vendor/jquery-3.4.1.slim.min.js"></script>
+    <script src="../js/vendor/bootstrap.bundle.min.js"></script>
+    <script type="module">
+      // Init
+      import { initProject, addCategory } from '../js/project.js'
+      window.addCategory = addCategory
+      initProject()
+    </script>
+  </body>
+</html>

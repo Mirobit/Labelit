@@ -15,9 +15,9 @@ router.get('/text/:id', (req, res) => {
 })
 
 // Project
-router.get('/projects/:id', (req, res) => {
-  console.log('Project name:', req.params.id)
-  res.sendFile(path.join(__dirname, '../../views/projects.html'))
+router.get('/projects/:name', (req, res) => {
+  console.log('Project name:', req.params.name)
+  res.sendFile(path.join(__dirname, '../../views/project.html'))
 })
 
 // Projects
