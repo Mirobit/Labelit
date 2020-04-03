@@ -75,6 +75,7 @@
                 <button
                   type="button"
                   class="btn btn-primary"
+                  id="submitCategory"
                   onclick="window.addCategory()"
                 >
                   Add Category
@@ -100,10 +101,14 @@
         initProject,
         removeProject,
         addCategory,
+        editCategory,
+        updateCategory,
         removeCategory
       } from '../js/project.js'
       window.removeProject = removeProject
       window.addCategory = addCategory
+      window.editCategory = editCategory
+      window.updateCategory = updateCategory
       window.removeCategory = removeCategory
       initProject()
     </script>

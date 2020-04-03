@@ -83,11 +83,12 @@ router.post('/:projectId/categories', async (req, res) => {
 })
 
 // Update Category
-router.put('/:projectId/categories/:categoryName', async (req, res) => {
+router.put('/:projectId/categories/:categoryId', async (req, res) => {
+  console.log('put route')
   try {
     const category = await projectsService.updateCategory(
       req.params.projectId,
-      req.params.categoryName,
+      req.params.categoryId,
       {
         name: req.body.name,
         key: req.body.key,

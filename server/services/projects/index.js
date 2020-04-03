@@ -76,13 +76,15 @@ const addCategory = async (projectId, data) => {
   }
 }
 
-const updateCategory = async (projectId, categoryName, data) => {
+const updateCategory = async (projectId, categoryId, data) => {
+  console.log('service update')
   try {
     const project = await Project.findOneAndUpdate(
-      { _id: projectId, 'categories.name': categoryName },
+      { _id: projectId, 'categories._id': categoryId },
       {
         $set: {
           'categories.$.name': data.name,
+          'categories.$.key': data.key,
           'categories.$.keyCode': data.keyCode,
           'categories.$.color': data.color
         }

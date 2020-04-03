@@ -34,14 +34,18 @@ const initProject = async () => {
   ).innerHTML = project.categories.reduce((outputHTML, category) => {
     return (
       outputHTML +
-      `<button type="button" class="btn btn-${category.color}">${
+      `<button type="button" class="btn btn-${
+        category.color
+      }" onclick="window.editCategory('${category._id}')">${
         category.name
       } <span class="badge badge-light">${category.key.toUpperCase()}</span><span class="sr-only">key</span>
 
       
     </button><span hidden>${
       category._id
-    }</span><span onclick="window.removeCategory(this)">&times;</span>
+    }</span><span onclick="window.removeCategory('${
+        category._id
+      }')">&times;</span>
     `
     )
   }, '')
@@ -115,8 +119,49 @@ const addCategory = async () => {
   }
 }
 
-const removeCategory = async element => {
-  const categoryId = element.previousSibling.innerText
+const editCategory = async categoryId => {
+  const category = project.categories.find(
+    category => category._id === categoryId
+  )
+  const button = document.getElementById('submitCategory')
+  document.getElementById('categoryName').value = category.name
+  document.getElementById('categoryKey').value = category.key
+  document.getElementById('categoryColor').value = category.color
+  button.innerText = 'Update Category'
+  button.onclick = () => window.updateCategory(categoryId)
+}
+
+const updateCategory = async categoryId => {
+  console.log('updating')
+  const categoryNameEl = document.getElementById('categoryName')
+  const categoryKeyEl = document.getElementById('categoryKey')
+  const categoryColorEl = document.getElementById('categoryColor')
+
+  const result = await sendData(
+    `/projects/${project._id}/categories/${categoryId}`,
+    'PUT',
+    {
+      name: categoryNameEl.value,
+      key: categoryKeyEl.value,
+      keyCode: categoryKeyEl.value.charCodeAt(),
+      color: categoryColorEl.value
+    }
+  )
+  if (result.status === true) {
+    initProject()
+    categoryNameEl.value = ''
+    categoryKeyEl.value = ''
+    categoryColorEl.value = ''
+    const button = document.getElementById('submitCategory')
+    button.innerText = 'Add Category'
+    button.onclick = window.addCategory
+    displayMessage(result.status, 'Category successfully updated')
+  } else {
+    displayMessage(result.status, 'Could not create update category')
+  }
+}
+
+const removeCategory = async categoryId => {
   const result = await sendData(
     `/projects/${project._id}/categories/${categoryId}`,
     'DELETE'
@@ -143,5 +188,7 @@ export {
   updateProject,
   removeProject,
   addCategory,
+  editCategory,
+  updateCategory,
   removeCategory
 }
