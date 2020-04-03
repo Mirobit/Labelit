@@ -41,7 +41,7 @@ const initProject = async () => {
       
     </button><span hidden>${
       category._id
-    }</span><span onlick="window.removeCategory(this)">&times;</span>
+    }</span><span onclick="window.removeCategory(this)">&times;</span>
     `
     )
   }, '')
@@ -84,12 +84,12 @@ const updateProject = async element => {
   }
 }
 
-const deleteProject = async element => {
+const removeProject = async element => {
   const result = await sendData(`/projects/${element.value}`, 'DELETE')
   if (result.status === true) {
     console.log('Project successfully delered')
   } else {
-    console.log('Project cound not be deleted')
+    console.log('Project cound not be removed')
   }
 }
 
@@ -115,8 +115,18 @@ const addCategory = async () => {
   }
 }
 
-const removeCategory = element => {
-  // TODO
+const removeCategory = async element => {
+  const categoryId = element.previousSibling.innerText
+  const result = await sendData(
+    `/projects/${project._id}/categories/${categoryId}`,
+    'DELETE'
+  )
+  if (result.status === true) {
+    initProject()
+    displayMessage(result.status, 'Category successfully removed')
+  } else {
+    displayMessage(result.status, 'Could not remove Category')
+  }
 }
 
 const displayMessage = (status, message) => {
@@ -128,4 +138,10 @@ const displayMessage = (status, message) => {
   }
 }
 
-export { initProject, updateProject, deleteProject, addCategory }
+export {
+  initProject,
+  updateProject,
+  removeProject,
+  addCategory,
+  removeCategory
+}

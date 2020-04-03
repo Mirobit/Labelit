@@ -67,9 +67,9 @@ router.delete('/:id', async (req, res) => {
 })
 
 // Add Category
-router.post('/:id/categories', async (req, res) => {
+router.post('/:projectId/categories', async (req, res) => {
   try {
-    const project = await projectsService.addCategory(req.params.id, {
+    const project = await projectsService.addCategory(req.params.projectId, {
       name: req.body.name,
       keyCode: req.body.keyCode,
       key: req.body.key,
@@ -103,11 +103,11 @@ router.put('/:projectId/categories/:categoryName', async (req, res) => {
 })
 
 // Remove
-router.delete('/:projectId/categories/:categoryName', async (req, res) => {
+router.delete('/:projectId/categories/:categoryId', async (req, res) => {
   try {
     await projectsService.removeCategory(
       req.params.projectId,
-      req.params.categoryName
+      req.params.categoryId
     )
     res.json({ status: true })
   } catch (error) {

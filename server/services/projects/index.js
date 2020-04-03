@@ -95,11 +95,11 @@ const updateCategory = async (projectId, categoryName, data) => {
   }
 }
 
-const removeCategory = async (projectId, categoryName) => {
+const removeCategory = async (projectId, categoryId) => {
   try {
     const project = await Project.findOneAndUpdate(
       { _id: projectId },
-      { $pull: { categories: { name: categoryName } } }
+      { $pull: { categories: { _id: categoryId } } }
     )
     return project
   } catch (error) {

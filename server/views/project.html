@@ -96,8 +96,15 @@
     <script src="../js/vendor/bootstrap.bundle.min.js"></script>
     <script type="module">
       // Init
-      import { initProject, addCategory } from '../js/project.js'
+      import {
+        initProject,
+        removeProject,
+        addCategory,
+        removeCategory
+      } from '../js/project.js'
+      window.removeProject = removeProject
       window.addCategory = addCategory
+      window.removeCategory = removeCategory
       initProject()
     </script>
   </body>
