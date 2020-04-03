@@ -41,6 +41,8 @@ const projectSchema = new Schema(
     },
     categories: [
       {
+        //_id: false,
+        // TODO unique validation doesn't work
         name: {
           type: String,
           required: true,

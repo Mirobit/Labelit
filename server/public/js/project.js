@@ -49,30 +49,6 @@ const initProject = async () => {
     `
     )
   }, '')
-
-  // const projectListHTML = ''
-  // result.projects.forEach(project => {
-  //   projectListHTML += `<div class="card" style="width: 18rem;">
-  //     <div class="card-body">
-  //       <h5 class="card-title">${project.name}</h5>
-  //       <h6 class="card-subtitle mb-2 text-muted">${project.totalTexts} texts</h6>
-  //       <p class="card-text">${project.description}</p>
-  //       <div class="progress">
-  //         <div
-  //           class="progress-bar bg-success"
-  //           role="progressbar"
-  //           style="width: ${project.progress}%;"
-  //           aria-valuenow="${project.progress}"
-  //           aria-valuemin="0"
-  //           aria-valuemax="100"
-  //         >
-  //         ${project.progress}%
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>`
-  // })
-  // projectList.innerHTML = projectListHTML
 }
 
 const updateProject = async element => {
@@ -91,9 +67,9 @@ const updateProject = async element => {
 const removeProject = async element => {
   const result = await sendData(`/projects/${element.value}`, 'DELETE')
   if (result.status === true) {
-    console.log('Project successfully delered')
+    displayMessage(result.status, 'Project successfully removed')
   } else {
-    console.log('Project cound not be removed')
+    displayMessage(result.status, 'Could not remove project')
   }
 }
 
@@ -115,7 +91,7 @@ const addCategory = async () => {
     initProject()
     displayMessage(result.status, 'Category successfully added')
   } else {
-    displayMessage(result.status, 'Could not create add Category')
+    displayMessage(result.status, 'Could not create add category')
   }
 }
 
