@@ -1,11 +1,36 @@
 import { sendData, getData } from './api.js'
 
 // global vars
-let text, textId, textEditiorDiv, salt, wordlist
+let text, textId, textEditiorDiv, salt, wordlist, password
+
+const submitPassword = async () => {
+  const passwordDiv = document.getElementById('password')
+  // TODO check with server
+  if (passwordDiv.value === '') {
+    displayMessage(false, 'Password can not be empty')
+    return
+  }
+  password = passwordDiv.value
+  document.getElementById('passwordForm').hidden = true
+  closeMessage()
+  initTextEditor()
+}
 
 // Initialize text editor area
 const initTextEditor = async () => {
-  const result = await getData('/texts/test/init')
+  document.title = `LabeliT - Editor`
+  if (!password) {
+    document.getElementById('passwordForm').hidden = false
+    return
+  } else {
+    document.getElementById('textForm').hidden = false
+  }
+
+  const url = decodeURI(window.location.href)
+  const regex = /text\/(.*)$/
+  textId = url.match(regex)[1]
+
+  const result = await getData(`/texts/${textId}/init`)
   console.log(result)
   // Place text
   text = result.text.content
@@ -187,11 +212,25 @@ const saveText = async () => {
   }
 }
 
+const displayMessage = (status, message) => {
+  const messageDiv = document.getElementById('message')
+  if (status === true) {
+    messageDiv.innerHTML = `<div class="alert alert-success" role="alert">${message}</div>`
+  } else {
+    messageDiv.innerHTML = `<div class="alert alert-danger" role="alert">${message}</div>`
+  }
+}
+
+const closeMessage = () => {
+  document.getElementById('message').hidden = true
+}
+
 export {
   saveText,
   removeLabel,
   confirmLabel,
   addLabel,
   clickWord,
-  initTextEditor
+  initTextEditor,
+  submitPassword
 }

@@ -29,7 +29,7 @@ const read = async (folderPath, projectId, password) => {
       )
       texts.push({
         name: file.name,
-        text: encrypt(content, password),
+        contentEnc: encrypt(content, password),
         project: projectId
       })
     }

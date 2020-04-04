@@ -15,6 +15,7 @@ const initProject = async () => {
     console.log('Project could not be loaded')
     return
   }
+  console.log(result)
   project = result.project
 
   document.getElementById('projectName').innerText = project.name
@@ -51,10 +52,11 @@ const initProject = async () => {
   }, '')
   document.getElementById('texts').innerHTML = project.texts.reduce(
     (outputHTML, text) => {
-      console.log(text)
+      let done = ''
+      if (text.done) done = '<span class="confirm"></span>'
       return (
         outputHTML +
-        `<div><a href="/text/${text._id}">${text.name}</a>
+        `<div><a href="/text/${text._id}">${text.name}</a>${done}
     `
       )
     },

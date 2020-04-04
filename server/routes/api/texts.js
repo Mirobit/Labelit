@@ -1,6 +1,6 @@
 const express = require('express')
-const path = require('path')
 const router = express.Router()
+const textsService = require('../../services/texts')
 
 router.get('/:id/init', async (req, res) => {
   console.log(

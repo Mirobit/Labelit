@@ -56,10 +56,14 @@ body {
   margin-top: 20px;
 }
 
+#passwordForm {
+  margin: 20px;
+  width: 200px;
+}
 #message {
+  max-width: 400px;
   margin-top: 20px;
 }
-
 #labelmenu {
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   background-color: white;

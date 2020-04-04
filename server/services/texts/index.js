@@ -3,7 +3,10 @@ const fileHandler = require('../../utils/fileHandler')
 
 const get = async id => {
   try {
-    const text = await Text.findById(id)
+    const text = await Text.findById(id).populate({
+      path: 'project',
+      select: 'name password category done'
+    })
     return text
   } catch (error) {
     throw new Error(error.message)

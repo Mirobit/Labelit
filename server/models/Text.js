@@ -17,15 +17,15 @@ const textSchema = new Schema(
       required: false,
       default: ''
     },
-    text: {
+    contentEnc: {
       type: String,
       required: true
     },
-    updatedText: {
+    contentEncSaved: {
       type: String,
       required: false
     },
-    updatedTextHtml: {
+    contentEncSavedHtml: {
       type: String,
       required: false
     },

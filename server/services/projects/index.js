@@ -7,7 +7,7 @@ const get = async name => {
   try {
     const project = await Project.findOne({ name }).populate({
       path: 'texts',
-      select: 'name'
+      select: 'name done'
     })
     return project
   } catch (error) {
