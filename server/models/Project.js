@@ -42,26 +42,26 @@ const projectSchema = new Schema(
     categories: [
       {
         //_id: false,
-        // TODO unique validation doesn't work
+        // TODO unique validation doesn't work -> applies unqiue to all categories in all projects
         name: {
           type: String,
-          required: true,
-          unique: true
+          required: true
+          //unique: true
         },
         key: {
           type: String,
-          required: true,
-          unique: true
+          required: true
+          //unique: true
         },
         keyCode: {
           type: String,
-          required: true,
-          unique: true
+          required: true
+          //unique: true
         },
         color: {
           type: String,
-          required: true,
-          unique: true
+          required: true
+          //unique: true
         }
       }
     ],
