@@ -81,7 +81,7 @@ const projectSchema = new Schema(
         }
       }
     ],
-    texts: { type: [Schema.Types.ObjectId], required: true },
+    texts: [{ type: Schema.Types.ObjectId, ref: 'Text' }],
     words: [Schema.Types.ObjectId],
     user: { type: Schema.Types.ObjectId, required: false }
   },
@@ -93,5 +93,4 @@ const projectSchema = new Schema(
   }
 )
 
-const Project = mongoose.model('Projects', projectSchema)
-module.exports = Project
+module.exports = mongoose.model('Project', projectSchema)

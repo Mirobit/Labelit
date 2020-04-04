@@ -1,13 +1,17 @@
-const Project = require('../../models/Project')
 const Text = require('../../models/Text')
+const Project = require('../../models/Project')
 const fileHandler = require('../../utils/fileHandler')
 const { hash } = require('../../utils/crypter')
 
 const get = async name => {
   try {
-    const project = await Project.findOne({ name })
+    const project = await Project.findOne({ name }).populate({
+      path: 'texts',
+      select: 'name'
+    })
     return project
   } catch (error) {
+    console.log(error)
     throw new Error(error.message)
   }
 }

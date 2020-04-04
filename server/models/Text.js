@@ -9,6 +9,7 @@ const textSchema = new Schema(
     },
     project: {
       type: Schema.Types.ObjectId,
+      ref: 'Project',
       required: true
     },
     filePath: {
@@ -31,6 +32,10 @@ const textSchema = new Schema(
     classification: {
       type: String,
       required: false
+    },
+    done: {
+      type: Boolean,
+      default: false
     }
     // user: { type: Schema.Types.ObjectId, required: true }
   },
@@ -42,5 +47,4 @@ const textSchema = new Schema(
   }
 )
 
-const Text = mongoose.model('Texts', textSchema)
-module.exports = Text
+module.exports = mongoose.model('Text', textSchema)

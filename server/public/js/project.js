@@ -49,6 +49,17 @@ const initProject = async () => {
     `
     )
   }, '')
+  document.getElementById('texts').innerHTML = project.texts.reduce(
+    (outputHTML, text) => {
+      console.log(text)
+      return (
+        outputHTML +
+        `<div><a href="/text/${text._id}">${text.name}</a>
+    `
+      )
+    },
+    ''
+  )
 }
 
 const updateProject = async element => {
