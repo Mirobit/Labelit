@@ -5,9 +5,20 @@ let text, textId, textEditiorDiv, salt, wordlist, password
 
 const submitPassword = async () => {
   const passwordDiv = document.getElementById('password')
+  // const passwordHashed = new Hashes.SHA256().hex(
+  //   document.getElementById('password').value
+  // )
+  //5e88ad9bc6ee1d4ec08219a1
+  const result = await sendData(
+    '/projects/5e88c89db4709626988dddb1/password',
+    'POST',
+    {
+      password: passwordDiv.value
+    }
+  )
   // TODO check with server
-  if (passwordDiv.value === '') {
-    displayMessage(false, 'Password can not be empty')
+  if (!result.valid) {
+    displayMessage(false, 'Invalid project password')
     return
   }
   password = passwordDiv.value

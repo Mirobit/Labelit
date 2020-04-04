@@ -58,6 +58,14 @@ const update = async data => {
   }
 }
 
+const checkPassword = async (projectId, password) => {
+  const project = await Project.findById(projectId).select('password')
+
+  const passwordHashed = hash(password + process.env.SALT_SCERET)
+  console.log(passwordHashed, project.password)
+  return passwordHashed === project.password
+}
+
 const remove = async name => {
   try {
     return await Project.findOneAndDelete({ name })
@@ -121,5 +129,6 @@ module.exports = {
   remove,
   addCategory,
   updateCategory,
-  removeCategory
+  removeCategory,
+  checkPassword
 }
