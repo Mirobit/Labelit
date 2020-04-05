@@ -46,22 +46,22 @@ const projectSchema = new Schema(
         name: {
           type: String,
           required: true
-          //unique: true
         },
         key: {
           type: String,
           required: true
-          //unique: true
         },
         keyCode: {
           type: String,
           required: true
-          //unique: true
         },
         color: {
           type: String,
           required: true
-          //unique: true
+        },
+        colorHex: {
+          type: String,
+          required: true
         }
       }
     ],

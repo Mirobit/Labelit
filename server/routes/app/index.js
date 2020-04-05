@@ -10,7 +10,6 @@ router.get('/', (req, res) => {
 
 // Editor
 router.get('/text/:id', (req, res) => {
-  console.log('Text route: Project name:', req.params.name)
   res.sendFile(path.join(__dirname, '../../views/editor.html'))
 })
 

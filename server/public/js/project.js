@@ -86,16 +86,18 @@ const removeProject = async element => {
   }
 }
 
-const addCategory = async () => {
+const addCategory = async event => {
   const categoryNameEl = document.getElementById('categoryName')
   const categoryKeyEl = document.getElementById('categoryKey')
   const categoryColorEl = document.getElementById('categoryColor')
+  const colorArr = categoryColorEl.value.split(',')
 
   const result = await sendData(`/projects/${project._id}/categories`, 'POST', {
     name: categoryNameEl.value,
-    key: categoryKeyEl.value,
+    key: categoryKeyEl.value.toUpperCase(),
     keyCode: categoryKeyEl.value.charCodeAt(),
-    color: categoryColorEl.value
+    color: colorArr[0],
+    colorHex: colorArr[1]
   })
   if (result.status === true) {
     categoryNameEl.value = ''

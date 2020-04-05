@@ -1,5 +1,6 @@
-const Project = require('../../models/Text')
+const Text = require('../../models/Text')
 const fileHandler = require('../../utils/fileHandler')
+const { decrypt, hash } = require('../../utils/crypter')
 
 const get = async id => {
   try {
@@ -8,6 +9,28 @@ const get = async id => {
       select: 'name password category done'
     })
     return text
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+const init = async (textId, password) => {
+  try {
+    const data = await Text.findById(textId).populate({
+      path: 'project',
+      select: 'name password categories words done'
+    })
+    if (hash(password) !== data.project.password) {
+      throw new Error('Invalid project password')
+    }
+    const content = decrypt(data.contentEnc, password)
+    return {
+      name: data.name,
+      content,
+      projectName: data.project.name,
+      categories: data.project.categories,
+      words: data.project.words
+    }
   } catch (error) {
     throw new Error(error.message)
   }
@@ -51,4 +74,4 @@ const remove = async id => {
   }
 }
 
-module.exports = { get, list, create, update, remove }
+module.exports = { get, list, create, update, remove, init }

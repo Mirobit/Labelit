@@ -5,19 +5,16 @@ let text, textId, textEditiorDiv, salt, wordlist, password
 
 const submitPassword = async () => {
   const passwordDiv = document.getElementById('password')
-  // const passwordHashed = new Hashes.SHA256().hex(
-  //   document.getElementById('password').value
-  // )
-  //5e88ad9bc6ee1d4ec08219a1
-  const result = await sendData(
-    '/projects/5e88c89db4709626988dddb1/password',
+  //const passwordHashed = new Hashes.SHA256().hex(passwordDiv.value + salt)
+  const resultPassword = await sendData(
+    '/projects/5e8a0e0f419c484684f4d76c/password',
     'POST',
     {
       password: passwordDiv.value
     }
   )
   // TODO check with server
-  if (!result.valid) {
+  if (!resultPassword.valid) {
     displayMessage(false, 'Invalid project password')
     return
   }
@@ -41,20 +38,21 @@ const initTextEditor = async () => {
   const regex = /text\/(.*)$/
   textId = url.match(regex)[1]
 
-  const result = await getData(`/texts/${textId}/init`)
+  const result = await sendData(`/texts/${textId}/init`, 'POST', {
+    password
+  })
   console.log(result)
   // Place text
-  text = result.text.content
+  text = result.content
   textEditiorDiv = document.getElementById('texteditor')
   textEditiorDiv.innerHTML = text
-  textId = result.text.id
 
   // Create label menu
   const labels = result.categories
   const labelMenu = document.getElementById('labelmenu')
   let labelMenuHTML = ''
   labels.forEach(label => {
-    labelMenuHTML += `<div class="labelButton"><button type="button" class="btn btn-${label.color}">${label.name} <span class="badge badge-light">${label.keyString}</span><span class="sr-only">key</span></button></div>
+    labelMenuHTML += `<div class="labelButton"><button type="button" class="btn btn-${label.color}">${label.name} <span class="badge badge-light">${label.key}</span><span class="sr-only">key</span></button></div>
     `
   })
   labelMenu.innerHTML = labelMenuHTML
@@ -65,10 +63,12 @@ const initTextEditor = async () => {
   wordlist = []
 
   // Init key event listener
-  document.addEventListener('keydown', event => {
-    const selectedLabel = labels.find(
-      element => element.keyCode === event.keyCode
-    )
+  document.addEventListener('keypress', event => {
+    console.log(event.charCode)
+    const selectedLabel = labels.find(element => {
+      console.log(event.charCode, element.charKey)
+      return element.charCode === event.charKey
+    })
     if (selectedLabel) {
       addLabel(selectedLabel)
     }

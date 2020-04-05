@@ -37,7 +37,7 @@ const create = async data => {
     project.textCount = textData.textCount
     const texts = await Text.insertMany(textData.texts)
     project.texts = texts.map(text => text._id)
-    project.password = hash(data.password + process.env.SALT_SCERET)
+    project.password = hash(data.password)
     await project.save()
     return true
   } catch (error) {
@@ -60,9 +60,8 @@ const update = async data => {
 
 const checkPassword = async (projectId, password) => {
   const project = await Project.findById(projectId).select('password')
-
-  const passwordHashed = hash(password + process.env.SALT_SCERET)
-  console.log(passwordHashed, project.password)
+  console.log(project)
+  const passwordHashed = hash(password)
   return passwordHashed === project.password
 }
 
@@ -75,7 +74,6 @@ const remove = async name => {
 }
 
 const addCategory = async (projectId, data) => {
-  console.log(data)
   try {
     const project = await Project.findOneAndUpdate(
       { _id: projectId },

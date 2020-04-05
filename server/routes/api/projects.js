@@ -83,11 +83,13 @@ router.post('/:projectId/password', async (req, res) => {
 // Add Category
 router.post('/:projectId/categories', async (req, res) => {
   try {
+    console.log(req.body)
     const project = await projectsService.addCategory(req.params.projectId, {
       name: req.body.name,
       keyCode: req.body.keyCode,
       key: req.body.key,
-      color: req.body.color
+      color: req.body.color,
+      colorHex: req.body.colorHex
     })
     res.json({ status: true, project })
   } catch (error) {
