@@ -15,7 +15,6 @@ const initProject = async () => {
     console.log('Project could not be loaded')
     return
   }
-  console.log(result)
   project = result.project
 
   document.getElementById('projectName').innerText = project.name

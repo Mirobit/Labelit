@@ -11,7 +11,6 @@ const get = async name => {
     })
     return project
   } catch (error) {
-    console.log(error)
     throw new Error(error.message)
   }
 }
@@ -41,7 +40,6 @@ const create = async data => {
     await project.save()
     return true
   } catch (error) {
-    console.log('service', error)
     throw new Error(error.message)
   }
 }
@@ -60,7 +58,6 @@ const update = async data => {
 
 const checkPassword = async (projectId, password) => {
   const project = await Project.findById(projectId).select('password')
-  console.log(project)
   const passwordHashed = hash(password)
   return passwordHashed === project.password
 }
@@ -87,7 +84,6 @@ const addCategory = async (projectId, data) => {
 }
 
 const updateCategory = async (projectId, categoryId, data) => {
-  console.log('service update')
   try {
     const project = await Project.findOneAndUpdate(
       { _id: projectId, 'categories._id': categoryId },

@@ -5,7 +5,6 @@ const textsService = require('../../services/texts')
 router.post('/:textId/init', async (req, res) => {
   try {
     const data = await textsService.init(req.params.textId, req.body.password)
-    console.log(data)
     res.json({
       status: true,
       ...data

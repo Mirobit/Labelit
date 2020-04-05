@@ -2,7 +2,6 @@ import { sendData, getData } from './api.js'
 
 const initProjectList = async () => {
   const result = await getData('/projects')
-  console.log(result)
   if (result.status === true) {
     console.log('Project list loaded')
   } else {
@@ -13,7 +12,6 @@ const initProjectList = async () => {
   let projectListHTML = ''
   result.projects.forEach(project => {
     const nameURI = encodeURI(project.name)
-    console.log(nameURI)
     projectListHTML += `<div class="card projectcard" style="width: 22rem;">
     <div class="card-body">
       <h5 class="card-title"><a href="/projects/${nameURI}">${project.name}</a></h5>
@@ -47,7 +45,7 @@ const createProject = async () => {
   if (passwordEl.value !== passwordRepeatEl.value) {
     passwordEl.classList.add('is-invalid')
     passwordRepeatEl.classList.add('is-invalid')
-    console.log('password not the same')
+    displayMessage(false, 'Passwords not the same')
     return
   }
 

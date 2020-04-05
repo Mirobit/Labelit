@@ -41,7 +41,6 @@ const initTextEditor = async () => {
   const result = await sendData(`/texts/${textId}/init`, 'POST', {
     password
   })
-  console.log(result)
   // Place text
   text = result.content
   textEditiorDiv = document.getElementById('texteditor')
@@ -64,9 +63,7 @@ const initTextEditor = async () => {
 
   // Init key event listener
   document.addEventListener('keypress', event => {
-    console.log(event.charCode)
     const selectedLabel = labels.find(element => {
-      console.log(event.charCode, element.charKey)
       return element.charCode === event.charKey
     })
     if (selectedLabel) {
@@ -109,7 +106,6 @@ const clickWord = () => {
 
   while (range.endOffset <= text.length) {
     const lastChar = range.toString().slice(-1)
-    // TODO use charcode for all checks
     if (
       lastChar === ' ' ||
       lastChar === ',' ||
@@ -208,7 +204,7 @@ const removeWord = word => {
 
 const saveText = async () => {
   if (textEditiorDiv.innerHTML.includes('<span class="confirmDivider">')) {
-    console.log('unconfirmed elments')
+    displayMessage(false, 'Can not save before all elements are confirmed')
     return
   }
   const result = await sendData('/texts', 'POST', {
@@ -226,9 +222,9 @@ const saveText = async () => {
   }
 }
 
-const displayMessage = (status, message) => {
+const displayMessage = (success, message) => {
   const messageDiv = document.getElementById('message')
-  if (status === true) {
+  if (success === true) {
     messageDiv.innerHTML = `<div class="alert alert-success" role="alert">${message}</div>`
   } else {
     messageDiv.innerHTML = `<div class="alert alert-danger" role="alert">${message}</div>`

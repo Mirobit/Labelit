@@ -17,7 +17,6 @@ const hash = text => {
 
 const encrypt = (text, password) => {
   const key = generateKey(password)
-  console.log('crypter2', key)
   const cipher = crypto.createCipheriv(algorithm, key, iv)
   let encrypted = cipher.update(text)
   encrypted = Buffer.concat([encrypted, cipher.final()])
