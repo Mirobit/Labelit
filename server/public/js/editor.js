@@ -94,7 +94,8 @@ const clickWord = () => {
       firstChar === ',' ||
       firstChar === '.' ||
       firstChar === ';' ||
-      firstChar === ':'
+      firstChar === ':' ||
+      firstChar === '\n'
     ) {
       range.setStart(node, range.startOffset + 1)
       break
@@ -108,12 +109,14 @@ const clickWord = () => {
 
   while (range.endOffset <= text.length) {
     const lastChar = range.toString().slice(-1)
+    // TODO use charcode for all checks
     if (
       lastChar === ' ' ||
       lastChar === ',' ||
       lastChar === '.' ||
       lastChar === ';' ||
-      lastChar === ':'
+      lastChar === ':' ||
+      lastChar === '\n'
     ) {
       range.setEnd(node, range.endOffset - 1)
       break
