@@ -1,9 +1,9 @@
 import { sendData, getData } from './api.js'
 
 // global vars
-let text, textId, textEditiorDiv, salt, wordlist, password
+let text, textId, textEditiorDiv, salt, password
+const projectId = '5e8b26a5f094d946d0c5d2ca'
 const newWords = []
-const projectId = '5e8afdb3c3aaea0bac78667c'
 
 const submitPassword = async () => {
   const passwordDiv = document.getElementById('password')
@@ -26,6 +26,23 @@ const submitPassword = async () => {
   initTextEditor()
 }
 
+const loadNewText = async newTextId => {
+  const result = await sendData(`/texts/${newTextId}/load`, 'POST', {
+    password
+  })
+  if (result.status === true) {
+    textEditiorDiv.innerHTML = result.content
+    text = result.content
+    console.log('Next text successfully loaded')
+  } else {
+    console.log(result)
+    console.log('Could not load next text')
+  }
+  history.pushState(null, '', `/text/${newTextId}`)
+  newWords.length = 0
+  textId = newTextId
+}
+
 // Initialize text editor area
 const initTextEditor = async () => {
   document.title = `LabeliT - Editor`
@@ -38,7 +55,7 @@ const initTextEditor = async () => {
 
   const url = decodeURI(window.location.href)
   const regex = /text\/(.*)$/
-  const textId = url.match(regex)[1]
+  textId = url.match(regex)[1]
 
   const result = await sendData(`/texts/${textId}/init`, 'POST', {
     password
@@ -52,7 +69,6 @@ const initTextEditor = async () => {
   // Create label menu
   // TODO: create map (named array)
   const categories = result.categories
-  console.log(categories)
   const labelMenu = document.getElementById('labelmenu')
   let labelMenuHTML = ''
   categories.forEach(category => {
@@ -62,9 +78,7 @@ const initTextEditor = async () => {
   labelMenu.innerHTML = labelMenuHTML
 
   // Set salt
-  salt = result.salt
-  // Init wordlist
-  wordlist = []
+  //salt = result.salt
 
   // Init key event listener
   document.addEventListener('keydown', event => {
@@ -179,9 +193,9 @@ const addLabel = label => {
   // Add word to wordlist
   //wordlist.push({ hash: hashWord(selected), category: label.name })
   newWords.push({
-    hash: hashWord(selected),
-    category: label.name,
-    project: projectId
+    //hash: hashWord(selected),
+    str: selected,
+    category: label._id
   })
 }
 
@@ -209,7 +223,8 @@ const hashWord = word => {
 }
 
 const removeWord = word => {
-  // TODO
+  //newWords = newWords.filter(newWord => new.Word.hash !== hashWord(word))
+  newWords = newWords.filter(newWord => newWord.str !== word)
 }
 
 const updateText = async () => {
@@ -228,6 +243,8 @@ const updateText = async () => {
   })
   if (result.status === true) {
     console.log('Text successfully saved')
+    console.log('result', result)
+    loadNewText(result.nextTextId)
   } else {
     console.log("Text couldn't be saved")
   }

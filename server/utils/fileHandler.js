@@ -32,6 +32,7 @@ const read = async (folderPath, projectId, password) => {
         name: file.name,
         contentEncOrg: contentEnc,
         contentEncSaved: contentEnc,
+        contentEncHtml: contentEnc,
         project: projectId
       })
     }

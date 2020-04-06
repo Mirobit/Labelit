@@ -36,7 +36,7 @@ const projectSchema = new Schema(
     },
     currentText: {
       type: Number,
-      requured: false,
+      required: false,
       default: 0
     },
     categories: [
@@ -82,7 +82,22 @@ const projectSchema = new Schema(
       }
     ],
     texts: [{ type: Schema.Types.ObjectId, ref: 'Text' }],
-    words: [{ type: Schema.Types.ObjectId, ref: 'Word' }],
+    words: [
+      {
+        strEnc: {
+          type: String,
+          required: true
+        },
+        category: {
+          type: Schema.Types.ObjectId,
+          required: true
+        },
+        user: {
+          type: Schema.Types.ObjectId,
+          required: false
+        }
+      }
+    ],
     user: { type: Schema.Types.ObjectId, required: false }
   },
   {

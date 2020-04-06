@@ -2,6 +2,7 @@ const express = require('express')
 const router = express.Router()
 const textsService = require('../../services/texts')
 
+// Texeditor init
 router.post('/:textId/init', async (req, res) => {
   try {
     const data = await textsService.init(req.params.textId, req.body.password)
@@ -10,7 +11,19 @@ router.post('/:textId/init', async (req, res) => {
       ...data
     })
   } catch (error) {
-    console.log(error)
+    res.json({ status: false })
+  }
+})
+
+router.post('/:textId/load', async (req, res) => {
+  console.log('paramas', req.params)
+  try {
+    const content = await textsService.get(req.params.textId, req.body.password)
+    res.json({
+      status: true,
+      content
+    })
+  } catch (error) {
     res.json({ status: false })
   }
 })
@@ -18,7 +31,7 @@ router.post('/:textId/init', async (req, res) => {
 // Update text
 router.put('/', async (req, res) => {
   try {
-    const result = textsService.update(
+    const nextTextId = await textsService.update(
       req.body.textRaw,
       req.body.htmlText,
       req.body.textId,
@@ -27,9 +40,9 @@ router.put('/', async (req, res) => {
       req.body.newWords,
       req.body.password
     )
-    res.json({ status: true })
+    console.log('new text id', nextTextId)
+    res.json({ status: true, nextTextId })
   } catch (error) {
-    console.log(error)
     res.json({ status: false })
   }
 })
