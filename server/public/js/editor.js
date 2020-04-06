@@ -28,17 +28,20 @@ const submitPassword = async () => {
 }
 
 const loadNewText = async (newTextId, nextTextName) => {
+  console.log('loading next')
   document.getElementById(
     'texteditorHeader'
   ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${nextTextName}`
   const result = await sendData(`/texts/${newTextId}/load`, 'POST', {
     password
   })
+  console.log('Result next', result)
   if (result.status === true) {
     textEditiorDiv.innerHTML = result.content
     text = result.content
-    console.log('Next text successfully loaded')
+    console.log('Next text successfully loaded', result)
   } else {
+    textEditiorDiv.innerHTML = ''
     displayMessage(false, 'Could not load next text')
   }
   // does not update the site

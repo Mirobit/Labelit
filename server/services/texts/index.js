@@ -8,31 +8,47 @@ const get = async (textId, password) => {
     const result = await Text.findById(textId)
       .populate({
         path: 'project',
-        select: 'words'
+        select: 'words categories'
       })
       .select('contentEncHtml words categories')
-    console.log(result)
     let contentHtml = decrypt(result.contentEncHtml, password)
-    contentHtml = checkWorldlist(contentHtml, result.words)
+    contentHtml = checkWorldlist(
+      contentHtml,
+      result.project.words,
+      result.project.categories,
+      password
+    )
     // TODO check against wordlist
     return contentHtml
   } catch (error) {
+    console.log(error)
     throw new Error(error.message)
   }
 }
 
-const checkWorldlist = async (contentHtml, words, categories) => {
-  // words.forEach(word => {
-  //   const confirmHTML = `<span class="labeledarea"><span class="originalWord">${wordStr}</span>
-  //   <span class="confirmDivider"></span><span class="labeled" style="background-color:' +${label.colorHex}">${label.name}</span>
-  //   <span class="confirm" onclick="window.editor.confirmLabel(this)"></span><span class="remove" onclick="window.editor.removeLabel(this)"></span></span>`
-  //   contentHtml = contentHtml.replace(
-  //     new RegExp('((?!>).)\\b' + wordStr + '\\b', 'g'),
-  //     confirmHTML
-  //   )
-  // })
+const checkWorldlist = async (contentHtml, words, categories, password) => {
+  const categoriesMap = new Map()
+  categories.forEach(category => {
+    categoriesMap.set(String(category._id), category)
+    console.log('mapping')
+  })
+  let testC = contentHtml
+  words.forEach(word => {
+    const str = decrypt(word.strEnc, password)
+    console.log(str, word)
+    const confirmHTML = ` <span class="labeledarea"><span class="originalWord">${str}</span><span class="confirmDivider"></span><span class="labeled" style="background-color:${
+      categoriesMap.get(String(word.category)).colorHex
+    }">${
+      categoriesMap.get(String(word.category)).name
+    }</span><span class="confirm" onclick="window.editor.confirmLabel(this)"></span><span class="remove" onclick="window.editor.removeLabel(this)"></span></span>`
+    testC = testC.replace(
+      new RegExp('((?!>).)\\b' + str + '\\b', 'g'),
+      confirmHTML
+    )
+  })
+  console.log(testC)
 
-  return contentHtml
+  return testC
 }
 
 const init = async (textId, password) => {

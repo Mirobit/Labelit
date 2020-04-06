@@ -18,18 +18,19 @@ router.post('/:textId/init', async (req, res) => {
 router.post('/:textId/load', async (req, res) => {
   try {
     const content = await textsService.get(req.params.textId, req.body.password)
+    console.log(content)
     res.json({
       status: true,
       content
     })
   } catch (error) {
+    console.log(error)
     res.json({ status: false })
   }
 })
 
 // Update text
 router.put('/', async (req, res) => {
-  console.log(req.body.textId)
   try {
     const result = await textsService.update(
       req.body.textRaw,
