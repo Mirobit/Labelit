@@ -16,7 +16,6 @@ router.post('/:textId/init', async (req, res) => {
 })
 
 router.post('/:textId/load', async (req, res) => {
-  console.log('paramas', req.params)
   try {
     const content = await textsService.get(req.params.textId, req.body.password)
     res.json({
@@ -30,8 +29,9 @@ router.post('/:textId/load', async (req, res) => {
 
 // Update text
 router.put('/', async (req, res) => {
+  console.log(req.body.textId)
   try {
-    const nextTextId = await textsService.update(
+    const result = await textsService.update(
       req.body.textRaw,
       req.body.htmlText,
       req.body.textId,
@@ -40,8 +40,11 @@ router.put('/', async (req, res) => {
       req.body.newWords,
       req.body.password
     )
-    console.log('new text id', nextTextId)
-    res.json({ status: true, nextTextId })
+    res.json({
+      status: true,
+      nextTextId: result.nextTextId,
+      nextTextName: result.nextTextName
+    })
   } catch (error) {
     res.json({ status: false })
   }

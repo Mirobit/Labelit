@@ -42,9 +42,13 @@ body {
   height: 16px;
   margin-left: 5px;
 }
+.unconfirmed {
+  color: rgb(252, 223, 3);
+  display: inline-block;
+  margin-left: 5px;
+}
 .save {
   margin-top: 20px;
-  margin-left: 10%;
 }
 .labelButton {
   margin-bottom: 12px;
@@ -56,6 +60,10 @@ body {
   margin-top: 20px;
 }
 
+#content {
+  margin-left: 10%;
+  margin-top: 75px;
+}
 #passwordForm {
   margin: 20px;
   width: 200px;
@@ -67,7 +75,6 @@ body {
 #labelmenu {
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   background-color: white;
-  margin-top: 50px;
   margin-left: 20px;
   padding: 15px;
 }
@@ -76,8 +83,6 @@ body {
 }
 #texteditor {
   white-space: pre-wrap;
-  margin-left: 10%;
-  margin-top: 50px;
   font-size: 18px;
   font-weight: 500;
   background-color: white;
@@ -85,4 +90,8 @@ body {
   overflow: auto;
   width: 600px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+}
+#texteditorHeader {
+  margin-bottom: 15px;
+  font-size: 21px;
 }

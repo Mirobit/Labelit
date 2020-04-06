@@ -2,7 +2,8 @@ import { sendData, getData } from './api.js'
 
 // global vars
 let text, textId, textEditiorDiv, salt, password
-const projectId = '5e8b26a5f094d946d0c5d2ca'
+const projectId = '5e8b5c634ff8573bd48dd341'
+const projectName = 'Test'
 const newWords = []
 
 const submitPassword = async () => {
@@ -26,7 +27,10 @@ const submitPassword = async () => {
   initTextEditor()
 }
 
-const loadNewText = async newTextId => {
+const loadNewText = async (newTextId, nextTextName) => {
+  document.getElementById(
+    'texteditorHeader'
+  ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${nextTextName}`
   const result = await sendData(`/texts/${newTextId}/load`, 'POST', {
     password
   })
@@ -35,9 +39,9 @@ const loadNewText = async newTextId => {
     text = result.content
     console.log('Next text successfully loaded')
   } else {
-    console.log(result)
-    console.log('Could not load next text')
+    displayMessage(false, 'Could not load next text')
   }
+  // does not update the site
   history.pushState(null, '', `/text/${newTextId}`)
   newWords.length = 0
   textId = newTextId
@@ -53,13 +57,16 @@ const initTextEditor = async () => {
     document.getElementById('textForm').hidden = false
   }
 
-  const url = decodeURI(window.location.href)
+  const url = decodeURI(window.location.pathname)
   const regex = /text\/(.*)$/
   textId = url.match(regex)[1]
 
   const result = await sendData(`/texts/${textId}/init`, 'POST', {
     password
   })
+  document.getElementById(
+    'texteditorHeader'
+  ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${result.name}`
   // Place text
   console.log(result)
   text = result.content
@@ -183,7 +190,7 @@ const addLabel = label => {
     new RegExp('((?!>).)\\b' + selected + '\\b', 'g'),
     confirmHTML
   )
-  // Necessary since all previously set eventlisteners are remove during innerHTMLreplace
+  // Necessary since all previously set eventlisteners are removed during innerHTMLreplace
   // No working -> spanRemove.onclick = () => removeLabel(spanRemove)
   textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(
     new RegExp('<span class="removeInit"></span>', 'g'),
@@ -244,7 +251,7 @@ const updateText = async () => {
   if (result.status === true) {
     console.log('Text successfully saved')
     console.log('result', result)
-    loadNewText(result.nextTextId)
+    loadNewText(result.nextTextId, result.nextTextName)
   } else {
     console.log("Text couldn't be saved")
   }

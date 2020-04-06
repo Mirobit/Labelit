@@ -33,9 +33,10 @@ const textSchema = new Schema(
       type: String,
       required: false
     },
-    done: {
-      type: Boolean,
-      default: false
+    status: {
+      type: String,
+      enum: ['new', 'unconfirmed', 'confirmed'],
+      default: 'new'
     }
     // user: { type: Schema.Types.ObjectId, required: true }
   },

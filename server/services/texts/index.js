@@ -5,20 +5,41 @@ const { encrypt, decrypt, hash } = require('../../utils/crypter')
 
 const get = async (textId, password) => {
   try {
-    const result = await Text.findById(textId).select('contentEncHtml')
-    console.log(textId, result)
+    const result = await Text.findById(textId)
+      .populate({
+        path: 'project',
+        select: 'words'
+      })
+      .select('contentEncHtml words categories')
+    console.log(result)
+    let contentHtml = decrypt(result.contentEncHtml, password)
+    contentHtml = checkWorldlist(contentHtml, result.words)
     // TODO check against wordlist
-    return decrypt(result.contentEncHtml, password)
+    return contentHtml
   } catch (error) {
     throw new Error(error.message)
   }
+}
+
+const checkWorldlist = async (contentHtml, words, categories) => {
+  // words.forEach(word => {
+  //   const confirmHTML = `<span class="labeledarea"><span class="originalWord">${wordStr}</span>
+  //   <span class="confirmDivider"></span><span class="labeled" style="background-color:' +${label.colorHex}">${label.name}</span>
+  //   <span class="confirm" onclick="window.editor.confirmLabel(this)"></span><span class="remove" onclick="window.editor.removeLabel(this)"></span></span>`
+  //   contentHtml = contentHtml.replace(
+  //     new RegExp('((?!>).)\\b' + wordStr + '\\b', 'g'),
+  //     confirmHTML
+  //   )
+  // })
+
+  return contentHtml
 }
 
 const init = async (textId, password) => {
   try {
     const data = await Text.findById(textId).populate({
       path: 'project',
-      select: 'name password categories words done'
+      select: 'name password categories words'
     })
     if (hash(password) !== data.project.password) {
       throw new Error('Invalid project password')
@@ -65,10 +86,6 @@ const update = async (
   password
 ) => {
   try {
-    console.log(newWords)
-    console.log(textRaw)
-    console.log(encrypt(textRaw, password))
-    console.log('Old text id', textId)
     newWords = newWords.map(newWord => {
       return {
         strEnc: encrypt(newWord.str, password),
@@ -81,7 +98,7 @@ const update = async (
       {
         contentEncSaved: encrypt(textRaw, password),
         contentEncHtml: encrypt(htmlText, password),
-        done: true
+        status: 'confirmed'
       },
       {
         runValidators: true
@@ -100,16 +117,15 @@ const update = async (
       }
     )
 
-    const nextTextId = await Text.find({
-      _id: { $gt: textId }
-    })
-      .sort({ _id: 1 })
-      .limit(1)
-      .select('_id')
-    if (nextTextId.length === 0) {
-      return 'done'
+    let nextText = await Text.findOne({ _id: { $gt: textId } }).select(
+      '_id name'
+    )
+    if (nextText === null) {
+      nextText = await Text.findOne()
+        .sort({ _id: 1 })
+        .select('_id name')
     }
-    return nextTextId[0]._id
+    return { nextTextId: nextText._id, nextTextName: nextText.name }
   } catch (error) {
     console.log(error)
     throw new Error(error.message)

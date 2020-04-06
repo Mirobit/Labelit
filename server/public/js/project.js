@@ -41,11 +41,13 @@ const initProject = async () => {
   }, '')
   document.getElementById('texts').innerHTML = project.texts.reduce(
     (outputHTML, text) => {
-      let done = ''
-      if (text.done) done = '<span class="confirm"></span>'
+      let status = ''
+      if (text.status === 'confirmed') status = '<span class="confirm"></span>'
+      else if (text.status === 'unconfirmed')
+        status = '<span class="unconfirmed"></span>'
       return (
         outputHTML +
-        `<div><a href="/text/${text._id}">${text.name}</a>${done}
+        `<div><a href="/text/${text._id}">${text.name}</a>${status}
     `
       )
     },
