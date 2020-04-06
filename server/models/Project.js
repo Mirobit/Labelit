@@ -51,7 +51,7 @@ const projectSchema = new Schema(
           type: String,
           required: true
         },
-        keyCode: {
+        keyUp: {
           type: String,
           required: true
         },
@@ -82,7 +82,7 @@ const projectSchema = new Schema(
       }
     ],
     texts: [{ type: Schema.Types.ObjectId, ref: 'Text' }],
-    words: [Schema.Types.ObjectId],
+    words: [{ type: Schema.Types.ObjectId, ref: 'Word' }],
     user: { type: Schema.Types.ObjectId, required: false }
   },
   {

@@ -15,10 +15,23 @@ router.post('/:textId/init', async (req, res) => {
   }
 })
 
-// Save edited text
-router.post('/', async (req, res) => {
-  console.log('body', req.body)
-  res.json(true)
+// Update text
+router.put('/', async (req, res) => {
+  try {
+    const result = textsService.update(
+      req.body.textRaw,
+      req.body.htmlText,
+      req.body.textId,
+      req.body.projectId,
+      req.body.user,
+      req.body.newWords,
+      req.body.password
+    )
+    res.json({ status: true })
+  } catch (error) {
+    console.log(error)
+    res.json({ status: false })
+  }
 })
 
 module.exports = router

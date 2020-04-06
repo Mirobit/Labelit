@@ -1,6 +1,7 @@
 const Text = require('../../models/Text')
+const Word = require('../../models/Word')
 const fileHandler = require('../../utils/fileHandler')
-const { decrypt, hash } = require('../../utils/crypter')
+const { encrypt, decrypt, hash } = require('../../utils/crypter')
 
 const get = async id => {
   try {
@@ -23,7 +24,7 @@ const init = async (textId, password) => {
     if (hash(password) !== data.project.password) {
       throw new Error('Invalid project password')
     }
-    const content = decrypt(data.contentEnc, password)
+    const content = decrypt(data.contentEncSaved, password)
     return {
       name: data.name,
       content,
@@ -55,11 +56,30 @@ const create = async data => {
   }
 }
 
-const update = async data => {
+const update = async (
+  textRaw,
+  htmlText,
+  textId,
+  projectId,
+  user,
+  newWords,
+  password
+) => {
   try {
-    await Text.findOneAndUpdate({ _id: data.id }, data, {
-      runValidators: true
-    })
+    console.log(newWords)
+    const words = await Word.insertMany(newWords)
+    const wordsId = words.map(word => word._id)
+    await Text.findOneAndUpdate(
+      { _id: textId },
+      {
+        contentEncSaved: encrypt(textRaw, password),
+        contentEncHtml: encrypt(htmlText, password),
+        done: true
+      },
+      {
+        runValidators: true
+      }
+    )
     return true
   } catch (error) {
     throw new Error(error.message)

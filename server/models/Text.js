@@ -17,7 +17,7 @@ const textSchema = new Schema(
       required: false,
       default: ''
     },
-    contentEnc: {
+    contentEncOrg: {
       type: String,
       required: true
     },
@@ -25,7 +25,7 @@ const textSchema = new Schema(
       type: String,
       required: false
     },
-    contentEncSavedHtml: {
+    contentEncHtml: {
       type: String,
       required: false
     },

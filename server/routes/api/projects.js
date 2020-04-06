@@ -86,8 +86,8 @@ router.post('/:projectId/categories', async (req, res) => {
     console.log(req.body)
     const project = await projectsService.addCategory(req.params.projectId, {
       name: req.body.name,
-      keyCode: req.body.keyCode,
       key: req.body.key,
+      keyUp: req.body.key.toUpperCase(),
       color: req.body.color,
       colorHex: req.body.colorHex
     })
@@ -108,7 +108,7 @@ router.put('/:projectId/categories/:categoryId', async (req, res) => {
       {
         name: req.body.name,
         key: req.body.key,
-        keyCode: req.body.keyCode,
+        keyUp: req.body.key.toUpperCase(),
         color: req.body.color
       }
     )

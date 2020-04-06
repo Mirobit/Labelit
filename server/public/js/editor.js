@@ -2,12 +2,14 @@ import { sendData, getData } from './api.js'
 
 // global vars
 let text, textId, textEditiorDiv, salt, wordlist, password
+const newWords = []
+const projectId = '5e8afdb3c3aaea0bac78667c'
 
 const submitPassword = async () => {
   const passwordDiv = document.getElementById('password')
   //const passwordHashed = new Hashes.SHA256().hex(passwordDiv.value + salt)
   const resultPassword = await sendData(
-    '/projects/5e8a0e0f419c484684f4d76c/password',
+    `/projects/${projectId}/password`,
     'POST',
     {
       password: passwordDiv.value
@@ -36,22 +38,25 @@ const initTextEditor = async () => {
 
   const url = decodeURI(window.location.href)
   const regex = /text\/(.*)$/
-  textId = url.match(regex)[1]
+  const textId = url.match(regex)[1]
 
   const result = await sendData(`/texts/${textId}/init`, 'POST', {
     password
   })
   // Place text
+  console.log(result)
   text = result.content
   textEditiorDiv = document.getElementById('texteditor')
   textEditiorDiv.innerHTML = text
 
   // Create label menu
-  const labels = result.categories
+  // TODO: create map (named array)
+  const categories = result.categories
+  console.log(categories)
   const labelMenu = document.getElementById('labelmenu')
   let labelMenuHTML = ''
-  labels.forEach(label => {
-    labelMenuHTML += `<div class="labelButton"><button type="button" class="btn btn-${label.color}">${label.name} <span class="badge badge-light">${label.key}</span><span class="sr-only">key</span></button></div>
+  categories.forEach(category => {
+    labelMenuHTML += `<div class="labelButton"><button type="button" class="btn btn-${category.color}">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
     `
   })
   labelMenu.innerHTML = labelMenuHTML
@@ -62,9 +67,9 @@ const initTextEditor = async () => {
   wordlist = []
 
   // Init key event listener
-  document.addEventListener('keypress', event => {
-    const selectedLabel = labels.find(element => {
-      return element.charCode === event.charKey
+  document.addEventListener('keydown', event => {
+    const selectedLabel = categories.find(category => {
+      return category.key === event.key
     })
     if (selectedLabel) {
       addLabel(selectedLabel)
@@ -172,7 +177,12 @@ const addLabel = label => {
   )
 
   // Add word to wordlist
-  wordlist.push({ hash: hashWord(selected), category: label.name })
+  //wordlist.push({ hash: hashWord(selected), category: label.name })
+  newWords.push({
+    hash: hashWord(selected),
+    category: label.name,
+    project: projectId
+  })
 }
 
 const confirmLabel = element => {
@@ -202,20 +212,21 @@ const removeWord = word => {
   // TODO
 }
 
-const saveText = async () => {
+const updateText = async () => {
   if (textEditiorDiv.innerHTML.includes('<span class="confirmDivider">')) {
     displayMessage(false, 'Can not save before all elements are confirmed')
     return
   }
-  const result = await sendData('/texts', 'POST', {
-    text: textEditiorDiv.innerText,
+  const result = await sendData('/texts', 'PUT', {
+    textRaw: textEditiorDiv.innerText,
     htmlText: textEditiorDiv.innerHTML,
-    textId: 1,
-    projectName: 'test',
+    textId: textId,
+    projectId: projectId,
     user: 'admin',
-    wordlist
+    newWords,
+    password
   })
-  if (result === true) {
+  if (result.status === true) {
     console.log('Text successfully saved')
   } else {
     console.log("Text couldn't be saved")
@@ -236,11 +247,11 @@ const closeMessage = () => {
 }
 
 export {
-  saveText,
   removeLabel,
   confirmLabel,
   addLabel,
   clickWord,
   initTextEditor,
-  submitPassword
+  submitPassword,
+  updateText
 }

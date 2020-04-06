@@ -34,18 +34,8 @@ const initProject = async () => {
   ).innerHTML = project.categories.reduce((outputHTML, category) => {
     return (
       outputHTML +
-      `<button type="button" class="btn btn-${
-        category.color
-      }" onclick="window.editCategory('${category._id}')">${
-        category.name
-      } <span class="badge badge-light">${category.key.toUpperCase()}</span><span class="sr-only">key</span>
-
-      
-    </button><span hidden>${
-      category._id
-    }</span><span onclick="window.removeCategory('${
-        category._id
-      }')">&times;</span>
+      `<button type="button" class="btn btn-${category.color}" onclick="window.editCategory('${category._id}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
+    </button><span hidden>${category._id}</span><span onclick="window.removeCategory('${category._id}')">&times;</span>
     `
     )
   }, '')
@@ -93,8 +83,8 @@ const addCategory = async event => {
 
   const result = await sendData(`/projects/${project._id}/categories`, 'POST', {
     name: categoryNameEl.value,
-    key: categoryKeyEl.value.toUpperCase(),
-    keyCode: categoryKeyEl.value.charCodeAt(),
+    key: categoryKeyEl.value,
+    keyUp: categoryKeyEl.value.toUpperCase(),
     color: colorArr[0],
     colorHex: colorArr[1]
   })
