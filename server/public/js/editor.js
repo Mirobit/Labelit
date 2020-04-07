@@ -2,7 +2,7 @@ import { sendData, getData } from './api.js'
 
 // global vars
 let text, textId, textEditiorDiv, salt, password
-const projectId = '5e8b5c634ff8573bd48dd341'
+const projectId = '5e8c84fc538e3233f08a1424'
 const projectName = 'Test'
 const newWords = []
 
@@ -75,6 +75,7 @@ const initTextEditor = async (nextTextId) => {
   }
 
   // Create label menu
+  console.log(result)
   const categories = result.categories
   const labelMenu = document.getElementById('labelmenu')
   let labelMenuHTML = ''

@@ -64,10 +64,12 @@ const remove = async (name) => {
   }
 }
 
-const checkPassword = async (projectId, password) => {
-  const project = await Project.findById(projectId).select('password')
-  const passwordHashed = hash(password)
-  return passwordHashed === project.password
+const checkPassword = async (projectId, password, projectPassword) => {
+  if (projectPassword === undefined) {
+    projectPassword = (await Project.findById(projectId).select('password'))
+      .password
+  }
+  return hash(password) === projectPassword
 }
 
 const addCategory = async (projectId, data) => {

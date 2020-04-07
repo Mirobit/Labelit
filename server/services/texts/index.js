@@ -5,6 +5,8 @@ const { checkPassword } = require('../projects')
 const { encrypt, decrypt, hash } = require('../../utils/crypter')
 
 const checkWorldlist = (contentHtml, words, categories, password) => {
+  console.log('checking wordlist')
+  let hits = 0
   const categoriesMap = new Map()
   categories.forEach((category) => {
     categoriesMap.set(String(category._id), category)
@@ -18,11 +20,15 @@ const checkWorldlist = (contentHtml, words, categories, password) => {
     }</span><span class="confirm" onclick="window.editor.confirmLabel(this)"></span><span class="remove" onclick="window.editor.removeLabel(this)"></span></span>`
     contentHtml = contentHtml.replace(
       new RegExp('((?!>).)\\b' + str + '\\b', 'g'),
-      confirmHTML
+      () => {
+        console.log('hit')
+        hits++
+        return confirmHTML
+      }
     )
   })
 
-  return contentHtml
+  return { contentHtml, hits }
 }
 
 const load = async (textId, password) => {
@@ -34,14 +40,14 @@ const load = async (textId, password) => {
     if (hash(password) !== data.project.password) {
       throw new Error('Invalid project password')
     }
-    let contentHtml = decrypt(data.contentEncHtml, password)
-    contentHtml = checkWorldlist(
-      contentHtml,
+
+    let { contentHtml, hits } = checkWorldlist(
+      decrypt(data.contentEncHtml, password),
       data.project.words,
       data.project.categories,
       password
     )
-    console.log(contentHtml)
+    console.log(contentHtml, hits)
     return {
       textName: data.name,
       contentHtml,
@@ -86,7 +92,6 @@ const update = async (
       return {
         strEnc: encrypt(newWord.str, password),
         category: newWord.category,
-        project: projectId,
       }
     })
     await Text.findOneAndUpdate(
@@ -134,7 +139,47 @@ const remove = async (id) => {
   }
 }
 
-const exportTexts = async (projectId, projectName, folderPath, password) => {
+const checkAll = async (projectId, password) => {
+  let totalHits = 0
+  const project = await Project.findById(projectId).select(
+    'password words categories'
+  )
+  if (!(await checkPassword(projectId, password, project.password))) {
+    throw new Error('Invalid password')
+  }
+  const texts = await Text.find({ project: projectId }).select(
+    'contentEncHtml status name'
+  )
+  console.log(texts)
+
+  for (const text of texts) {
+    const { contentHtml, hits } = checkWorldlist(
+      decrypt(text.contentEncHtml, password),
+      project.words,
+      project.categories,
+      password
+    )
+
+    if (hits > 0) {
+      console.log('updateing', text.name, hits)
+      totalHits += hits
+      Text.findOneAndUpdate(
+        { _id: text._id },
+        {
+          contentEncHtml: encrypt(contentHtml, password),
+          status: 'unconfirmed',
+        },
+        {
+          runValidators: true,
+          new: true,
+        }
+      ).exec()
+    }
+  }
+  return totalHits
+}
+
+const exportAll = async (projectId, projectName, folderPath, password) => {
   try {
     if (!(await checkPassword(projectId, password))) return false
     const texts = await Text.find({ project: projectId }).select(
@@ -147,4 +192,4 @@ const exportTexts = async (projectId, projectName, folderPath, password) => {
   }
 }
 
-module.exports = { list, create, update, remove, load, exportTexts }
+module.exports = { list, create, update, remove, load, exportAll, checkAll }

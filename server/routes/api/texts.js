@@ -37,10 +37,24 @@ router.put('/', async (req, res) => {
   }
 })
 
+// Check all texts
+router.post('/check', async (req, res) => {
+  try {
+    const result = await textsService.checkAll(
+      req.body.projectId,
+      req.body.password
+    )
+    res.json({ status: true, hits: result })
+  } catch (error) {
+    console.log(error)
+    res.json({ status: false })
+  }
+})
+
 // Export Texts
 router.post('/export', async (req, res) => {
   try {
-    const result = await textsService.exportTexts(
+    const result = await textsService.exportAll(
       req.body.projectId,
       req.body.projectName,
       req.body.folderPath,
