@@ -13,7 +13,7 @@ const submitPassword = async () => {
     `/projects/${projectId}/password`,
     'POST',
     {
-      password: passwordDiv.value
+      password: passwordDiv.value,
     }
   )
   // TODO check with server
@@ -27,72 +27,66 @@ const submitPassword = async () => {
   initTextEditor()
 }
 
-const loadNewText = async (newTextId, nextTextName) => {
-  console.log('loading next')
-  document.getElementById(
-    'texteditorHeader'
-  ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${nextTextName}`
-  const result = await sendData(`/texts/${newTextId}/load`, 'POST', {
-    password
+// Initialize text editor area
+const initTextEditor = async (nextTextId) => {
+  if (nextTextId === undefined) {
+    console.log('first', nextTextId)
+    document.title = `LabeliT - Editor`
+    textEditiorDiv = document.getElementById('texteditor')
+
+    if (!password) {
+      document.getElementById('passwordForm').hidden = false
+      return
+    } else {
+      document.getElementById('textForm').hidden = false
+    }
+
+    const url = decodeURI(window.location.pathname)
+    const regex = /text\/(.*)$/
+    textId = url.match(regex)[1]
+  } else {
+    console.log('next', nextTextId)
+    textId = nextTextId
+    history.pushState(null, '', `/text/${textId}`)
+    newWords.length = 0
+  }
+
+  const result = await sendData(`/texts/${textId}/load`, 'POST', {
+    password,
   })
-  console.log('Result next', result)
+  console.log(result)
+
+  // Place text
   if (result.status === true) {
-    textEditiorDiv.innerHTML = result.content
-    text = result.content
-    console.log('Next text successfully loaded', result)
+    document.getElementById(
+      'texteditorHeader'
+    ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${result.textName}`
+    text = result.contentHtml
+    textEditiorDiv.innerHTML = text
+
+    console.log('Text successfully loaded', result)
   } else {
     textEditiorDiv.innerHTML = ''
-    displayMessage(false, 'Could not load next text')
+    text = ''
+    document.getElementById(
+      'texteditorHeader'
+    ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${textId}`
+    displayMessage(false, 'Could not load  text')
   }
-  // does not update the site
-  history.pushState(null, '', `/text/${newTextId}`)
-  newWords.length = 0
-  textId = newTextId
-}
-
-// Initialize text editor area
-const initTextEditor = async () => {
-  document.title = `LabeliT - Editor`
-  if (!password) {
-    document.getElementById('passwordForm').hidden = false
-    return
-  } else {
-    document.getElementById('textForm').hidden = false
-  }
-
-  const url = decodeURI(window.location.pathname)
-  const regex = /text\/(.*)$/
-  textId = url.match(regex)[1]
-
-  const result = await sendData(`/texts/${textId}/init`, 'POST', {
-    password
-  })
-  document.getElementById(
-    'texteditorHeader'
-  ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${result.name}`
-  // Place text
-  console.log(result)
-  text = result.content
-  textEditiorDiv = document.getElementById('texteditor')
-  textEditiorDiv.innerHTML = text
 
   // Create label menu
-  // TODO: create map (named array)
   const categories = result.categories
   const labelMenu = document.getElementById('labelmenu')
   let labelMenuHTML = ''
-  categories.forEach(category => {
+  categories.forEach((category) => {
     labelMenuHTML += `<div class="labelButton"><button type="button" class="btn btn-${category.color}">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
     `
   })
   labelMenu.innerHTML = labelMenuHTML
 
-  // Set salt
-  //salt = result.salt
-
   // Init key event listener
-  document.addEventListener('keydown', event => {
-    const selectedLabel = categories.find(category => {
+  document.addEventListener('keydown', (event) => {
+    const selectedLabel = categories.find((category) => {
       return category.key === event.key
     })
     if (selectedLabel) {
@@ -155,7 +149,7 @@ const clickWord = () => {
 }
 
 // Adds label to selected text
-const addLabel = label => {
+const addLabel = (label) => {
   // Get selected text and delete text
   const highlight = window.getSelection()
   const selected = highlight.toString()
@@ -201,15 +195,13 @@ const addLabel = label => {
   )
 
   // Add word to wordlist
-  //wordlist.push({ hash: hashWord(selected), category: label.name })
   newWords.push({
-    //hash: hashWord(selected),
     str: selected,
-    category: label._id
+    category: label._id,
   })
 }
 
-const confirmLabel = element => {
+const confirmLabel = (element) => {
   const parent = element.parentElement
   const divider = parent.getElementsByClassName('confirmDivider')[0]
   divider.remove()
@@ -218,7 +210,7 @@ const confirmLabel = element => {
   window.getSelection().removeAllRanges()
 }
 
-const removeLabel = element => {
+const removeLabel = (element) => {
   const parent = element.parentElement
   const originalWord = parent.getElementsByClassName('originalWord')[0]
     .innerText
@@ -228,13 +220,13 @@ const removeLabel = element => {
   //window.getSelection().removeAllRanges()
 }
 
-const hashWord = word => {
+const hashWord = (word) => {
   return new Hashes.SHA256().hex(word + salt)
 }
 
-const removeWord = word => {
+const removeWord = (word) => {
   //newWords = newWords.filter(newWord => new.Word.hash !== hashWord(word))
-  newWords = newWords.filter(newWord => newWord.str !== word)
+  newWords = newWords.filter((newWord) => newWord.str !== word)
 }
 
 const updateText = async () => {
@@ -247,16 +239,14 @@ const updateText = async () => {
     htmlText: textEditiorDiv.innerHTML,
     textId: textId,
     projectId: projectId,
-    user: 'admin',
     newWords,
-    password
+    password,
   })
   if (result.status === true) {
     console.log('Text successfully saved')
-    console.log('result', result)
-    loadNewText(result.nextTextId, result.nextTextName)
+    initTextEditor(result.nextTextId)
   } else {
-    console.log("Text couldn't be saved")
+    displayMessage(false, 'Could not update text')
   }
 }
 
@@ -280,5 +270,5 @@ export {
   clickWord,
   initTextEditor,
   submitPassword,
-  updateText
+  updateText,
 }
