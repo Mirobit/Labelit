@@ -1,14 +1,13 @@
 import { sendData, getData } from './api.js'
 
 // global vars
-let text, textId, textEditiorDiv, salt, password
+let text, textId, textEditiorDiv, password
 const projectId = '5e8c84fc538e3233f08a1424'
 const projectName = 'Test'
 const newWords = []
 
 const submitPassword = async () => {
   const passwordDiv = document.getElementById('password')
-  //const passwordHashed = new Hashes.SHA256().hex(passwordDiv.value + salt)
   const resultPassword = await sendData(
     `/projects/${projectId}/password`,
     'POST',
@@ -22,20 +21,25 @@ const submitPassword = async () => {
     return
   }
   password = passwordDiv.value
+  document.removeEventListener('keyup', handlePasswordEnter)
   document.getElementById('passwordForm').hidden = true
   closeMessage()
   initTextEditor()
 }
 
+const handlePasswordEnter = (event) => {
+  if (event.key === 'Enter') submitPassword()
+}
+
 // Initialize text editor area
 const initTextEditor = async (nextTextId) => {
   if (nextTextId === undefined) {
-    console.log('first', nextTextId)
     document.title = `LabeliT - Editor`
     textEditiorDiv = document.getElementById('texteditor')
 
     if (!password) {
       document.getElementById('passwordForm').hidden = false
+      document.addEventListener('keyup', handlePasswordEnter)
       return
     } else {
       document.getElementById('textForm').hidden = false
@@ -63,8 +67,6 @@ const initTextEditor = async (nextTextId) => {
     ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${result.textName}`
     text = result.contentHtml
     textEditiorDiv.innerHTML = text
-
-    console.log('Text successfully loaded', result)
   } else {
     textEditiorDiv.innerHTML = ''
     text = ''
@@ -75,7 +77,6 @@ const initTextEditor = async (nextTextId) => {
   }
 
   // Create label menu
-  console.log(result)
   const categories = result.categories
   const labelMenu = document.getElementById('labelmenu')
   let labelMenuHTML = ''
@@ -86,7 +87,7 @@ const initTextEditor = async (nextTextId) => {
   labelMenu.innerHTML = labelMenuHTML
 
   // Init key event listener
-  document.addEventListener('keydown', (event) => {
+  document.addEventListener('keyup', (event) => {
     const selectedLabel = categories.find((category) => {
       return category.key === event.key
     })
