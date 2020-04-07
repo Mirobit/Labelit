@@ -55,11 +55,11 @@ const initProject = async () => {
   )
 }
 
-const updateProject = async element => {
+const updateProject = async (element) => {
   const result = await sendData(`/projects/${element.value}`, 'PUT', {
     name,
     description,
-    filePath
+    filePath,
   })
   if (result.status === true) {
     console.log('Project successfully updated')
@@ -68,7 +68,7 @@ const updateProject = async element => {
   }
 }
 
-const removeProject = async element => {
+const removeProject = async (element) => {
   const result = await sendData(`/projects/${element.value}`, 'DELETE')
   if (result.status === true) {
     displayMessage(result.status, 'Project successfully removed')
@@ -77,7 +77,7 @@ const removeProject = async element => {
   }
 }
 
-const addCategory = async event => {
+const addCategory = async () => {
   const categoryNameEl = document.getElementById('categoryName')
   const categoryKeyEl = document.getElementById('categoryKey')
   const categoryColorEl = document.getElementById('categoryColor')
@@ -88,7 +88,7 @@ const addCategory = async event => {
     key: categoryKeyEl.value,
     keyUp: categoryKeyEl.value.toUpperCase(),
     color: colorArr[0],
-    colorHex: colorArr[1]
+    colorHex: colorArr[1],
   })
   if (result.status === true) {
     categoryNameEl.value = ''
@@ -101,9 +101,9 @@ const addCategory = async event => {
   }
 }
 
-const editCategory = async categoryId => {
+const editCategory = async (categoryId) => {
   const category = project.categories.find(
-    category => category._id === categoryId
+    (category) => category._id === categoryId
   )
   const button = document.getElementById('submitCategory')
   document.getElementById('categoryName').value = category.name
@@ -113,7 +113,7 @@ const editCategory = async categoryId => {
   button.onclick = () => window.updateCategory(categoryId)
 }
 
-const updateCategory = async categoryId => {
+const updateCategory = async (categoryId) => {
   console.log('updating')
   const categoryNameEl = document.getElementById('categoryName')
   const categoryKeyEl = document.getElementById('categoryKey')
@@ -126,7 +126,7 @@ const updateCategory = async categoryId => {
       name: categoryNameEl.value,
       key: categoryKeyEl.value,
       keyCode: categoryKeyEl.value.charCodeAt(),
-      color: categoryColorEl.value
+      color: categoryColorEl.value,
     }
   )
   if (result.status === true) {
@@ -143,7 +143,7 @@ const updateCategory = async categoryId => {
   }
 }
 
-const removeCategory = async categoryId => {
+const removeCategory = async (categoryId) => {
   const result = await sendData(
     `/projects/${project._id}/categories/${categoryId}`,
     'DELETE'
@@ -153,6 +153,32 @@ const removeCategory = async categoryId => {
     displayMessage(result.status, 'Category successfully removed')
   } else {
     displayMessage(result.status, 'Could not remove Category')
+  }
+}
+
+const exportTexts = async () => {
+  const folderPath = document.getElementById('exportPath').value
+  const password = document.getElementById('projectPassword').value
+  if (folderPath === '') {
+    displayMessage(false, 'Export path can not be empty')
+  } else if (password === '') {
+    displayMessage(false, 'Password can not be empty')
+  }
+  const result = await sendData(`/texts/export`, 'POST', {
+    projectId: project._id,
+    projectName: project.name,
+    folderPath,
+    password,
+  })
+
+  if (result.status === true) {
+    if (result.valid === false) {
+      displayMessage(false, 'Invalid project password')
+      return
+    }
+    displayMessage(result.status, 'Category successfully updated')
+  } else {
+    displayMessage(result.status, 'Could not create update category')
   }
 }
 
@@ -172,5 +198,6 @@ export {
   addCategory,
   editCategory,
   updateCategory,
-  removeCategory
+  removeCategory,
+  exportTexts,
 }

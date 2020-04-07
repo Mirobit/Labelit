@@ -31,7 +31,7 @@ router.post('/', async (req, res) => {
       name: req.body.name,
       description: req.body.description,
       folderPath: req.body.folderPath,
-      password: req.body.password
+      password: req.body.password,
     })
     res.json({ status: true })
   } catch (error) {
@@ -46,7 +46,7 @@ router.put('/:id', async (req, res) => {
     const project = await projectsService.update({
       name: req.body.id,
       descripion: req.body.description,
-      filePath: req.body.filePath
+      filePath: req.body.filePath,
     })
     res.json({ status: true, project })
   } catch (error) {
@@ -88,7 +88,7 @@ router.post('/:projectId/categories', async (req, res) => {
       key: req.body.key,
       keyUp: req.body.key.toUpperCase(),
       color: req.body.color,
-      colorHex: req.body.colorHex
+      colorHex: req.body.colorHex,
     })
     res.json({ status: true, project })
   } catch (error) {
@@ -107,7 +107,7 @@ router.put('/:projectId/categories/:categoryId', async (req, res) => {
         name: req.body.name,
         key: req.body.key,
         keyUp: req.body.key.toUpperCase(),
-        color: req.body.color
+        color: req.body.color,
       }
     )
     res.json({ status: true, category })

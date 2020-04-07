@@ -3,11 +3,11 @@ const Project = require('../../models/Project')
 const fileHandler = require('../../utils/fileHandler')
 const { hash } = require('../../utils/crypter')
 
-const get = async name => {
+const get = async (name) => {
   try {
     const project = await Project.findOne({ name }).populate({
       path: 'texts',
-      select: 'name status'
+      select: 'name status',
     })
     return project
   } catch (error) {
@@ -24,7 +24,7 @@ const list = async () => {
   }
 }
 
-const create = async data => {
+const create = async (data) => {
   try {
     // TODO: parallelise?
     const project = await new Project(data)
@@ -35,7 +35,7 @@ const create = async data => {
     )
     project.textCount = textData.textCount
     const texts = await Text.insertMany(textData.texts)
-    project.texts = texts.map(text => text._id)
+    project.texts = texts.map((text) => text._id)
     project.password = hash(data.password)
     await project.save()
     return true
@@ -44,13 +44,21 @@ const create = async data => {
   }
 }
 
-const update = async data => {
+const update = async (data) => {
   try {
     const project = await Project.findOneAndUpdate({ name: data.name }, data, {
       new: true,
-      runValidators: true
+      runValidators: true,
     })
     return project
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+const remove = async (name) => {
+  try {
+    return await Project.findOneAndDelete({ name })
   } catch (error) {
     throw new Error(error.message)
   }
@@ -60,14 +68,6 @@ const checkPassword = async (projectId, password) => {
   const project = await Project.findById(projectId).select('password')
   const passwordHashed = hash(password)
   return passwordHashed === project.password
-}
-
-const remove = async name => {
-  try {
-    return await Project.findOneAndDelete({ name })
-  } catch (error) {
-    throw new Error(error.message)
-  }
 }
 
 const addCategory = async (projectId, data) => {
@@ -92,8 +92,8 @@ const updateCategory = async (projectId, categoryId, data) => {
           'categories.$.name': data.name,
           'categories.$.key': data.key,
           'categories.$.keyCode': data.keyCode,
-          'categories.$.color': data.color
-        }
+          'categories.$.color': data.color,
+        },
       },
       { runValidators: true, new: true }
     )
@@ -121,8 +121,8 @@ module.exports = {
   create,
   update,
   remove,
+  checkPassword,
   addCategory,
   updateCategory,
   removeCategory,
-  checkPassword
 }

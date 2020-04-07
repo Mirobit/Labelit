@@ -37,4 +37,20 @@ router.put('/', async (req, res) => {
   }
 })
 
+// Export Texts
+router.post('/export', async (req, res) => {
+  try {
+    const result = await textsService.exportTexts(
+      req.body.projectId,
+      req.body.projectName,
+      req.body.folderPath,
+      req.body.password
+    )
+    res.json({ status: true, valid: result })
+  } catch (error) {
+    console.log(error)
+    res.json({ status: false })
+  }
+})
+
 module.exports = router

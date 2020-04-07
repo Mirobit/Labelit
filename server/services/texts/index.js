@@ -1,6 +1,7 @@
 const Text = require('../../models/Text')
 const Project = require('../../models/Project')
 const fileHandler = require('../../utils/fileHandler')
+const { checkPassword } = require('../projects')
 const { encrypt, decrypt, hash } = require('../../utils/crypter')
 
 const checkWorldlist = (contentHtml, words, categories, password) => {
@@ -133,4 +134,17 @@ const remove = async (id) => {
   }
 }
 
-module.exports = { list, create, update, remove, load }
+const exportTexts = async (projectId, projectName, folderPath, password) => {
+  try {
+    if (!(await checkPassword(projectId, password))) return false
+    const texts = await Text.find({ project: projectId }).select(
+      'name contentEncSaved status'
+    )
+    fileHandler.write(folderPath, projectName, texts, password)
+    return true
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
+module.exports = { list, create, update, remove, load, exportTexts }

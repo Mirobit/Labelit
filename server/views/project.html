@@ -56,23 +56,23 @@
                     >Keyboard shortcut</small
                   >
                   <select class="form-control" id="categoryColor">
-                    <option value="" disabled selected>Choose Color</option>
-                    <option value="primary,#007BFF" style="color:#007BFF"
+                    <option value="" disabled selected>Choose color</option>
+                    <option value="primary,#007BFF" style="color: #007bff;"
                       >Blue</option
                     >
-                    <option value="secondary,#6C757D" style="color:#6C757D"
+                    <option value="secondary,#6C757D" style="color: #6c757d;"
                       >Grey</option
                     >
-                    <option value="success,#28A745" style="color:#28A745"
+                    <option value="success,#28A745" style="color: #28a745;"
                       >Green</option
                     >
-                    <option value="warning,#FFC107" style="color:#FFC107"
+                    <option value="warning,#FFC107" style="color: #ffc107;"
                       >Yellow</option
                     >
-                    <option value="info,#17A2B8" style="color:#17A2B8"
+                    <option value="info,#17A2B8" style="color: #17a2b8;"
                       >Cyan</option
                     >
-                    <option value="dark,#343A40" style="color:#343A40"
+                    <option value="dark,#343A40" style="color: #343a40;"
                       >Black</option
                     >
                   </select>
@@ -84,11 +84,40 @@
                   type="button"
                   class="btn btn-primary"
                   id="submitCategory"
-                  onclick="window.addCategory(this)"
+                  onclick="window.addCategory()"
                 >
                   Add Category
                 </button>
               </form>
+            </div>
+          </div>
+          <div class="card projectcard" style="width: 22rem;">
+            <div class="card-body">
+              <h6 class="card-title">Export</h6>
+              <span class="inline" style="margin-bottom: 10px;">
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Export path"
+                  id="exportPath"
+                  style="width: 145px; margin-right: 10px;"
+                />
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Project password"
+                  id="projectPassword"
+                  style="width: 145px;"
+                />
+              </span>
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="exportTexts"
+                onclick="window.exportTexts()"
+              >
+                Export
+              </button>
             </div>
           </div>
           <div id="message"></div>
@@ -111,13 +140,15 @@
         addCategory,
         editCategory,
         updateCategory,
-        removeCategory
+        removeCategory,
+        exportTexts,
       } from '../js/project.js'
       window.removeProject = removeProject
       window.addCategory = addCategory
       window.editCategory = editCategory
       window.updateCategory = updateCategory
       window.removeCategory = removeCategory
+      window.exportTexts = exportTexts
       initProject()
     </script>
   </body>
