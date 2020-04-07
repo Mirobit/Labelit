@@ -42,6 +42,14 @@ body {
   height: 16px;
   margin-left: 5px;
 }
+.confirmed {
+  background: url('..//images/confirm.png');
+  background-size: 100% 100%;
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  margin-left: 5px;
+}
 .unconfirmed {
   background: url('..//images/unconfirmed.png');
   background-size: 100% 100%;

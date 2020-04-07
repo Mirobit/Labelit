@@ -42,7 +42,8 @@ const initProject = async () => {
   document.getElementById('texts').innerHTML = project.texts.reduce(
     (outputHTML, text) => {
       let status = ''
-      if (text.status === 'confirmed') status = '<span class="confirm"></span>'
+      if (text.status === 'confirmed')
+        status = '<span class="confirmed"></span>'
       else if (text.status === 'unconfirmed')
         status = '<span class="unconfirmed"></span>'
       return (
