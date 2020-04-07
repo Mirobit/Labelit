@@ -21,14 +21,19 @@ const submitPassword = async () => {
     return
   }
   password = passwordDiv.value
-  document.removeEventListener('keyup', handlePasswordEnter)
+  document.removeEventListener('keyup', handleEnterPassword)
   document.getElementById('passwordForm').hidden = true
   closeMessage()
   initTextEditor()
 }
 
-const handlePasswordEnter = (event) => {
+const handleEnterPassword = (event) => {
   if (event.key === 'Enter') submitPassword()
+}
+
+const handleEnterSave = (event) => {
+  console.log('enter save')
+  if (event.key === 'Enter') updateText()
 }
 
 // Initialize text editor area
@@ -39,9 +44,10 @@ const initTextEditor = async (nextTextId) => {
 
     if (!password) {
       document.getElementById('passwordForm').hidden = false
-      document.addEventListener('keyup', handlePasswordEnter)
+      document.addEventListener('keyup', handleEnterPassword)
       return
     } else {
+      document.addEventListener('keyup', handleEnterSave)
       document.getElementById('textForm').hidden = false
     }
 
@@ -232,7 +238,9 @@ const removeWord = (word) => {
 }
 
 const updateText = async () => {
+  console.log('update text')
   if (textEditiorDiv.innerHTML.includes('<span class="confirmDivider">')) {
+    console.log('unconfirmed')
     displayMessage(false, 'Can not save before all elements are confirmed')
     return
   }
@@ -246,6 +254,7 @@ const updateText = async () => {
   })
   if (result.status === true) {
     console.log('Text successfully saved')
+    closeMessage()
     initTextEditor(result.nextTextId)
   } else {
     displayMessage(false, 'Could not update text')
@@ -253,6 +262,7 @@ const updateText = async () => {
 }
 
 const displayMessage = (success, message) => {
+  console.log('display msg')
   const messageDiv = document.getElementById('message')
   if (success === true) {
     messageDiv.innerHTML = `<div class="alert alert-success" role="alert">${message}</div>`
@@ -262,7 +272,7 @@ const displayMessage = (success, message) => {
 }
 
 const closeMessage = () => {
-  document.getElementById('message').hidden = true
+  document.getElementById('message').innerHTML = ''
 }
 
 export {
