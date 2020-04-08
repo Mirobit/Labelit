@@ -32,7 +32,6 @@ const handleEnterPassword = (event) => {
 }
 
 const handleEnterSave = (event) => {
-  console.log('enter save')
   if (event.key === 'Enter') updateText()
 }
 
@@ -71,8 +70,8 @@ const initTextEditor = async (nextTextId) => {
     document.getElementById(
       'texteditorHeader'
     ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${result.textName}`
-    text = result.contentHtml
-    textEditiorDiv.innerHTML = text
+    textEditiorDiv.innerHTML = result.contentHtml
+    text = textEditiorDiv.innerText
   } else {
     textEditiorDiv.innerHTML = ''
     text = ''
@@ -111,10 +110,6 @@ const clickWord = () => {
 
   const node = selection.anchorNode
   const range = selection.getRangeAt(0)
-
-  // Why??
-  if (node.parentElement.className !== 'texteditor') return
-
   while (range.startOffset >= 0) {
     const firstChar = range.toString().charAt(0)
     if (
@@ -135,7 +130,7 @@ const clickWord = () => {
     }
   }
 
-  while (range.endOffset <= text.length) {
+  while (range.endOffset <= node.length) {
     const lastChar = range.toString().slice(-1)
     if (
       lastChar === ' ' ||
@@ -148,7 +143,7 @@ const clickWord = () => {
       range.setEnd(node, range.endOffset - 1)
       break
     }
-    if (range.endOffset < text.length) {
+    if (range.endOffset < node.length) {
       range.setEnd(node, range.endOffset + 1)
     } else {
       break
@@ -160,6 +155,14 @@ const clickWord = () => {
 const addLabel = (label) => {
   // Get selected text and delete text
   const highlight = window.getSelection()
+  // Check if invalid marking area
+  if (
+    highlight.anchorNode === null ||
+    highlight.type === 'Caret' ||
+    highlight.anchorNode.parentElement.className !== 'texteditor'
+  ) {
+    return
+  }
   const selected = highlight.toString()
   const range = window.getSelection().getRangeAt(0)
   range.deleteContents()
@@ -238,9 +241,7 @@ const removeWord = (word) => {
 }
 
 const updateText = async () => {
-  console.log('update text')
   if (textEditiorDiv.innerHTML.includes('<span class="confirmDivider">')) {
-    console.log('unconfirmed')
     displayMessage(false, 'Can not save before all elements are confirmed')
     return
   }
@@ -262,7 +263,6 @@ const updateText = async () => {
 }
 
 const displayMessage = (success, message) => {
-  console.log('display msg')
   const messageDiv = document.getElementById('message')
   if (success === true) {
     messageDiv.innerHTML = `<div class="alert alert-success" role="alert">${message}</div>`
