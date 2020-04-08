@@ -44,13 +44,14 @@ const create = async (data) => {
   }
 }
 
-const update = async (data) => {
+const update = async (id, data) => {
   try {
-    const project = await Project.findOneAndUpdate({ name: data.name }, data, {
+    console.log(data)
+    await Project.findOneAndUpdate({ _id: id }, data, {
       new: true,
       runValidators: true,
     })
-    return project
+    return
   } catch (error) {
     throw new Error(error.message)
   }

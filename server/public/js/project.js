@@ -58,13 +58,17 @@ const initProject = async () => {
   )
 }
 
-const updateProject = async (element) => {
-  const result = await sendData(`/projects/${element.value}`, 'PUT', {
-    name,
-    description,
-    filePath,
+const updateProject = async () => {
+  const newProjectName = document.getElementById('projectNameInput').value
+
+  const result = await sendData(`/projects/${project._id}`, 'PUT', {
+    name: newProjectName,
+    description: document.getElementById('projectDescriptionInput').value,
   })
   if (result.status === true) {
+    document.getElementById('projectForm').hidden = true
+    history.pushState(null, '', `/projects/${newProjectName}`)
+    initProject()
     displayMessage(result.status, 'Project successfully updated')
   } else {
     displayMessage(result.status, 'Project could not be updated')

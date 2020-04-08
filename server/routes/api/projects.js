@@ -43,12 +43,11 @@ router.post('/', async (req, res) => {
 // Update
 router.put('/:id', async (req, res) => {
   try {
-    const project = await projectsService.update({
-      name: req.body.id,
-      descripion: req.body.description,
-      filePath: req.body.filePath,
+    await projectsService.update(req.params.id, {
+      name: req.body.name,
+      description: req.body.description,
     })
-    res.json({ status: true, project })
+    res.json({ status: true })
   } catch (error) {
     console.log(error)
     res.json({ status: false })
