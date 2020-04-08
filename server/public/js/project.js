@@ -220,6 +220,14 @@ const showCategoryForm = () => {
   document.getElementById('categoryForm').hidden = !current
 }
 
+const showProjectForm = () => {
+  document.getElementById('projectNameInput').value = project.name
+  document.getElementById('projectDescriptionInput').value = project.description
+  document.getElementById('projectForm').hidden = !document.getElementById(
+    'projectForm'
+  ).hidden
+}
+
 const displayMessage = (status, message) => {
   const messageDiv = document.getElementById('message')
   if (status === true) {
@@ -240,4 +248,5 @@ export {
   exportTexts,
   checkTexts,
   showCategoryForm,
+  showProjectForm,
 }

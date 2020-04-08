@@ -26,8 +26,38 @@
             <div class="card-body">
               <span class="inline">
               <h6 class="card-title">Genral</h6>
-              <button type="button" class="btn btn-outline-info btn-sm" style="float: right;margin-left: auto" onclick="window.project.showEditProject">Edit</button>
+              <button type="button" class="btn btn-outline-info btn-sm" style="float: right;margin-left: auto" onclick="window.project.showProjectForm()">Edit</button>
               </span>
+              <form id="projectForm" hidden>
+                <div class="form-check">
+                  <span class="inline">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    placeholder="Name of project"
+                    id="projectNameInput"
+                    style="width:135px;"
+                  />
+                  <input
+                    type="text"
+                    class="form-control form-control-sm"
+                    placeholder="Project description"
+                    id="projectDescriptionInput"
+                    maxlength="1"
+                    style="width:135px;"
+                  />
+                </span>
+                  <button
+                  type="button"
+                  class="btn btn-info btn-sm"
+                  id="updateProject"
+                  onclick="window.project.updateProject()"
+                >
+                  Update
+                </button>
+
+                </div> 
+              </form>
               <div id="projectDescription"></div>
             
               <div
@@ -48,7 +78,6 @@
                   type="button"
                   class="btn btn-secondary btn-sm"
                   id="exportTexts"
-                  style="margin-left:5px;"
                   onclick="window.project.checkTexts()"
                 >
                   Check
@@ -61,19 +90,18 @@
                   class="form-control form-control-sm"
                   placeholder="Export path"
                   id="exportPath"
-                  style="width: 125px;"
+                  style="width: 123px;"
                 />
                 <input
                   type="password"
                   class="form-control form-control-sm"
                   placeholder="Project password"
                   id="projectPasswordE"
-                  style="width: 125px;"
+                  style="width: 123px;"
                 />
                 <button
                 type="button"
                 class="btn btn-secondary btn-sm"
-                style="margin-left:5px;"
                 id="exportTexts"
                 onclick="window.project.exportTexts()"
               >
@@ -145,7 +173,7 @@
                   </select>
                   <button
                   type="button"
-                  class="btn btn-primary btn-sm"
+                  class="btn btn-info btn-sm"
                   id="submitCategory"
                   onclick="window.project.addCategory()"
                 >
