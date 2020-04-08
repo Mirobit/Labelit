@@ -84,11 +84,33 @@
                   type="button"
                   class="btn btn-primary"
                   id="submitCategory"
-                  onclick="window.addCategory()"
+                  onclick="window.project.addCategory()"
                 >
                   Add Category
                 </button>
               </form>
+            </div>
+          </div>
+          <div class="card projectcard" style="width: 22rem;">
+            <div class="card-body">
+              <h6 class="card-title">Check texts</h6>
+              <span class="inline" style="margin-bottom: 10px;">
+                <input
+                  type="password"
+                  class="form-control"
+                  placeholder="Project password"
+                  id="projectPasswordC"
+                  style="width: 145px;"
+                />
+                <button
+                  type="button"
+                  class="btn btn-warning"
+                  id="exportTexts"
+                  onclick="window.project.checkTexts()"
+                >
+                  Check
+                </button>
+              </span>
             </div>
           </div>
           <div class="card projectcard" style="width: 22rem;">
@@ -106,15 +128,23 @@
                   type="password"
                   class="form-control"
                   placeholder="Project password"
-                  id="projectPassword"
+                  id="projectPasswordE"
                   style="width: 145px;"
                 />
               </span>
               <button
                 type="button"
+                class="btn btn-warning"
+                id="exportTexts"
+                onclick="window.project.checkTexts()"
+              >
+                Check
+              </button>
+              <button
+                type="button"
                 class="btn btn-primary"
                 id="exportTexts"
-                onclick="window.exportTexts()"
+                onclick="window.project.exportTexts()"
               >
                 Export
               </button>
@@ -134,22 +164,9 @@
     <script src="../js/vendor/bootstrap.bundle.min.js"></script>
     <script type="module">
       // Init
-      import {
-        initProject,
-        removeProject,
-        addCategory,
-        editCategory,
-        updateCategory,
-        removeCategory,
-        exportTexts,
-      } from '../js/project.js'
-      window.removeProject = removeProject
-      window.addCategory = addCategory
-      window.editCategory = editCategory
-      window.updateCategory = updateCategory
-      window.removeCategory = removeCategory
-      window.exportTexts = exportTexts
-      initProject()
+      import * as project from '../js/project.js'
+      window.project = project
+      project.initProject()
     </script>
   </body>
 </html>

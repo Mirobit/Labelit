@@ -34,8 +34,8 @@ const initProject = async () => {
   ).innerHTML = project.categories.reduce((outputHTML, category) => {
     return (
       outputHTML +
-      `<button type="button" class="btn btn-${category.color}" onclick="window.editCategory('${category._id}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
-    </button><span hidden>${category._id}</span><span onclick="window.removeCategory('${category._id}')">&times;</span>
+      `<button type="button" class="btn btn-${category.color}" onclick="window.project.editCategory('${category._id}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
+    </button><span hidden>${category._id}</span><span onclick="window.project.removeCategory('${category._id}')">&times;</span>
     `
     )
   }, '')
@@ -111,7 +111,7 @@ const editCategory = async (categoryId) => {
   document.getElementById('categoryKey').value = category.key
   document.getElementById('categoryColor').value = category.color
   button.innerText = 'Update Category'
-  button.onclick = () => window.updateCategory(categoryId)
+  button.onclick = () => window.project.updateCategory(categoryId)
 }
 
 const updateCategory = async (categoryId) => {
@@ -137,7 +137,7 @@ const updateCategory = async (categoryId) => {
     categoryColorEl.value = ''
     const button = document.getElementById('submitCategory')
     button.innerText = 'Add Category'
-    button.onclick = window.addCategory
+    button.onclick = window.project.addCategory
     displayMessage(result.status, 'Category successfully updated')
   } else {
     displayMessage(result.status, 'Could not create update category')
@@ -157,9 +157,23 @@ const removeCategory = async (categoryId) => {
   }
 }
 
+const checkTexts = async () => {
+  const result = await sendData(`/texts/check`, 'POST', {
+    projectId: project._id,
+    password: document.getElementById('projectPasswordC').value,
+  })
+
+  if (result.status === true) {
+    initProject()
+    displayMessage(result.status, 'All texts checked')
+  } else {
+    displayMessage(result.status, 'Could not check texts')
+  }
+}
+
 const exportTexts = async () => {
   const folderPath = document.getElementById('exportPath').value
-  const password = document.getElementById('projectPassword').value
+  const password = document.getElementById('projectPasswordE').value
   if (folderPath === '') {
     displayMessage(false, 'Export path can not be empty')
   } else if (password === '') {
@@ -201,4 +215,5 @@ export {
   updateCategory,
   removeCategory,
   exportTexts,
+  checkTexts,
 }
