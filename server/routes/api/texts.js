@@ -33,6 +33,7 @@ router.put('/', async (req, res) => {
       nextTextName: result.nextTextName,
     })
   } catch (error) {
+    console.log(error)
     res.json({ status: false })
   }
 })

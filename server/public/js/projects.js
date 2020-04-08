@@ -2,15 +2,13 @@ import { sendData, getData } from './api.js'
 
 const initProjectList = async () => {
   const result = await getData('/projects')
-  if (result.status === true) {
-    console.log('Project list loaded')
-  } else {
+  if (result.status !== true) {
     displayMessage(result.status, 'Could not load project list')
   }
 
   const projectList = document.getElementById('projectlist')
   let projectListHTML = ''
-  result.projects.forEach(project => {
+  result.projects.forEach((project) => {
     const nameURI = encodeURI(project.name)
     projectListHTML += `<div class="card projectcard" style="width: 22rem;">
     <div class="card-body">
@@ -59,7 +57,7 @@ const createProject = async () => {
     name,
     description,
     folderPath,
-    password: password.value
+    password: password.value,
   })
   if (result.status === true) {
     document.getElementById('name').value = ''

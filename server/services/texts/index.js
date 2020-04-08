@@ -5,7 +5,6 @@ const { checkPassword } = require('../projects')
 const { encrypt, decrypt, hash } = require('../../utils/crypter')
 
 const checkWorldlist = (contentHtml, words, categories, password) => {
-  console.log('checking wordlist')
   let hits = 0
   const categoriesMap = new Map()
   categories.forEach((category) => {
@@ -46,7 +45,6 @@ const load = async (textId, password) => {
       data.project.categories,
       password
     )
-    console.log(contentHtml, hits)
     return {
       textName: data.name,
       contentHtml,
@@ -149,7 +147,6 @@ const checkAll = async (projectId, password) => {
   const texts = await Text.find({ project: projectId }).select(
     'contentEncHtml status name'
   )
-  console.log(texts)
 
   for (const text of texts) {
     const { contentHtml, hits } = checkWorldlist(
@@ -160,7 +157,6 @@ const checkAll = async (projectId, password) => {
     )
 
     if (hits > 0) {
-      console.log('updateing', text.name, hits)
       totalHits += hits
       Text.findOneAndUpdate(
         { _id: text._id },

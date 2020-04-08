@@ -9,12 +9,11 @@ const initProject = async () => {
   document.title = `LabeliT - ${projectName}`
 
   const result = await getData(`/projects/${projectName}`)
-  if (result.status === true) {
-    console.log('Project loaded')
-  } else {
-    console.log('Project could not be loaded')
+  if (result.status !== true) {
+    displayMessage(result.status, 'Project could not be loaded')
     return
   }
+
   project = result.project
 
   document.getElementById(
@@ -66,9 +65,9 @@ const updateProject = async (element) => {
     filePath,
   })
   if (result.status === true) {
-    console.log('Project successfully updated')
+    displayMessage(result.status, 'Project successfully updated')
   } else {
-    console.log('Project could not be updated')
+    displayMessage(result.status, 'Project could not be updated')
   }
 }
 
@@ -77,8 +76,6 @@ const removeProject = async (element) => {
     `Do you realy want to delete the project ${project.name}? This can not be reversed! `
   )
   if (!confirmed) return
-  console.log('delteting project')
-  return
   const result = await sendData(`/projects/${element.value}`, 'DELETE')
   if (result.status === true) {
     displayMessage(result.status, 'Project successfully removed')
@@ -124,7 +121,6 @@ const editCategory = async (categoryId) => {
 }
 
 const updateCategory = async (categoryId) => {
-  console.log('updating')
   const categoryNameEl = document.getElementById('categoryName')
   const categoryKeyEl = document.getElementById('categoryKey')
   const categoryColorEl = document.getElementById('categoryColor')
