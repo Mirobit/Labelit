@@ -1,7 +1,7 @@
-import { sendData, getData } from './api.js'
+import { sendData } from './api.js'
 
 // global vars
-let textId, textEditiorDiv, password
+let textId, textEditiorDiv, categories, password
 const projectId = '5e8dc77361be342e2c3fcd88'
 const projectName = 'Test'
 const newWords = []
@@ -78,24 +78,17 @@ const initTextEditor = async (nextTextId) => {
   }
 
   // Create label menu
-  const categories = result.categories
+  categories = result.categories
   const labelMenu = document.getElementById('labelmenu')
   let labelMenuHTML = ''
   categories.forEach((category) => {
-    labelMenuHTML += `<div class="labelButton"><button type="button" class="btn btn-${category.color}">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
+    labelMenuHTML += `<div class="labelButton"><button type="button" class="btn btn-${category.color}" onclick="window.editor.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
     `
   })
   labelMenu.innerHTML = labelMenuHTML
 
   // Init key event listener
-  document.addEventListener('keyup', (event) => {
-    const selectedLabel = categories.find((category) => {
-      return category.key === event.key
-    })
-    if (selectedLabel) {
-      addLabel(selectedLabel)
-    }
-  })
+  document.addEventListener('keyup', (event) => addLabel(event.key))
 }
 
 // Enables single click word selection
@@ -148,9 +141,14 @@ const clickWord = () => {
 }
 
 // Adds label to selected text
-const addLabel = (label) => {
-  // Get selected text and delete text
+const addLabel = (key) => {
+  const label = categories.find((category) => {
+    return category.key === key
+  })
+  if (label === undefined) return
+  // Get selected text
   const highlight = window.getSelection()
+
   // Check if invalid marking area
   if (
     highlight.anchorNode === null ||
@@ -159,7 +157,10 @@ const addLabel = (label) => {
   ) {
     return
   }
+
   const selected = highlight.toString()
+
+  // Delete text
   const range = window.getSelection().getRangeAt(0)
   range.deleteContents()
 
@@ -246,7 +247,6 @@ const updateText = async () => {
     password,
   })
   if (result.status === true) {
-    console.log('Text successfully saved')
     closeMessage()
     initTextEditor(result.nextTextId)
   } else {
