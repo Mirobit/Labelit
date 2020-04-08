@@ -1,8 +1,8 @@
 import { sendData, getData } from './api.js'
 
 // global vars
-let text, textId, textEditiorDiv, password
-const projectId = '5e8c84fc538e3233f08a1424'
+let textId, textEditiorDiv, password
+const projectId = '5e8dc77361be342e2c3fcd88'
 const projectName = 'Test'
 const newWords = []
 
@@ -15,7 +15,6 @@ const submitPassword = async () => {
       password: passwordDiv.value,
     }
   )
-  // TODO check with server
   if (!resultPassword.valid) {
     displayMessage(false, 'Invalid project password')
     return
@@ -54,7 +53,6 @@ const initTextEditor = async (nextTextId) => {
     const regex = /text\/(.*)$/
     textId = url.match(regex)[1]
   } else {
-    console.log('next', nextTextId)
     textId = nextTextId
     history.pushState(null, '', `/text/${textId}`)
     newWords.length = 0
@@ -71,10 +69,8 @@ const initTextEditor = async (nextTextId) => {
       'texteditorHeader'
     ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${result.textName}`
     textEditiorDiv.innerHTML = result.contentHtml
-    text = textEditiorDiv.innerText
   } else {
     textEditiorDiv.innerHTML = ''
-    text = ''
     document.getElementById(
       'texteditorHeader'
     ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${textId}`
@@ -187,7 +183,7 @@ const addLabel = (label) => {
 
   // Replace other occurrences
   const confirmHTML =
-    ' <span class="labeledarea"><span class="originalWord">' +
+    '<span class="labeledarea"><span class="originalWord">' +
     selected +
     '</span><span class="confirmDivider"></span><span class="labeled" style="background-color:' +
     label.colorHex +
@@ -195,7 +191,7 @@ const addLabel = (label) => {
     label.name +
     '</span><span class="confirm" onclick="window.editor.confirmLabel(this)"></span><span class="remove" onclick="window.editor.removeLabel(this)"></span></span>'
   textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(
-    new RegExp('((?!>).)\\b' + selected + '\\b', 'g'),
+    new RegExp('(?![^<]*>)\\b' + selected + '\\b((?!<\\/span))', 'g'),
     confirmHTML
   )
   // Necessary since all previously set eventlisteners are removed during innerHTMLreplace
@@ -229,10 +225,6 @@ const removeLabel = (element) => {
   parent.remove()
   textEditiorDiv.normalize()
   //window.getSelection().removeAllRanges()
-}
-
-const hashWord = (word) => {
-  return new Hashes.SHA256().hex(word + salt)
 }
 
 const removeWord = (word) => {

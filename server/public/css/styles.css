@@ -30,7 +30,7 @@ body {
   display: inline-block;
   width: 16px;
   height: 16px;
-  margin-left: 5px;
+  margin-left: 3px;
 }
 .confirm {
   color: rgb(114, 143, 87);
@@ -40,7 +40,7 @@ body {
   display: inline-block;
   width: 16px;
   height: 16px;
-  margin-left: 5px;
+  margin-left: 3px;
 }
 .confirmed {
   background: url('..//images/confirm.png');

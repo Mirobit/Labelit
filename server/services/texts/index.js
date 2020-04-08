@@ -13,15 +13,14 @@ const checkWorldlist = (contentHtml, words, categories, password) => {
   })
   words.forEach((word) => {
     const str = decrypt(word.strEnc, password)
-    const confirmHTML = ` <span class="labeledarea"><span class="originalWord">${str}</span><span class="confirmDivider"></span><span class="labeled" style="background-color:${
+    const confirmHTML = `<span class="labeledarea"><span class="originalWord">${str}</span><span class="confirmDivider"></span><span class="labeled" style="background-color:${
       categoriesMap.get(String(word.category)).colorHex
     }">${
       categoriesMap.get(String(word.category)).name
     }</span><span class="confirm" onclick="window.editor.confirmLabel(this)"></span><span class="remove" onclick="window.editor.removeLabel(this)"></span></span>`
     contentHtml = contentHtml.replace(
-      new RegExp('((?!>).)\\b' + str + '\\b', 'g'),
+      new RegExp('(?![^<]*>)\\b' + str + '\\b((?!<\\/span))', 'g'),
       () => {
-        console.log('hit')
         hits++
         return confirmHTML
       }
