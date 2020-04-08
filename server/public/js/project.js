@@ -115,7 +115,8 @@ const editCategory = async (categoryId) => {
   const button = document.getElementById('submitCategory')
   document.getElementById('categoryName').value = category.name
   document.getElementById('categoryKey').value = category.key
-  document.getElementById('categoryColor').value = category.color
+  document.getElementById('categoryColor').value =
+    category.color + ',' + category.colorHex
   button.innerText = 'Update Category'
   button.onclick = () => window.project.updateCategory(categoryId)
 }

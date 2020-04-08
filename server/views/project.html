@@ -24,28 +24,77 @@
         <div class="col-4">
           <div class="card projectcard" style="width: 22rem;">
             <div class="card-body">
-              <h6 class="card-title">Manage</h6>
+              <span class="inline">
+              <h6 class="card-title">Genral</h6>
+              <button type="button" class="btn btn-outline-info btn-sm" style="float: right;margin-left: auto" onclick="window.project.showEditProject">Edit</button>
+              </span>
               <div id="projectDescription"></div>
+            
               <div
                 class="progress"
                 id="projectProgress"
                 style="width: 60%;"
               ></div>
-              <br />
-              <button type="button" class="btn btn-outline-light">Edit</button>
+              <h6 class="card-title">Check texts</h6>
+              <span class="inline" style="margin-bottom: 10px;">
+                <input
+                  type="password"
+                  class="form-control form-control-sm"
+                  placeholder="Project password"
+                  id="projectPasswordC"
+                  style="width: 145px;"
+                />
+                <button
+                  type="button"
+                  class="btn btn-secondary btn-sm"
+                  id="exportTexts"
+                  style="margin-left:5px;"
+                  onclick="window.project.checkTexts()"
+                >
+                  Check
+                </button>
+              </span>
+              <h6 class="card-title">Export</h6>
+              <span class="inline" style="margin-bottom: 10px;">
+                <input
+                  type="text"
+                  class="form-control form-control-sm"
+                  placeholder="Export path"
+                  id="exportPath"
+                  style="width: 125px; margin-right: 10px;"
+                />
+                <input
+                  type="password"
+                  class="form-control form-control-sm"
+                  placeholder="Project password"
+                  id="projectPasswordE"
+                  style="width: 125px;"
+                />
+                <button
+                type="button"
+                class="btn btn-secondary btn-sm"
+                style="margin-left:5px;"
+                id="exportTexts"
+                onclick="window.project.exportTexts()"
+              >
+                Export
+              </button>
+              </span>
               <button
                 type="button"
                 class="btn btn-danger btn-sm"
-                id="submitCategory"
+                id="removeCategory"
                 onclick="window.project.removeProject()"
-              >
-                Remove Project
+              >Remove Project
               </button>
             </div>
           </div>
           <div class="card projectcard" style="width: 22rem;">
             <div class="card-body">
+              <span class="inline">
               <h6 class="card-title">Categories</h6>
+              <button type="button" class="btn btn-outline-info btn-sm" style="float: right;margin-left: auto" onclick="window.project.showAddCategory">Add</button>
+              </span>
               <div id="projectCategories"></div>
               <form>
                 <div class="form-check">
@@ -111,60 +160,7 @@
           </div>
           <div id="message"></div>
         </div>
-        <div class="col-4">
-          <div class="card projectcard" style="width: 22rem;">
-            <div class="card-body">
-              <h6 class="card-title">Check texts</h6>
-              <span class="inline" style="margin-bottom: 10px;">
-                <input
-                  type="password"
-                  class="form-control form-control-sm"
-                  placeholder="Project password"
-                  id="projectPasswordC"
-                  style="width: 145px;"
-                />
-                <button
-                  type="button"
-                  class="btn btn-warning btn-sm"
-                  id="exportTexts"
-                  onclick="window.project.checkTexts()"
-                >
-                  Check
-                </button>
-              </span>
-            </div>
-          </div>
-          <div class="card projectcard" style="width: 22rem;">
-            <div class="card-body">
-              <h6 class="card-title">Export</h6>
-              <span class="inline" style="margin-bottom: 10px;">
-                <input
-                  type="text"
-                  class="form-control form-control-sm"
-                  placeholder="Export path"
-                  id="exportPath"
-                  style="width: 145px; margin-right: 10px;"
-                />
-                <input
-                  type="password"
-                  class="form-control form-control-sm"
-                  placeholder="Project password"
-                  id="projectPasswordE"
-                  style="width: 145px;"
-                />
-              </span>
-              <button
-                type="button"
-                class="btn btn-primary btn-sm"
-                id="exportTexts"
-                onclick="window.project.exportTexts()"
-              >
-                Export
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
+        <div class="col-6">
           <div class="card projectcard" style="width: 22rem;">
             <div class="card-body">
               <h6 class="card-title">Texts</h6>
@@ -173,7 +169,6 @@
         </div>
       </div>
     </div>
-
     <script src="../js/vendor/jquery-3.4.1.slim.min.js"></script>
     <script src="../js/vendor/bootstrap.bundle.min.js"></script>
     <script type="module">
