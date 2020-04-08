@@ -94,7 +94,7 @@ const updateCategory = async (projectId, categoryId, data) => {
         $set: {
           'categories.$.name': data.name,
           'categories.$.key': data.key,
-          'categories.$.keyCode': data.keyCode,
+          'categories.$.keyUp': data.keyUp,
           'categories.$.color': data.color,
         },
       },

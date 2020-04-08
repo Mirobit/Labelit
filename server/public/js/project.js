@@ -36,8 +36,8 @@ const initProject = async () => {
   ).innerHTML = project.categories.reduce((outputHTML, category) => {
     return (
       outputHTML +
-      `<button type="button" class="btn btn-${category.color} btn-sm" onclick="window.project.editCategory('${category._id}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
-    </button><span hidden>${category._id}</span><span onclick="window.project.removeCategory('${category._id}')">&times;</span>
+      `<button type="button" class="btn btn-${category.color} btn-sm" onclick="window.project.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
+    </button><span class="remove middle" onclick="window.project.removeCategory('${category._id}')" hidden></span>
     `
     )
   }, '')
@@ -88,6 +88,25 @@ const removeProject = async (element) => {
   }
 }
 
+const showNewCategory = () => {
+  Array.from(document.getElementsByClassName('remove')).forEach((element) => {
+    element.hidden = true
+  })
+  const current = document.getElementById('categoryForm').hidden
+  if (current === false) {
+    const button = document.getElementById('submitCategory')
+    if (button.innerText === 'Update') {
+      button.innerText = 'Add'
+      document.getElementById('categoryName').value = ''
+      document.getElementById('categoryKey').value = ''
+      document.getElementById('categoryColor').value = ''
+      button.onclick = () => window.project.addCategory()
+      return
+    }
+  }
+  document.getElementById('categoryForm').hidden = !current
+}
+
 const addCategory = async () => {
   const categoryNameEl = document.getElementById('categoryName')
   const categoryKeyEl = document.getElementById('categoryKey')
@@ -97,7 +116,6 @@ const addCategory = async () => {
   const result = await sendData(`/projects/${project._id}/categories`, 'POST', {
     name: categoryNameEl.value,
     key: categoryKeyEl.value,
-    keyUp: categoryKeyEl.value.toUpperCase(),
     color: colorArr[0],
     colorHex: colorArr[1],
   })
@@ -112,16 +130,22 @@ const addCategory = async () => {
   }
 }
 
-const editCategory = async (categoryId) => {
+const showEditCategory = async (categoryId, node) => {
+  Array.from(document.getElementsByClassName('remove')).forEach((element) => {
+    element.hidden = true
+  })
+  node.nextSibling.hidden = false
   document.getElementById('categoryForm').hidden = false
   const category = project.categories.find(
     (category) => category._id === categoryId
   )
+  console.log(category)
   const button = document.getElementById('submitCategory')
   document.getElementById('categoryName').value = category.name
   document.getElementById('categoryKey').value = category.key
   document.getElementById('categoryColor').value =
     category.color + ',' + category.colorHex
+  console.log(document.getElementById('categoryColor').value)
   button.innerText = 'Update'
   button.onclick = () => window.project.updateCategory(categoryId)
 }
@@ -130,6 +154,7 @@ const updateCategory = async (categoryId) => {
   const categoryNameEl = document.getElementById('categoryName')
   const categoryKeyEl = document.getElementById('categoryKey')
   const categoryColorEl = document.getElementById('categoryColor')
+  const colorArr = categoryColorEl.value.split(',')
 
   const result = await sendData(
     `/projects/${project._id}/categories/${categoryId}`,
@@ -137,8 +162,8 @@ const updateCategory = async (categoryId) => {
     {
       name: categoryNameEl.value,
       key: categoryKeyEl.value,
-      keyCode: categoryKeyEl.value.charCodeAt(),
-      color: categoryColorEl.value,
+      color: colorArr[0],
+      colorHex: colorArr[1],
     }
   )
   if (result.status === true) {
@@ -208,22 +233,6 @@ const exportTexts = async () => {
   }
 }
 
-const showCategoryForm = () => {
-  const current = document.getElementById('categoryForm').hidden
-  if (current === false) {
-    const button = document.getElementById('submitCategory')
-    if (button.innerText === 'Update') {
-      button.innerText = 'Add'
-      document.getElementById('categoryName').value = ''
-      document.getElementById('categoryKey').value = ''
-      document.getElementById('categoryColor').value = ''
-      button.onclick = () => window.project.updateCategory(categoryId)
-      return
-    }
-  }
-  document.getElementById('categoryForm').hidden = !current
-}
-
 const showProjectForm = () => {
   document.getElementById('projectNameInput').value = project.name
   document.getElementById('projectDescriptionInput').value = project.description
@@ -246,11 +255,11 @@ export {
   updateProject,
   removeProject,
   addCategory,
-  editCategory,
+  showEditCategory,
   updateCategory,
   removeCategory,
   exportTexts,
   checkTexts,
-  showCategoryForm,
+  showNewCategory,
   showProjectForm,
 }
