@@ -2,7 +2,7 @@ import { sendData } from './api.js'
 
 // global vars
 let textId, textEditiorDiv, categories, password
-const projectId = '5e8dc77361be342e2c3fcd88'
+const projectId = '5e8e47c5af42a31378cea6b8'
 const projectName = 'Test'
 const newWords = []
 

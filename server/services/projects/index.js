@@ -57,9 +57,9 @@ const update = async (id, data) => {
   }
 }
 
-const remove = async (name) => {
+const remove = async (id) => {
   try {
-    return await Project.findOneAndDelete({ name })
+    return await Project.findOneAndDelete({ _id: id })
   } catch (error) {
     throw new Error(error.message)
   }

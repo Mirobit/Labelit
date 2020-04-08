@@ -204,7 +204,17 @@
         <div class="col-6">
           <div class="card projectcard" style="width: 22rem;">
             <div class="card-body">
-              <h6 class="card-title">Texts</h6>
+              <span class="inline">
+                <h6 class="card-title">Texts</h6>
+                <button
+                  type="button"
+                  class="btn btn-outline-info btn-sm"
+                  style="float: right; margin-left: auto;"
+                  onclick="window.project.checkTexts()"
+                >
+                  Check
+                </button>
+              </span>
               <div id="texts"></div>
             </div>
           </div>

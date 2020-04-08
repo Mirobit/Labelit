@@ -75,14 +75,14 @@ const updateProject = async () => {
   }
 }
 
-const removeProject = async (element) => {
+const removeProject = async () => {
   const confirmed = confirm(
     `Do you realy want to delete the project ${project.name}? This can not be reversed! `
   )
   if (!confirmed) return
-  const result = await sendData(`/projects/${element.value}`, 'DELETE')
+  const result = await sendData(`/projects/${project._id}`, 'DELETE')
   if (result.status === true) {
-    displayMessage(result.status, 'Project successfully removed')
+    window.location.pathname = '/projects'
   } else {
     displayMessage(result.status, 'Could not remove project')
   }
@@ -139,7 +139,6 @@ const showEditCategory = async (categoryId, node) => {
   const category = project.categories.find(
     (category) => category._id === categoryId
   )
-  console.log(category)
   const button = document.getElementById('submitCategory')
   document.getElementById('categoryName').value = category.name
   document.getElementById('categoryKey').value = category.key
