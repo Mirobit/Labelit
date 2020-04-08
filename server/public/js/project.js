@@ -17,7 +17,10 @@ const initProject = async () => {
   }
   project = result.project
 
-  document.getElementById('projectName').innerText = project.name
+  document.getElementById(
+    'projectHeader'
+  ).innerHTML = `<a href="/projects/">Projects</a> > ${project.name}`
+
   document.getElementById('projectDescription').innerText = project.description
   document.getElementById('projectProgress').innerHTML = `<div
     class="progress-bar bg-success"
@@ -34,7 +37,7 @@ const initProject = async () => {
   ).innerHTML = project.categories.reduce((outputHTML, category) => {
     return (
       outputHTML +
-      `<button type="button" class="btn btn-${category.color}" onclick="window.project.editCategory('${category._id}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
+      `<button type="button" class="btn btn-${category.color} btn-sm" onclick="window.project.editCategory('${category._id}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
     </button><span hidden>${category._id}</span><span onclick="window.project.removeCategory('${category._id}')">&times;</span>
     `
     )
@@ -70,6 +73,12 @@ const updateProject = async (element) => {
 }
 
 const removeProject = async (element) => {
+  const confirmed = confirm(
+    `Do you realy want to delete the project ${project.name}? This can not be reversed! `
+  )
+  if (!confirmed) return
+  console.log('delteting project')
+  return
   const result = await sendData(`/projects/${element.value}`, 'DELETE')
   if (result.status === true) {
     displayMessage(result.status, 'Project successfully removed')

@@ -67,13 +67,13 @@ const initTextEditor = async (nextTextId) => {
   if (result.status === true) {
     document.getElementById(
       'texteditorHeader'
-    ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${result.textName}`
+    ).innerHTML = `<a href="/projects/">Projects</a> > <a href="/projects/${projectName}">${projectName}</a> > ${result.textName}`
     textEditiorDiv.innerHTML = result.contentHtml
   } else {
     textEditiorDiv.innerHTML = ''
     document.getElementById(
       'texteditorHeader'
-    ).innerHTML = `<a href="/projects/${projectName}">${projectName}</a> > ${textId}`
+    ).innerHTML = `<a href="/projects/">Projects</a> > <a href="/projects/${projectName}">${projectName}</a> > ${textId}`
     displayMessage(false, 'Could not load  text')
   }
 
