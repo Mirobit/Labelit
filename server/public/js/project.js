@@ -109,6 +109,7 @@ const addCategory = async () => {
 }
 
 const editCategory = async (categoryId) => {
+  document.getElementById('categoryForm').hidden = false
   const category = project.categories.find(
     (category) => category._id === categoryId
   )
@@ -117,7 +118,7 @@ const editCategory = async (categoryId) => {
   document.getElementById('categoryKey').value = category.key
   document.getElementById('categoryColor').value =
     category.color + ',' + category.colorHex
-  button.innerText = 'Update Category'
+  button.innerText = 'Update'
   button.onclick = () => window.project.updateCategory(categoryId)
 }
 
@@ -142,11 +143,11 @@ const updateCategory = async (categoryId) => {
     categoryKeyEl.value = ''
     categoryColorEl.value = ''
     const button = document.getElementById('submitCategory')
-    button.innerText = 'Add Category'
+    button.innerText = 'Add'
     button.onclick = window.project.addCategory
     displayMessage(result.status, 'Category successfully updated')
   } else {
-    displayMessage(result.status, 'Could not create update category')
+    displayMessage(result.status, 'Could not update category')
   }
 }
 
@@ -203,6 +204,22 @@ const exportTexts = async () => {
   }
 }
 
+const showCategoryForm = () => {
+  const current = document.getElementById('categoryForm').hidden
+  if (current === false) {
+    const button = document.getElementById('submitCategory')
+    if (button.innerText === 'Update') {
+      button.innerText = 'Add'
+      document.getElementById('categoryName').value = ''
+      document.getElementById('categoryKey').value = ''
+      document.getElementById('categoryColor').value = ''
+      button.onclick = () => window.project.updateCategory(categoryId)
+      return
+    }
+  }
+  document.getElementById('categoryForm').hidden = !current
+}
+
 const displayMessage = (status, message) => {
   const messageDiv = document.getElementById('message')
   if (status === true) {
@@ -222,4 +239,5 @@ export {
   removeCategory,
   exportTexts,
   checkTexts,
+  showCategoryForm,
 }
