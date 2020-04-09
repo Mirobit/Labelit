@@ -94,6 +94,25 @@ body {
 .form-bottom {
   margin-bottom: 15px;
 }
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-left: 20px;
+}
+
+.btn-outline-grey {
+  color: #525f7f;
+  background-color: #fff;
+  text-transform: none !important;
+  border-color: #dbdbdb;
+}
+
+.btn-outline-grey:focus,
+.btn-outline-grey.focus {
+  box-shadow: 0 0 0 0 rgba(94, 114, 228, 0.5);
+}
 
 #content {
   margin-left: 10%;
@@ -105,6 +124,7 @@ body {
 }
 #labelmenu {
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  border-radius: 2px;
   background-color: white;
   margin-left: 20px;
   padding: 15px;
@@ -121,14 +141,12 @@ body {
   overflow: auto;
   width: 600px;
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  border-radius: 2px;
 }
 #texteditorHeader {
   margin-bottom: 15px;
   font-size: 21px;
 }
 #categoryForm {
-  margin-top: 20px;
-}
-#projectForm {
   margin-top: 20px;
 }
