@@ -13,80 +13,112 @@
       type="image/x-icon"
       href="../images/favicon.ico"
     />
-    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="../vendor/argon-design-system-react.css" />
+    <link
+      rel="stylesheet"
+      href="../vendor/font-awesome/css/font-awesome.min.css"
+    />
     <link rel="stylesheet" href="../css/styles.css" />
   </head>
-
   <body>
-    <div class="container">
+    <nav
+      class="navbar-horizontal navbar-dark bg-default navbar navbar-expand-lg"
+    >
+      <div class="container navBar">
+        <i class="fa fa-file-text-o fa-lg" style="margin-right: 10px;"></i>
+        <span id="headerText">Labelit</span>
+      </div>
+    </nav>
+    <div class="container mainContent">
       <div class="row">
-        <div class="col-4">
-          <strong>Create a new Project</strong>
-          <br /><br />
+        <div class="col-5">
+          <div class="subHeader">New Project</div>
           <form>
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="name"
-                id="name"
-                aria-describedby="nameHelp"
-              />
-              <small id="nameHelp" class="form-text text-muted"
-                >Unique project name</small
-              >
-            </div>
-            <div class="form-group">
-              <label for="description">Description</label>
-              <input
-                type="text"
-                class="form-control"
-                placeholder="description"
-                id="description"
-                aria-describedby="descriptionHelp"
-              />
-              <small id="descriptionHelp" class="form-text text-muted"
-                >Addtional project description</small
-              >
-            </div>
-            <div class="form-group">
-              <label for="password">Password</label>
-              <div class="form-check form-check-inline">
+            <div class="row form-bottom">
+              <div class="col-6">
                 <input
-                  style="width:170px;margin-right:10px"
+                  type="text"
+                  class="form-control-alternative form-control"
+                  placeholder="Name"
+                  id="name"
+                  aria-describedby="nameHelp"
+                />
+                <small id="nameHelp" class="form-text text-muted"
+                  >Unique project name</small
+                >
+              </div>
+
+              <div class="col-6">
+                <input
+                  type="text"
+                  class="form-control-alternative form-control"
+                  placeholder="Description"
+                  id="description"
+                  aria-describedby="descriptionHelp"
+                />
+                <small id="descriptionHelp" class="form-text text-muted"
+                  >Addtional project description</small
+                >
+              </div>
+            </div>
+            <div class="row form-bottom">
+              <div class="col-6">
+                <input
                   type="password"
-                  placeholder="password"
-                  class="form-control"
+                  placeholder="Password"
+                  class="form-control-alternative form-control"
                   id="password"
                   aria-describedby="passwordHelp"
                 />
+              </div>
+              <div class="col-6">
                 <input
-                  style="width:170px"
                   type="password"
-                  placeholder="repeat password"
-                  class="form-control"
+                  placeholder="Repeat password"
+                  class="form-control-alternative form-control"
                   id="passwordRepeat"
                   aria-describedby="passwordHelp"
                 />
               </div>
-              <small id="passwordHelp" class="form-text text-muted"
-                >The password is used to store all texts encrypted in the
-                db</small
-              >
+              <div class="col-12">
+                <small id="passwordHelp" class="form-text text-muted"
+                  >The password is used to store all texts encrypted in the
+                  db</small
+                >
+              </div>
             </div>
-            <div class="form-group">
-              <label for="folderPath">Data Source</label>
-              <input
-                type="text"
-                class="form-control"
-                id="folderPath"
-                placeholder="C:\projectfolder"
-                aria-describedby="folderPathHelp"
-              />
-              <small id="folderPathHelp" class="form-text text-muted"
-                >Path to the folder with the .txt files</small
-              >
+            <div class="row form-bottom">
+              <div class="col-12">
+                <input
+                  type="text"
+                  class="form-control-alternative form-control"
+                  id="folderPath"
+                  placeholder="C:\projectfolder"
+                  aria-describedby="folderPathHelp"
+                />
+                <small id="folderPathHelp" class="form-text text-muted"
+                  >Path to the folder with the .txt files</small
+                >
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-8">
+                <div class="custom-control custom-checkbox mb-3">
+                  <input
+                    class="custom-control-input"
+                    id="customCheck1"
+                    type="checkbox"
+                  /><label
+                    class="custom-control-label text-muted"
+                    for="customCheck1"
+                    >Enable classification of tetxs</label
+                  >
+                </div>
+              </div>
+              <div class="col-6">
+                <!-- empty for now -->
+              </div>
             </div>
             <button
               type="button"
@@ -100,7 +132,7 @@
         </div>
         <div class="col-1"></div>
         <div class="col-4">
-          <strong>List of Projects</strong>
+          <div class="subHeader">List of Projects</div>
           <div id="projectlist"></div>
         </div>
       </div>

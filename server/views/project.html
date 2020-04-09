@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8" />
 
-    <title>LabeliT -</title>
+    <title>LableIt - Projects</title>
     <meta name="description" content="Anonmize and annotate text" />
     <meta name="author" content="Mirobit" />
 
@@ -13,12 +13,24 @@
       type="image/x-icon"
       href="../images/favicon.ico"
     />
-    <link rel="stylesheet" href="../css/bootstrap.min.css" />
+
+    <link rel="stylesheet" href="../vendor/argon-design-system-react.css" />
+    <link
+      rel="stylesheet"
+      href="../vendor/font-awesome/css/font-awesome.min.css"
+    />
     <link rel="stylesheet" href="../css/styles.css" />
   </head>
-
   <body>
-    <div class="container">
+    <nav
+      class="navbar-horizontal navbar-dark bg-default navbar navbar-expand-lg"
+    >
+      <div class="container navBar">
+        <i class="fa fa-file-text-o fa-lg" style="margin-right: 10px;"></i>
+        <span id="headerText">Labelit</span>
+      </div>
+    </nav>
+    <div class="container mainContent">
       <div id="projectHeader"></div>
       <div class="row">
         <div class="col-4">
@@ -70,24 +82,6 @@
                 id="projectProgress"
                 style="width: 60%;"
               ></div>
-              <h6 class="card-title">Check texts</h6>
-              <span class="inline" style="margin-bottom: 10px;">
-                <input
-                  type="password"
-                  class="form-control form-control-sm"
-                  placeholder="Project password"
-                  id="projectPasswordC"
-                  style="width: 145px;"
-                />
-                <button
-                  type="button"
-                  class="btn btn-secondary btn-sm"
-                  id="exportTexts"
-                  onclick="window.project.checkTexts()"
-                >
-                  Check
-                </button>
-              </span>
               <h6 class="card-title">Export</h6>
               <span class="inline" style="margin-bottom: 10px;">
                 <input

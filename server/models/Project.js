@@ -6,38 +6,38 @@ const projectSchema = new Schema(
     name: {
       type: String,
       required: true,
-      unique: true
+      unique: true,
     },
     description: {
       type: String,
-      required: true
+      required: true,
     },
     folderPath: {
       type: String,
-      required: true
+      required: true,
     },
     textCount: {
       type: Number,
-      required: true
+      required: true,
     },
     password: {
       type: String,
-      required: true
+      required: true,
     },
     textUpdatedCount: {
       type: Number,
       required: false,
-      default: 0
+      default: 0,
     },
-    process: {
+    progress: {
       type: Number,
       required: false,
-      default: 0
+      default: 0,
     },
     currentText: {
       type: Number,
       required: false,
-      default: 0
+      default: 0,
     },
     categories: [
       {
@@ -45,66 +45,66 @@ const projectSchema = new Schema(
         // TODO unique validation doesn't work -> applies unqiue to all categories in all projects
         name: {
           type: String,
-          required: true
+          required: true,
         },
         key: {
           type: String,
-          required: true
+          required: true,
         },
         keyUp: {
           type: String,
-          required: true
+          required: true,
         },
         color: {
           type: String,
-          required: true
+          required: true,
         },
         colorHex: {
           type: String,
-          required: true
-        }
-      }
+          required: true,
+        },
+      },
     ],
     classifications: [
       {
         name: {
           type: String,
-          required: true
+          required: true,
         },
         key: {
           type: String,
-          required: true
+          required: true,
         },
         color: {
           type: String,
-          required: true
-        }
-      }
+          required: true,
+        },
+      },
     ],
     texts: [{ type: Schema.Types.ObjectId, ref: 'Text' }],
     words: [
       {
         strEnc: {
           type: String,
-          required: true
+          required: true,
         },
         category: {
           type: Schema.Types.ObjectId,
-          required: true
+          required: true,
         },
         user: {
           type: Schema.Types.ObjectId,
-          required: false
-        }
-      }
+          required: false,
+        },
+      },
     ],
-    user: { type: Schema.Types.ObjectId, required: false }
+    user: { type: Schema.Types.ObjectId, required: false },
   },
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: 'updated_at'
-    }
+      updatedAt: 'updated_at',
+    },
   }
 )
 

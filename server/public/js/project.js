@@ -24,11 +24,11 @@ const initProject = async () => {
   document.getElementById('projectProgress').innerHTML = `<div
     class="progress-bar bg-success"
     role="progressbar"
-    style="width: ${project.process}%;"
-    aria-valuenow="${project.process}"
+    style="width: ${project.progress}%;"
+    aria-valuenow="${project.progress}"
     aria-valuemin="0"
     aria-valuemax="100"
-  >${project.process}%
+  >${project.progress}%
   </div>`
 
   document.getElementById(

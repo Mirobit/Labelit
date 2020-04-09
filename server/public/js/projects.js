@@ -10,22 +10,15 @@ const initProjectList = async () => {
   let projectListHTML = ''
   result.projects.forEach((project) => {
     const nameURI = encodeURI(project.name)
-    projectListHTML += `<div class="card projectcard" style="width: 22rem;">
+    projectListHTML += `<div class="card projectcard shadow" style="width: 20rem;">
     <div class="card-body">
       <h5 class="card-title"><a href="/projects/${nameURI}">${project.name}</a></h5>
       <h6 class="card-subtitle mb-2 text-muted">${project.textCount} texts</h6>
       <p class="card-text">${project.description}</p>
+      <div class="progress-percentage"><span>${project.progress}%</span></div>
       <div class="progress">
-        <div
-          class="progress-bar bg-success"
-          role="progressbar"
-          style="width: ${project.textUpdatedCount}%;"
-          aria-valuenow="${project.textUpdatedCount}"
-          aria-valuemin="0"
-          aria-valuemax="100"
-        >
-        ${project.textUpdatedCount}%
-        </div>
+        <div class="progress-bar" style="width: ${project.progress}%;" role="progressbar" aria-valuenow="${project.progress}" aria-valuemin="0" aria-valuemax="100"></div>
+      </div>
       </div>
     </div>
   </div>`
