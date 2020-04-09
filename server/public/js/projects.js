@@ -1,6 +1,7 @@
 import { sendData, getData } from './api.js'
 
 const initProjectList = async () => {
+  console.log('init projectlist')
   const result = await getData('/projects')
   if (result.status !== true) {
     displayMessage(result.status, 'Could not load project list')

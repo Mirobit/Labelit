@@ -1,11 +1,9 @@
-import { sendData, getData } from './api.js'
+import { sendData, getData, increase } from './api.js'
 
 let project
 
-const initProject = async () => {
-  const url = decodeURI(window.location.href)
-  const regex = /projects\/(.*)$/
-  const projectName = url.match(regex)[1]
+const initProjectPage = async (projectName) => {
+  increase()
   document.title = `LabeliT - ${projectName}`
 
   const result = await getData(`/projects/${projectName}`)
@@ -18,7 +16,7 @@ const initProject = async () => {
 
   document.getElementById(
     'navPathHeader'
-  ).innerHTML = `<a href="/projects/">Projects</a> > ${project.name}`
+  ).innerHTML = `<a href="/projects">Projects</a> > ${project.name}`
 
   document.getElementById('projectDescription').innerText = project.description
   document.getElementById(
@@ -247,7 +245,7 @@ const displayMessage = (status, message) => {
 }
 
 export {
-  initProject,
+  initProjectPage,
   updateProject,
   removeProject,
   addCategory,

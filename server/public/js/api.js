@@ -1,4 +1,15 @@
+import { routeto } from './index.js'
 const BASE_URL = window.location.origin
+
+console.log('api imported')
+let counter = 0
+
+const increase = () => {
+  console.log(projectPage)
+  routeto('api')
+  counter++
+  console.log('calling increase', counter)
+}
 
 const sendData = async (endpoint, type, data) => {
   const url = BASE_URL + '/api' + endpoint
@@ -7,32 +18,32 @@ const sendData = async (endpoint, type, data) => {
     headers: {
       Accept: 'application/json',
       Authorization: 'test',
-      'Content-Type': 'application/json;charset=UTF-8'
+      'Content-Type': 'application/json;charset=UTF-8',
     },
-    body: JSON.stringify(data)
+    body: JSON.stringify(data),
   }
   const response = await fetch(url, options)
   return response.json()
 }
 
-const getData = async endpoint => {
+const getData = async (endpoint) => {
   const url = BASE_URL + '/api' + endpoint
   console.log(url)
   const options = {
     method: 'GET',
     headers: {
-      Authorization: 'test'
-    }
+      Authorization: 'test',
+    },
   }
 
   const response = await fetch(url, options)
   return response.json()
 }
 
-const handleError = result => {
+const handleError = (result) => {
   if (result.status === false) {
     // TODO: display error
   }
 }
 
-export { sendData, getData }
+export { sendData, getData, increase }
