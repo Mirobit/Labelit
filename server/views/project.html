@@ -31,9 +31,34 @@
       </div>
     </nav>
     <div class="container mainContent">
-      <div id="projectHeader"></div>
-      <div class="row">
-        <div class="col-4">
+      <div class="row text-center" id="passwordForm">
+        <div style="margin-left: 30%;">
+          <div class="subHeader">Test</div>
+          <div class="form-bottom">
+            <input
+              type="password"
+              class="form-control form-control-alternative"
+              placeholder="Project password"
+              id="password"
+              aria-describedby="passwordHelp"
+              minlength="4"
+            />
+          </div>
+          <div class="">
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="submitPassword"
+              onclick="window.editor.submitPassword()"
+            >
+              Submit
+            </button>
+          </div>
+        </div>
+      </div>
+      <div id="projectHeader" hidden></div>
+      <div class="row" hidden>
+        <div class="col-5">
           <div class="card projectcard" style="width: 22rem;">
             <div class="card-body">
               <span class="inline">
@@ -52,14 +77,14 @@
                   <span class="inline">
                     <input
                       type="text"
-                      class="form-control form-control-sm"
+                      class="form-control form-control-sm form-control-alternative"
                       placeholder="Name of project"
                       id="projectNameInput"
                       style="width: 135px;"
                     />
                     <input
                       type="text"
-                      class="form-control form-control-sm"
+                      class="form-control form-control-sm form-control-alternative"
                       placeholder="Project description"
                       id="projectDescriptionInput"
                       style="width: 135px;"
@@ -77,44 +102,40 @@
               </form>
               <div id="projectDescription"></div>
 
-              <div
-                class="progress"
-                id="projectProgress"
-                style="width: 60%;"
-              ></div>
-              <h6 class="card-title">Export</h6>
-              <span class="inline" style="margin-bottom: 10px;">
-                <input
-                  type="text"
-                  class="form-control form-control-sm"
-                  placeholder="Export path"
-                  id="exportPath"
-                  style="width: 123px;"
-                />
-                <input
-                  type="password"
-                  class="form-control form-control-sm"
-                  placeholder="Project password"
-                  id="projectPasswordE"
-                  style="width: 123px;"
-                />
-                <button
-                  type="button"
-                  class="btn btn-secondary btn-sm"
-                  id="exportTexts"
-                  onclick="window.project.exportTexts()"
-                >
-                  Export
-                </button>
-              </span>
-              <button
-                type="button"
-                class="btn btn-danger btn-sm"
-                id="removeCategory"
-                onclick="window.project.removeProject()"
-              >
-                Remove Project
-              </button>
+              <div id="projectProgress"></div>
+              <div class="row">
+                <div class="inline" style="padding-left: 15px;">
+                  <input
+                    type="text"
+                    class="form-control form-control-sm form-control-alternative"
+                    placeholder="Export path"
+                    id="exportPath"
+                    style="width: 123px;"
+                  />
+
+                  <button
+                    type="button"
+                    class="btn btn-secondary btn-sm"
+                    id="exportTexts"
+                    onclick="window.project.exportTexts()"
+                  >
+                    Export
+                  </button>
+                  <span style="margin-left: 60px;">
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                      id="removeCategory"
+                      onclick="window.project.removeProject()"
+                    >
+                      <span
+                        class="fa fa-trash-o fa-lg"
+                        aria-hidden="true"
+                      ></span>
+                    </button>
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
           <div class="card projectcard" style="width: 22rem;">

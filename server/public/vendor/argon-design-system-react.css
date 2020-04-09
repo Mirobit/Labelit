@@ -3849,14 +3849,19 @@ input[type="button"].btn-block {
     box-shadow: 0 0 0 0 rgba(245, 54, 92, 0.5); }
 
 .badge-light {
-  color: #fff;
-  background-color: #adb5bd; }
-  a.badge-light:hover, a.badge-light:focus {
-    color: #fff;
-    background-color: #919ca6; }
-  a.badge-light:focus, a.badge-light.focus {
-    outline: 0;
-    box-shadow: 0 0 0 0 rgba(173, 181, 189, 0.5); }
+  color: #212529;
+  background-color: #f8f9fa;
+}
+
+a.badge-light:hover, a.badge-light:focus {
+  color: #212529;
+  background-color: #dae0e5;
+}
+
+a.badge-light:focus, a.badge-light.focus {
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(248, 249, 250, 0.5);
+}
 
 .badge-dark {
   color: #fff;

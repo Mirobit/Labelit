@@ -21,14 +21,11 @@ const initProject = async () => {
   ).innerHTML = `<a href="/projects/">Projects</a> > ${project.name}`
 
   document.getElementById('projectDescription').innerText = project.description
-  document.getElementById('projectProgress').innerHTML = `<div
-    class="progress-bar bg-success"
-    role="progressbar"
-    style="width: ${project.progress}%;"
-    aria-valuenow="${project.progress}"
-    aria-valuemin="0"
-    aria-valuemax="100"
-  >${project.progress}%
+  document.getElementById(
+    'projectProgress'
+  ).innerHTML = ` <div class="progress-percentage"><span>${project.progress}%</span></div>
+  <div class="progress">
+    <div class="progress-bar" style="width: ${project.progress}%;" role="progressbar" aria-valuenow="${project.progress}" aria-valuemin="0" aria-valuemax="100"></div>
   </div>`
 
   document.getElementById(
