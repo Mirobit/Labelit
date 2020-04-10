@@ -1,15 +1,15 @@
 import { sendData } from './api.js'
-import { switchPage } from './index.js'
+import { switchPage, displayMessage } from './index.js'
 import Store from './store.js'
 
 // global vars
-let textId, textEditiorDiv, categories, password
-const projectId = '5e8e47c5af42a31378cea6b8'
-const projectName = 'Test'
+let textId, textEditiorDiv, categories
 const newWords = []
 
 // Initialize text editor area
 const initTextPage = async (nextTextId) => {
+  textPage.hidden = false
+
   if (nextTextId === undefined) {
     document.title = `LabeliT - Editor`
     textEditiorDiv = document.getElementById('texteditor')
@@ -31,16 +31,19 @@ const initTextPage = async (nextTextId) => {
 
   // Place text
   if (result.status === true) {
+    if (Store.project.name === undefined) {
+      Store.project = result.project
+    }
     document.getElementById(
       'navPathHeader'
-    ).innerHTML = `<a href="/projects/">Projects</a> > <a href="/projects/${projectName}">${projectName}</a> > ${result.textName}`
+    ).innerHTML = `<a href="/projects">Projects</a> > <a href="/projects/${Store.project.name}">${Store.project.name}</a> > ${result.textName}`
     textEditiorDiv.innerHTML = result.contentHtml
   } else {
     textEditiorDiv.innerHTML = ''
     document.getElementById(
       'navPathHeader'
-    ).innerHTML = `<a href="/projects/">Projects</a> > <a href="/projects/${projectName}">${projectName}</a> > ${textId}`
-    displayMessage(false, 'Could not load  text')
+    ).innerHTML = `<a href="/projects">Projects</a> > <a href="/projects">Unkown</a> > ${textId}`
+    displayMessage(false, 'Could not load text')
   }
 
   // Create label menu
@@ -223,15 +226,6 @@ const updateText = async () => {
     initTextEditor(result.nextTextId)
   } else {
     displayMessage(false, 'Could not update text')
-  }
-}
-
-const displayMessage = (success, message) => {
-  const messageDiv = document.getElementById('message')
-  if (success === true) {
-    messageDiv.innerHTML = `<div class="alert alert-success" role="alert">${message}</div>`
-  } else {
-    messageDiv.innerHTML = `<div class="alert alert-danger" role="alert">${message}</div>`
   }
 }
 

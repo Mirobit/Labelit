@@ -66,10 +66,10 @@ router.delete('/:id', async (req, res) => {
 })
 
 // Check Passswort
-router.post('/:projectId/password', async (req, res) => {
+router.post('/password', async (req, res) => {
   try {
     const result = await projectsService.checkPassword(
-      req.params.projectId,
+      req.body.projectName,
       req.body.password
     )
     res.json({ status: true, valid: result })

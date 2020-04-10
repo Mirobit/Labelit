@@ -1,11 +1,10 @@
 import { sendData, getData } from './api.js'
-import { switchPage } from './index.js'
+import { switchPage, displayMessage } from './index.js'
 import Store from './store.js'
 
 let projects = []
 
-const initProjectList = async () => {
-  console.log('init projectlist')
+const initProjectsPage = async () => {
   const result = await getData('/projects')
   if (result.status !== true) {
     displayMessage(result.status, 'Could not load project list')
@@ -29,6 +28,7 @@ const initProjectList = async () => {
   </div>`
   })
   projectList.innerHTML = projectListHTML
+  projectsPage.hidden = false
 }
 
 const openProject = (projectName) => {
@@ -74,13 +74,4 @@ const createProject = async () => {
   }
 }
 
-const displayMessage = (status, message) => {
-  const messageDiv = document.getElementById('message')
-  if (status === true) {
-    messageDiv.innerHTML = `<div class="alert alert-success" role="alert">${message}</div>`
-  } else {
-    messageDiv.innerHTML = `<div class="alert alert-danger" role="alert">${message}</div>`
-  }
-}
-
-export { createProject, initProjectList, openProject }
+export { createProject, initProjectsPage, openProject }

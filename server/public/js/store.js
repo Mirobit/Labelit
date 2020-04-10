@@ -8,6 +8,8 @@ class Store {
   textPage = document.getElementById('textPage')
   passwordPage = document.getElementById('passwordPage')
 
+  messageDiv = document.getElementById('message')
+
   password = ''
   project = {}
   text = {}

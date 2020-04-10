@@ -1,4 +1,5 @@
 import { sendData, getData } from './api.js'
+import { switchPage, displayMessage } from './index.js'
 import Store from './store.js'
 
 const initProjectPage = async () => {
@@ -242,15 +243,6 @@ const showProjectForm = () => {
   document.getElementById('projectForm').hidden = !document.getElementById(
     'projectForm'
   ).hidden
-}
-
-const displayMessage = (status, message) => {
-  const messageDiv = document.getElementById('message')
-  if (status === true) {
-    messageDiv.innerHTML = `<div class="alert alert-success" role="alert">${message}</div>`
-  } else {
-    messageDiv.innerHTML = `<div class="alert alert-danger" role="alert">${message}</div>`
-  }
 }
 
 export {

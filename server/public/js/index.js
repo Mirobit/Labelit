@@ -7,7 +7,7 @@ import {
   clickWord,
   initTextPage,
   updateText,
-} from './editor.js'
+} from './text.js'
 import {
   initProjectPage,
   updateProject,
@@ -21,7 +21,7 @@ import {
   showNewCategory,
   showProjectForm,
 } from './project.js'
-import { createProject, initProjectList, openProject } from './projects.js'
+import { createProject, initProjectsPage, openProject } from './projects.js'
 import Store from './store.js'
 
 const switchPage = async (oldPage, newUrl) => {
@@ -40,17 +40,19 @@ const init = async () => {
   if (route === '/') {
     console.log('render index')
   } else if (route === '/projects') {
-    projectsPage.hidden = false
-    initProjectList()
+    initProjectsPage()
     console.log('render projects')
   } else if (route.includes('/projects/')) {
+    if (checkIfPassword(route)) {
+      return
+    }
     projectPage.hidden = false
     initProjectPage()
     console.log('render single project')
   } else if (route.includes('/text/')) {
-    text.hidden = false
-    const textId = route.match(/^\/text\/(.{1,})$/)[1]
-    console.log('render text', textId)
+    if (checkIfPassword(route)) {
+      return
+    }
     initTextPage()
   } else {
     console.log('Invalid route')
@@ -58,10 +60,27 @@ const init = async () => {
 }
 
 const checkIfPassword = (goUrl) => {
-  if (Store.project.password === undefined) {
-    console.log('init password page')
+  console.log('checking pw')
+  if (Store.password === '') {
     initPasswordPage(goUrl)
+    return true
+  }
+  return false
+}
+
+const displayMessage = (success, message) => {
+  if (success === true) {
+    Store.messageDiv.innerHTML = `<div class="alert alert-success" role="alert">${message}</div>`
+  } else {
+    Store.messageDiv.innerHTML = `<div class="alert alert-danger" role="alert">${message}</div>`
   }
 }
 
-export { init, createProject, switchPage, openProject }
+export {
+  displayMessage,
+  switchPage,
+  init,
+  createProject,
+  openProject,
+  submitPassword,
+}

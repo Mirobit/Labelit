@@ -33,7 +33,7 @@ const load = async (textId, password) => {
   try {
     const data = await Text.findById(textId).populate({
       path: 'project',
-      select: 'password categories words',
+      select: 'password categories words name',
     })
     if (hash(password) !== data.project.password) {
       throw new Error('Invalid project password')
