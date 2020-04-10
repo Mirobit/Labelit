@@ -23,6 +23,7 @@ const projectSchema = new Schema(
     password: {
       type: String,
       required: true,
+      select: false,
     },
     textUpdatedCount: {
       type: Number,

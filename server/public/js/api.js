@@ -1,14 +1,12 @@
-import { routeto } from './index.js'
+import { switchPage } from './index.js'
 const BASE_URL = window.location.origin
 
 console.log('api imported')
 let counter = 0
 
-const increase = () => {
-  console.log(projectPage)
-  routeto('api')
+const increase = (pp) => {
+  //switchPage(projectsPage, pp, '/projects/test2')
   counter++
-  console.log('calling increase', counter)
 }
 
 const sendData = async (endpoint, type, data) => {

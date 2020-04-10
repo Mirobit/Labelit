@@ -1,9 +1,8 @@
-import { sendData, getData, increase } from './api.js'
+import { sendData, getData } from './api.js'
+import Store from './store.js'
 
-let project
-
-const initProjectPage = async (projectName) => {
-  increase()
+const initProjectPage = async () => {
+  const projectName = window.location.pathname.match(/^\/projects\/(.{1,})$/)[1]
   document.title = `LabeliT - ${projectName}`
 
   const result = await getData(`/projects/${projectName}`)
@@ -11,24 +10,24 @@ const initProjectPage = async (projectName) => {
     displayMessage(result.status, 'Project could not be loaded')
     return
   }
-
-  project = result.project
+  Store.project = result.project
 
   document.getElementById(
     'navPathHeader'
-  ).innerHTML = `<a href="/projects">Projects</a> > ${project.name}`
+  ).innerHTML = `<a href="/projects">Projects</a> > ${Store.project.name}`
 
-  document.getElementById('projectDescription').innerText = project.description
+  document.getElementById('projectDescription').innerText =
+    Store.project.description
   document.getElementById(
     'projectProgress'
-  ).innerHTML = ` <div class="progress-percentage"><span>${project.progress}%</span></div>
+  ).innerHTML = ` <div class="progress-percentage"><span>${Store.project.progress}%</span></div>
   <div class="progress">
-    <div class="progress-bar" style="width: ${project.progress}%;" role="progressbar" aria-valuenow="${project.progress}" aria-valuemin="0" aria-valuemax="100"></div>
+    <div class="progress-bar" style="width: ${Store.project.progress}%;" role="progressbar" aria-valuenow="${Store.project.progress}" aria-valuemin="0" aria-valuemax="100"></div>
   </div>`
 
   document.getElementById(
     'projectCategories'
-  ).innerHTML = project.categories.reduce((outputHTML, category) => {
+  ).innerHTML = Store.project.categories.reduce((outputHTML, category) => {
     return (
       outputHTML +
       `<button type="button" class="btn btn-${category.color} btn-sm" onclick="window.project.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
@@ -36,7 +35,8 @@ const initProjectPage = async (projectName) => {
     `
     )
   }, '')
-  document.getElementById('texts').innerHTML = project.texts.reduce(
+
+  document.getElementById('texts').innerHTML = Store.project.texts.reduce(
     (outputHTML, text) => {
       let status = ''
       if (text.status === 'confirmed')
@@ -53,10 +53,14 @@ const initProjectPage = async (projectName) => {
   )
 }
 
+const openText = (textId) => {
+  switchPage(Store.projectsPage, Store.projectPage, `/text/${encodeURI(texId)}`)
+}
+
 const updateProject = async () => {
   const newProjectName = document.getElementById('projectNameInput').value
 
-  const result = await sendData(`/projects/${project._id}`, 'PUT', {
+  const result = await sendData(`/projects/${Store.project._id}`, 'PUT', {
     name: newProjectName,
     description: document.getElementById('projectDescriptionInput').value,
   })
@@ -72,10 +76,10 @@ const updateProject = async () => {
 
 const removeProject = async () => {
   const confirmed = confirm(
-    `Do you realy want to delete the project ${project.name}? This can not be reversed! `
+    `Do you realy want to delete the project ${Store.project.name}? This can not be reversed! `
   )
   if (!confirmed) return
-  const result = await sendData(`/projects/${project._id}`, 'DELETE')
+  const result = await sendData(`/projects/${Store.project._id}`, 'DELETE')
   if (result.status === true) {
     window.location.pathname = '/projects'
   } else {
@@ -95,7 +99,7 @@ const showNewCategory = () => {
       document.getElementById('categoryName').value = ''
       document.getElementById('categoryKey').value = ''
       document.getElementById('categoryColor').value = ''
-      button.onclick = () => window.project.addCategory()
+      button.onclick = () => run.addCategory()
       return
     }
   }
@@ -108,12 +112,16 @@ const addCategory = async () => {
   const categoryColorEl = document.getElementById('categoryColor')
   const colorArr = categoryColorEl.value.split(',')
 
-  const result = await sendData(`/projects/${project._id}/categories`, 'POST', {
-    name: categoryNameEl.value,
-    key: categoryKeyEl.value,
-    color: colorArr[0],
-    colorHex: colorArr[1],
-  })
+  const result = await sendData(
+    `/projects/${Store.project._id}/categories`,
+    'POST',
+    {
+      name: categoryNameEl.value,
+      key: categoryKeyEl.value,
+      color: colorArr[0],
+      colorHex: colorArr[1],
+    }
+  )
   if (result.status === true) {
     categoryNameEl.value = ''
     categoryKeyEl.value = ''
@@ -189,7 +197,7 @@ const removeCategory = async (categoryId) => {
 
 const checkTexts = async () => {
   const result = await sendData(`/texts/check`, 'POST', {
-    projectId: project._id,
+    projectId: Store.project._id,
     password: document.getElementById('projectPasswordC').value,
   })
 
@@ -210,8 +218,8 @@ const exportTexts = async () => {
     displayMessage(false, 'Password can not be empty')
   }
   const result = await sendData(`/texts/export`, 'POST', {
-    projectId: project._id,
-    projectName: project.name,
+    projectId: Store.project._id,
+    projectName: Store.project.name,
     folderPath,
     password,
   })
@@ -228,8 +236,9 @@ const exportTexts = async () => {
 }
 
 const showProjectForm = () => {
-  document.getElementById('projectNameInput').value = project.name
-  document.getElementById('projectDescriptionInput').value = project.description
+  document.getElementById('projectNameInput').value = Store.project.name
+  document.getElementById('projectDescriptionInput').value =
+    Store.project.description
   document.getElementById('projectForm').hidden = !document.getElementById(
     'projectForm'
   ).hidden

@@ -31,7 +31,7 @@
       </div>
     </nav>
     <div class="container mainContent">
-      <div class="row" id="projectsPage" hidden>
+      <div id="projectsPage" class="row" hidden>
         <div class="col-5">
           <div class="subHeader">New Project</div>
           <form>
@@ -137,35 +137,6 @@
         </div>
       </div>
       <div id="projectPage" hidden>
-        <div class="row text-center" id="passwordForm" hidden>
-          <div style="margin-left: 40%;">
-            <div class="subHeader">Test</div>
-            <div class="form-bottom">
-              <input
-                type="password"
-                class="form-control form-control-alternative"
-                placeholder="Project password"
-                id="password"
-                aria-describedby="passwordHelp"
-                minlength="4"
-              />
-            </div>
-            <div class="">
-              <button
-                type="button"
-                class="btn btn-primary"
-                id="submitPassword"
-                onclick="window.editor.submitPassword()"
-              >
-                <i
-                  class="fa fa-unlock-alt fa-lg"
-                  style="margin-right: 10px;"
-                ></i
-                >Submit
-              </button>
-            </div>
-          </div>
-        </div>
         <div id="navPathHeader"></div>
         <div class="row">
           <div class="col-5" style="margin-right: 0;">
@@ -342,8 +313,69 @@
           </div>
         </div>
       </div>
-    </div>
+      <div id="textPage" hidden>
+        <div id="navPathHeader"></div>
+        <div id="textForm">
+          <div class="inline">
+            <div>
+              <div
+                id="texteditor"
+                class="texteditor"
+                onclick="window.editor.clickWord()"
+              ></div>
+              <div class="save">
+                <button
+                  id="savetext"
+                  type="button"
+                  class="btn btn-primary"
+                  onclick="window.editor.updateText()"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
 
+            <div>
+              <div id="labelmenu"></div>
+              <div class="pagination">
+                <button type="button" class="btn btn-outline-grey btn-sm">
+                  <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev
+                </button>
+                <button type="button" class="btn btn-outline-grey btn-sm">
+                  Next <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div id="passwordPage" class="row text-center" hidden>
+        <div style="margin-left: 40%;">
+          <div class="subHeader">Test</div>
+          <div class="form-bottom">
+            <input
+              type="password"
+              class="form-control form-control-alternative"
+              placeholder="Project password"
+              id="password"
+              aria-describedby="passwordHelp"
+              minlength="4"
+            />
+          </div>
+          <div class="">
+            <button
+              type="button"
+              class="btn btn-primary"
+              id="submitPassword"
+              onclick="window.editor.submitPassword()"
+            >
+              <i class="fa fa-unlock-alt fa-lg" style="margin-right: 10px;"></i
+              >Submit
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
     <script src="../js/vendor/jquery-3.4.1.slim.min.js"></script>
     <script src="../js/vendor/bootstrap.bundle.min.js"></script>
     <script type="module">
@@ -351,6 +383,8 @@
       const t0 = performance.now()
 
       import * as run from '../js/index.js'
+      // instead of alias
+      //Object.entries(exports).forEach(([name, exported]) => window[name] = exported);
       window.run = run
       run.init()
 

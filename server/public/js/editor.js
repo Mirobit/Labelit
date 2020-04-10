@@ -1,4 +1,6 @@
 import { sendData } from './api.js'
+import { switchPage } from './index.js'
+import Store from './store.js'
 
 // global vars
 let textId, textEditiorDiv, categories, password
@@ -6,48 +8,12 @@ const projectId = '5e8e47c5af42a31378cea6b8'
 const projectName = 'Test'
 const newWords = []
 
-const submitPassword = async () => {
-  const passwordDiv = document.getElementById('password')
-  const resultPassword = await sendData(
-    `/projects/${projectId}/password`,
-    'POST',
-    {
-      password: passwordDiv.value,
-    }
-  )
-  if (!resultPassword.valid) {
-    displayMessage(false, 'Invalid project password')
-    return
-  }
-  password = passwordDiv.value
-  document.removeEventListener('keyup', handleEnterPassword)
-  document.getElementById('passwordForm').hidden = true
-  closeMessage()
-  initTextEditor()
-}
-
-const handleEnterPassword = (event) => {
-  if (event.key === 'Enter') submitPassword()
-}
-
-const handleEnterSave = (event) => {
-  if (event.key === 'Enter') updateText()
-}
-
 // Initialize text editor area
-const initTextEditor = async (nextTextId) => {
+const initTextPage = async (nextTextId) => {
   if (nextTextId === undefined) {
     document.title = `LabeliT - Editor`
     textEditiorDiv = document.getElementById('texteditor')
-
-    if (!password) {
-      document.getElementById('passwordForm').hidden = false
-      document.addEventListener('keyup', handleEnterPassword)
-      return
-    } else {
-      document.addEventListener('keyup', handleEnterSave)
-      document.getElementById('textForm').hidden = false
-    }
+    document.addEventListener('keyup', handleEnterSave)
 
     const url = decodeURI(window.location.pathname)
     const regex = /text\/(.*)$/
@@ -138,6 +104,12 @@ const clickWord = () => {
       break
     }
   }
+}
+
+// TODO: remove keylistener when unmounted
+
+const handleEnterSave = (event) => {
+  if (event.key === 'Enter') updateText()
 }
 
 // Adds label to selected text
@@ -272,7 +244,6 @@ export {
   confirmLabel,
   addLabel,
   clickWord,
-  initTextEditor,
-  submitPassword,
+  initTextPage,
   updateText,
 }

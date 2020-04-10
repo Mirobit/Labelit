@@ -1,4 +1,8 @@
 import { sendData, getData } from './api.js'
+import { switchPage } from './index.js'
+import Store from './store.js'
+
+let projects = []
 
 const initProjectList = async () => {
   console.log('init projectlist')
@@ -9,11 +13,11 @@ const initProjectList = async () => {
 
   const projectList = document.getElementById('projectlist')
   let projectListHTML = ''
+  projects = result.projects
   result.projects.forEach((project) => {
-    const nameURI = encodeURI(project.name)
     projectListHTML += `<div class="card projectcard shadow" style="width: 20rem;">
     <div class="card-body">
-      <h5 class="card-title"><a href="/projects/${nameURI}">${project.name}</a></h5>
+      <h5 class="card-title"><span onclick="run.openProject('${project.name}')">${project.name}</span></h5>
       <h6 class="card-subtitle mb-2 text-muted">${project.textCount} texts</h6>
       <p class="card-text">${project.description}</p>
       <div class="progress-percentage"><span>${project.progress}%</span></div>
@@ -25,6 +29,10 @@ const initProjectList = async () => {
   </div>`
   })
   projectList.innerHTML = projectListHTML
+}
+
+const openProject = (projectName) => {
+  switchPage(Store.projectsPage, `/projects/${encodeURI(projectName)}`)
 }
 
 const createProject = async () => {
@@ -75,4 +83,4 @@ const displayMessage = (status, message) => {
   }
 }
 
-export { createProject, initProjectList }
+export { createProject, initProjectList, openProject }

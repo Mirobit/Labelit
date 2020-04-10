@@ -67,7 +67,7 @@ const remove = async (id) => {
 
 const checkPassword = async (projectId, password, projectPassword) => {
   if (projectPassword === undefined) {
-    projectPassword = (await Project.findById(projectId).select('password'))
+    projectPassword = (await Project.findById(projectId).select('+password'))
       .password
   }
   return hash(password) === projectPassword
