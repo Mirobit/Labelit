@@ -11,6 +11,10 @@ const initPasswordPage = (goUrl) => {
     const pathArr = window.location.pathname.split('/')
     Store.project.name = pathArr[2]
   }
+  document.getElementById(
+    'projectNamePassword'
+  ).innerText = `Project: ${Store.project.name}`
+  document.title = `Labelit - Project: ${Store.project.name}`
   document.addEventListener('keyup', handleEnterPassword)
 }
 

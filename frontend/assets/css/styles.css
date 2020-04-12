@@ -106,17 +106,22 @@ body {
   margin-top: 10px;
   margin-left: 20px;
 }
-
 .btn-outline-grey {
   color: #525f7f;
   background-color: #fff;
   text-transform: none !important;
   border-color: #dbdbdb;
 }
-
 .btn-outline-grey:focus,
 .btn-outline-grey.focus {
   box-shadow: 0 0 0 0 rgba(94, 114, 228, 0.5);
+}
+.footer {
+  margin-bottom: 20px;
+  float: right;
+  font-size: 13px;
+  color: #95989b;
+  height: 2.5rem; /* Footer height */
 }
 
 #content {

@@ -17,10 +17,10 @@ const init = async () => {
   console.log('init')
   const route = window.location.pathname
   if (route === '/') {
+    // TODO index page
     console.log('render index')
   } else if (route === '/projects') {
     projectsFuncs.initProjectsPage()
-    console.log('render projects')
   } else if (route.includes('/text/')) {
     if (checkIfPassword(route)) {
       return
@@ -31,9 +31,8 @@ const init = async () => {
       return
     }
     projectFuncs.initProjectPage()
-    console.log('render single project')
   } else {
-    console.log('Invalid route')
+    displayMessage(false, 'Invalid url')
   }
 }
 

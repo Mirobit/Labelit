@@ -37,6 +37,7 @@
                   type="text"
                   class="form-control-alternative form-control"
                   placeholder="Name"
+                  maxlength="50"
                   id="nameNew"
                   aria-describedby="nameHelp"
                 />
@@ -124,7 +125,6 @@
               Create Project
             </button>
           </form>
-          <div id="message"></div>
         </div>
         <div class="col-1"></div>
         <div class="col-4">
@@ -287,7 +287,6 @@
                 </form>
               </div>
             </div>
-            <div id="message"></div>
           </div>
           <div class="col-6" style="padding-left: 0;">
             <div class="card projectcard">
@@ -347,7 +346,7 @@
       </div>
       <div id="passwordPage" class="row text-center" hidden>
         <div style="margin-left: 40%;">
-          <div class="subHeader">Test</div>
+          <div class="subHeader" id="projectNamePassword"></div>
           <div class="form-bottom">
             <input
               type="password"
@@ -371,7 +370,12 @@
           </div>
         </div>
       </div>
+      <div id="message"></div>
+      <div class="footer">
+        © 2020 <a href="https://github.com/mirobit/labelit">Labelit</a>
+      </div>
     </div>
+
     <script src="/vendor/bootstrap/jquery-3.4.1.slim.min.js"></script>
     <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module">
