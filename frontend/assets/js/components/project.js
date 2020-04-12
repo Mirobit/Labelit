@@ -1,11 +1,11 @@
-import { sendData, getData } from './api.js'
-import { switchPage, displayMessage } from './index.js'
-import Store from './store.js'
+import { sendData, getData } from '../api.js'
+import { switchPage, displayMessage } from '../index.js'
+import Store from '../store.js'
 
 const initProjectPage = async () => {
   Store.projectPage.hidden = false
   const projectName = window.location.pathname.match(/^\/projects\/(.{1,})$/)[1]
-  document.title = `LabeliT - ${projectName}`
+  document.title = `Labelit - ${projectName}`
 
   const result = await getData(`/projects/${projectName}`)
   if (result.status !== true) {

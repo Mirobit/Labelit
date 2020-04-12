@@ -1,6 +1,6 @@
-import { sendData } from './api.js'
-import { switchPage, displayMessage } from './index.js'
-import Store from './store.js'
+import { sendData } from '../api.js'
+import { switchPage, displayMessage } from '../index.js'
+import Store from '../store.js'
 
 let goNext
 

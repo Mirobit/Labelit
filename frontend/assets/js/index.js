@@ -1,7 +1,7 @@
-import * as passwordFuncs from './password.js'
-import * as textFuncs from './text.js'
-import * as projectFuncs from './project.js'
-import * as projectsFuncs from './projects.js'
+import * as passwordFuncs from './components/password.js'
+import * as textFuncs from './components/text.js'
+import * as projectFuncs from './components/project.js'
+import * as projectsFuncs from './components/projects.js'
 import Store from './store.js'
 
 const switchPage = async (oldPage, newUrl) => {

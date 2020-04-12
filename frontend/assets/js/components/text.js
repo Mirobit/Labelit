@@ -1,6 +1,6 @@
-import { sendData } from './api.js'
-import { switchPage, displayMessage } from './index.js'
-import Store from './store.js'
+import { sendData } from '../api.js'
+import { switchPage, displayMessage } from '../index.js'
+import Store from '../store.js'
 
 // global vars
 let textId, textEditiorDiv, categories
@@ -11,7 +11,7 @@ const initTextPage = async (nextTextId) => {
   textPage.hidden = false
 
   if (nextTextId === undefined) {
-    document.title = `LabeliT - Editor`
+    document.title = `Labelit - Editor`
     textEditiorDiv = document.getElementById('texteditor')
     document.addEventListener('keyup', handleEnterSave)
 

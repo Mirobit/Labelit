@@ -1,10 +1,11 @@
-import { sendData, getData } from './api.js'
-import { switchPage, displayMessage } from './index.js'
-import Store from './store.js'
+import { sendData, getData } from '../api.js'
+import { switchPage, displayMessage } from '../index.js'
+import Store from '../store.js'
 
 let projects = []
 
 const initProjectsPage = async () => {
+  document.title = `Labelit - Projects`
   const result = await getData('/projects')
   if (result.status !== true) {
     displayMessage(result.status, 'Could not load project list')
