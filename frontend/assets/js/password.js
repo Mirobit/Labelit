@@ -9,7 +9,6 @@ const initPasswordPage = (goUrl) => {
   goNext = goUrl
   if (Store.project.name === undefined) {
     const pathArr = window.location.pathname.split('/')
-    console.log(pathArr)
     Store.project.name = pathArr[2]
   }
   document.addEventListener('keyup', handleEnterPassword)
@@ -26,6 +25,7 @@ const submitPassword = async () => {
     return
   }
   Store.password = passwordDiv.value
+  console.log('setting pw', Store.password)
   document.removeEventListener('keyup', handleEnterPassword)
   switchPage(Store.passwordPage, goNext)
 }

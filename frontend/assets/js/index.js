@@ -1,27 +1,7 @@
-import { sendData, getData, increase } from './api.js'
-import { initPasswordPage, submitPassword } from './password.js'
-import {
-  removeLabel,
-  confirmLabel,
-  addLabel,
-  clickWord,
-  initTextPage,
-  updateText,
-} from './text.js'
-import {
-  initProjectPage,
-  updateProject,
-  removeProject,
-  addCategory,
-  showEditCategory,
-  updateCategory,
-  removeCategory,
-  exportTexts,
-  checkTexts,
-  showNewCategory,
-  showProjectForm,
-} from './project.js'
-import { createProject, initProjectsPage, openProject } from './projects.js'
+import * as passwordFuncs from './password.js'
+import * as textFuncs from './text.js'
+import * as projectFuncs from './project.js'
+import * as projectsFuncs from './projects.js'
 import Store from './store.js'
 
 const switchPage = async (oldPage, newUrl) => {
@@ -34,35 +14,32 @@ const switchPage = async (oldPage, newUrl) => {
 
 const init = async () => {
   // console.log(window['projectsPage'])
-
+  console.log('init')
   const route = window.location.pathname
-  console.log(route)
   if (route === '/') {
     console.log('render index')
   } else if (route === '/projects') {
-    initProjectsPage()
+    projectsFuncs.initProjectsPage()
     console.log('render projects')
-  } else if (route.includes('/projects/')) {
-    if (checkIfPassword(route)) {
-      return
-    }
-    projectPage.hidden = false
-    initProjectPage()
-    console.log('render single project')
   } else if (route.includes('/text/')) {
     if (checkIfPassword(route)) {
       return
     }
-    initTextPage()
+    textFuncs.initTextPage()
+  } else if (route.includes('/projects/')) {
+    if (checkIfPassword(route)) {
+      return
+    }
+    projectFuncs.initProjectPage()
+    console.log('render single project')
   } else {
     console.log('Invalid route')
   }
 }
 
 const checkIfPassword = (goUrl) => {
-  console.log('checking pw')
   if (Store.password === '') {
-    initPasswordPage(goUrl)
+    passwordFuncs.initPasswordPage(goUrl)
     return true
   }
   return false
@@ -80,7 +57,8 @@ export {
   displayMessage,
   switchPage,
   init,
-  createProject,
-  openProject,
-  submitPassword,
+  projectsFuncs,
+  projectFuncs,
+  textFuncs,
+  passwordFuncs,
 }

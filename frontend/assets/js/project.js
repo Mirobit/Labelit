@@ -3,6 +3,7 @@ import { switchPage, displayMessage } from './index.js'
 import Store from './store.js'
 
 const initProjectPage = async () => {
+  Store.projectPage.hidden = false
   const projectName = window.location.pathname.match(/^\/projects\/(.{1,})$/)[1]
   document.title = `LabeliT - ${projectName}`
 
@@ -31,8 +32,8 @@ const initProjectPage = async () => {
   ).innerHTML = Store.project.categories.reduce((outputHTML, category) => {
     return (
       outputHTML +
-      `<button type="button" class="btn btn-${category.color} btn-sm" onclick="window.project.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
-    </button><span class="remove middle" onclick="window.project.removeCategory('${category._id}')" hidden></span>
+      `<button type="button" class="btn btn-${category.color} btn-sm" onclick="projectFuncs.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
+    </button><span class="remove middle" onclick="projectFuncs.removeCategory('${category._id}')" hidden></span>
     `
     )
   }, '')
@@ -46,7 +47,7 @@ const initProjectPage = async () => {
         status = '<span class="unconfirmed"></span>'
       return (
         outputHTML +
-        `<div><a href="/text/${text._id}">${text.name}</a>${status}
+        `<div><span onclick="projectFuncs.openText('${text._id}')">${text.name}</span>${status}</div>
     `
       )
     },
@@ -55,7 +56,11 @@ const initProjectPage = async () => {
 }
 
 const openText = (textId) => {
-  switchPage(Store.projectsPage, Store.projectPage, `/text/${encodeURI(texId)}`)
+  console.log('opentext')
+  switchPage(
+    Store.projectPage,
+    `/projects/${encodeURI(Store.project.name)}/text/${textId}`
+  )
 }
 
 const updateProject = async () => {
@@ -68,7 +73,7 @@ const updateProject = async () => {
   if (result.status === true) {
     document.getElementById('projectForm').hidden = true
     history.pushState(null, '', `/projects/${newProjectName}`)
-    initProject()
+    initProjectPage()
     displayMessage(result.status, 'Project successfully updated')
   } else {
     displayMessage(result.status, 'Project could not be updated')
@@ -100,7 +105,7 @@ const showNewCategory = () => {
       document.getElementById('categoryName').value = ''
       document.getElementById('categoryKey').value = ''
       document.getElementById('categoryColor').value = ''
-      button.onclick = () => run.addCategory()
+      button.onclick = () => projectFuncs.addCategory()
       return
     }
   }
@@ -127,7 +132,7 @@ const addCategory = async () => {
     categoryNameEl.value = ''
     categoryKeyEl.value = ''
     categoryColorEl.value = ''
-    initProject()
+    initProjectPage()
     displayMessage(result.status, 'Category successfully added')
   } else {
     displayMessage(result.status, 'Could not create add category')
@@ -150,7 +155,7 @@ const showEditCategory = async (categoryId, node) => {
     category.color + ',' + category.colorHex
   console.log(document.getElementById('categoryColor').value)
   button.innerText = 'Update'
-  button.onclick = () => window.project.updateCategory(categoryId)
+  button.onclick = () => projectFuncs.updateCategory(categoryId)
 }
 
 const updateCategory = async (categoryId) => {
@@ -170,13 +175,13 @@ const updateCategory = async (categoryId) => {
     }
   )
   if (result.status === true) {
-    initProject()
+    initProjectPage()
     categoryNameEl.value = ''
     categoryKeyEl.value = ''
     categoryColorEl.value = ''
     const button = document.getElementById('submitCategory')
     button.innerText = 'Add'
-    button.onclick = window.project.addCategory
+    button.onclick = projectFuncs.addCategory
     displayMessage(result.status, 'Category successfully updated')
   } else {
     displayMessage(result.status, 'Could not update category')
@@ -189,7 +194,7 @@ const removeCategory = async (categoryId) => {
     'DELETE'
   )
   if (result.status === true) {
-    initProject()
+    initProjectPage()
     displayMessage(result.status, 'Category successfully removed')
   } else {
     displayMessage(result.status, 'Could not remove Category')
@@ -203,7 +208,7 @@ const checkTexts = async () => {
   })
 
   if (result.status === true) {
-    initProject()
+    initProjectPage()
     displayMessage(result.status, 'All texts checked')
   } else {
     displayMessage(result.status, 'Could not check texts')
@@ -257,4 +262,5 @@ export {
   checkTexts,
   showNewCategory,
   showProjectForm,
+  openText,
 }

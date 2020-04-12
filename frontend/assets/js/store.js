@@ -1,7 +1,5 @@
 class Store {
-  constructor() {
-    console.log('init store')
-  }
+  constructor() {}
 
   projectsPage = document.getElementById('projectsPage')
   projectPage = document.getElementById('projectPage')
@@ -12,13 +10,7 @@ class Store {
 
   password = ''
   project = {}
-  text = {}
   user = {}
-  path = ''
-
-  present() {
-    return 'Myname is ' + this.name
-  }
 }
 
 export default new Store()

@@ -4,22 +4,18 @@
   <head>
     <meta charset="utf-8" />
 
-    <title>LableIt - Projects</title>
+    <title>Lableit - Projects</title>
     <meta name="description" content="Anonmize and annotate text" />
-    <meta name="author" content="Mirobit" />
+    <meta name="author" content="Michael Rotarius" />
 
-    <link
-      rel="shortcut icon"
-      type="image/x-icon"
-      href="../images/favicon.ico"
-    />
+    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
 
-    <link rel="stylesheet" href="../vendor/argon-design-system-react.css" />
+    <link rel="stylesheet" href="/vendor/argon-design-system-react.css" />
     <link
       rel="stylesheet"
-      href="../vendor/font-awesome/css/font-awesome.min.css"
+      href="/vendor/font-awesome/css/font-awesome.min.css"
     />
-    <link rel="stylesheet" href="../css/styles.css" />
+    <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
     <nav
@@ -123,7 +119,7 @@
             <button
               type="button"
               class="btn btn-primary"
-              onclick="window.run.createProject()"
+              onclick="projectsFuncs.createProject()"
             >
               Create Project
             </button>
@@ -148,7 +144,7 @@
                     type="button"
                     class="btn btn-outline-primary btn-sm"
                     style="float: right; margin-left: auto;"
-                    onclick="window.project.showProjectForm()"
+                    onclick="projectFuncs.showProjectForm()"
                   >
                     Edit
                   </button>
@@ -175,7 +171,7 @@
                     type="button"
                     class="btn btn-primary btn-sm"
                     id="updateProject"
-                    onclick="window.project.updateProject()"
+                    onclick="projectFuncs.updateProject()"
                   >
                     Update
                   </button>
@@ -196,7 +192,7 @@
                       type="button"
                       class="btn btn-secondary btn-sm"
                       id="exportTexts"
-                      onclick="window.project.exportTexts()"
+                      onclick="projectFuncs.exportTexts()"
                     >
                       Export
                     </button>
@@ -205,7 +201,7 @@
                         type="button"
                         class="btn btn-danger btn-sm"
                         id="removeCategory"
-                        onclick="window.project.removeProject()"
+                        onclick="projectFuncs.removeProject()"
                       >
                         <span
                           class="fa fa-trash-o fa-lg"
@@ -225,7 +221,7 @@
                     type="button"
                     class="btn btn-outline-primary btn-sm"
                     style="float: right; margin-left: auto;"
-                    onclick="window.project.showNewCategory()"
+                    onclick="projectFuncs.showNewCategory()"
                   >
                     New
                   </button>
@@ -283,7 +279,7 @@
                       type="button"
                       class="btn btn-primary btn-sm"
                       id="submitCategory"
-                      onclick="window.project.addCategory()"
+                      onclick="projectFuncs.addCategory()"
                     >
                       Add
                     </button>
@@ -302,7 +298,7 @@
                     type="button"
                     class="btn btn-outline-primary btn-sm"
                     style="float: right; margin-left: auto;"
-                    onclick="window.project.checkTexts()"
+                    onclick="projectFuncs.checkTexts()"
                   >
                     Check
                   </button>
@@ -321,14 +317,14 @@
               <div
                 id="texteditor"
                 class="texteditor"
-                onclick="window.editor.clickWord()"
+                onclick="textFuncs.clickWord()"
               ></div>
               <div class="save">
                 <button
                   id="savetext"
                   type="button"
                   class="btn btn-primary"
-                  onclick="window.editor.updateText()"
+                  onclick="textFuncs.updateText()"
                 >
                   Save
                 </button>
@@ -336,7 +332,7 @@
             </div>
 
             <div>
-              <div id="labelmenu"></div>
+              <div id="categorymenu"></div>
               <div class="pagination">
                 <button type="button" class="btn btn-outline-grey btn-sm">
                   <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev
@@ -367,7 +363,7 @@
               type="button"
               class="btn btn-primary"
               id="submitPassword"
-              onclick="window.run.submitPassword()"
+              onclick="passwordFuncs.submitPassword()"
             >
               <i class="fa fa-unlock-alt fa-lg" style="margin-right: 10px;"></i
               >Submit
@@ -376,17 +372,25 @@
         </div>
       </div>
     </div>
-    <script src="../js/vendor/jquery-3.4.1.slim.min.js"></script>
-    <script src="../js/vendor/bootstrap.bundle.min.js"></script>
+    <script src="/vendor/bootstrap/jquery-3.4.1.slim.min.js"></script>
+    <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module">
       // Init
       const t0 = performance.now()
-
-      import * as run from '../js/index.js'
+      import {
+        init,
+        projectsFuncs,
+        projectFuncs,
+        textFuncs,
+        passwordFuncs,
+      } from '/js/index.js'
       // instead of alias
       //Object.entries(exports).forEach(([name, exported]) => window[name] = exported);
-      window.run = run
-      run.init()
+      window.projectFuncs = projectFuncs
+      window.projectsFuncs = projectsFuncs
+      window.textFuncs = textFuncs
+      window.passwordFuncs = passwordFuncs
+      init()
 
       const t1 = performance.now()
       console.log('Init ' + (t1 - t0) + ' milliseconds.')

@@ -20,12 +20,16 @@ const initTextPage = async (nextTextId) => {
     textId = url.match(regex)[1]
   } else {
     textId = nextTextId
-    history.pushState(null, '', `/text/${textId}`)
+    history.pushState(
+      null,
+      '',
+      `/projects/${Store.project.name}/text/${textId}`
+    )
     newWords.length = 0
   }
 
   const result = await sendData(`/texts/${textId}/load`, 'POST', {
-    password,
+    password: Store.password,
   })
   console.log(result)
 
@@ -46,15 +50,15 @@ const initTextPage = async (nextTextId) => {
     displayMessage(false, 'Could not load text')
   }
 
-  // Create label menu
+  // Create category menu
   categories = result.categories
-  const labelMenu = document.getElementById('labelmenu')
-  let labelMenuHTML = ''
+  const categoryMenu = document.getElementById('categorymenu')
+  let categoryMenuHTML = ''
   categories.forEach((category) => {
-    labelMenuHTML += `<div class="labelButton"><button type="button" class="btn btn-${category.color}" onclick="window.editor.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
+    categoryMenuHTML += `<div class="categoryButton"><button type="button" class="btn btn-${category.color}" onclick="textFuncs.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
     `
   })
-  labelMenu.innerHTML = labelMenuHTML
+  categoryMenu.innerHTML = categoryMenuHTML
 
   // Init key event listener
   document.addEventListener('keyup', (event) => addLabel(event.key))
@@ -165,7 +169,7 @@ const addLabel = (key) => {
     label.colorHex +
     '">' +
     label.name +
-    '</span><span class="confirm" onclick="window.editor.confirmLabel(this)"></span><span class="remove" onclick="window.editor.removeLabel(this)"></span></span>'
+    '</span><span class="confirm" onclick="textFuncs.confirmLabel(this)"></span><span class="remove" onclick="textFuncs.removeLabel(this)"></span></span>'
   textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(
     new RegExp('(?![^<]*>)\\b' + selected + '\\b((?!<\\/span))', 'g'),
     confirmHTML
@@ -174,7 +178,7 @@ const addLabel = (key) => {
   // No working -> spanRemove.onclick = () => removeLabel(spanRemove)
   textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(
     new RegExp('<span class="removeInit"></span>', 'g'),
-    '<span class="remove" onclick="window.editor.removeLabel(this)"></span>'
+    '<span class="remove" onclick="textFuncs.removeLabel(this)"></span>'
   )
 
   // Add word to wordlist

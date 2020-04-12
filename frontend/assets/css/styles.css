@@ -78,10 +78,10 @@ body {
 .save {
   margin-top: 20px;
 }
-.labelButton {
+.categoryButton {
   margin-bottom: 12px;
 }
-.labelButton > :last-child {
+.categoryButton > :last-child {
   margin-bottom: 0 !important;
 }
 .projectcard {
@@ -122,14 +122,14 @@ body {
   max-width: 400px;
   margin-top: 20px;
 }
-#labelmenu {
+#categorymenu {
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   border-radius: 2px;
   background-color: white;
   margin-left: 20px;
   padding: 15px;
 }
-#labelmenu > :last-child {
+#categorymenu > :last-child {
   margin-bottom: 0 !important;
 }
 #texteditor {

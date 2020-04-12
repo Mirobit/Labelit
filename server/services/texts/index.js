@@ -16,7 +16,7 @@ const checkWorldlist = (contentHtml, words, categories, password) => {
       categoriesMap.get(String(word.category)).colorHex
     }">${
       categoriesMap.get(String(word.category)).name
-    }</span><span class="confirm" onclick="window.editor.confirmLabel(this)"></span><span class="remove" onclick="window.editor.removeLabel(this)"></span></span>`
+    }</span><span class="confirm" onclick="textFuncs.confirmLabel(this)"></span><span class="remove" onclick="textFuncs.removeLabel(this)"></span></span>`
     contentHtml = contentHtml.replace(
       new RegExp('(?![^<]*>)\\b' + str + '\\b((?!<\\/span))', 'g'),
       () => {

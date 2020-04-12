@@ -66,6 +66,7 @@ const remove = async (id) => {
 }
 
 const checkPassword = async (projectName, password, projectPassword) => {
+  console.log('pn', projectName)
   if (projectPassword === undefined) {
     projectPassword = (
       await Project.findOne({ name: projectName }).select('+password')
