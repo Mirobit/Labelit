@@ -15,7 +15,7 @@ const initProjectPage = async () => {
   Store.project = result.project
 
   document.getElementById(
-    'navPathHeader'
+    'navPathHeaderProject'
   ).innerHTML = `<a href="/projects">Projects</a> > ${Store.project.name}`
 
   document.getElementById('projectDescription').innerText =

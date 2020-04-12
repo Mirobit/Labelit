@@ -16,6 +16,9 @@ body {
   color: white;
   justify-content: flex-start !important;
 }
+.navPath {
+  margin-bottom: 10px;
+}
 
 #headerText {
   color: white;
@@ -85,8 +88,10 @@ body {
   margin-bottom: 0 !important;
 }
 .projectcard {
-  margin-top: 20px;
+  margin-bottom: 15px;
+  width: 23rem;
 }
+
 .form-control-sm {
   margin-bottom: 10px;
   margin-right: 10px;

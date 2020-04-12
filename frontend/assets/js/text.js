@@ -39,13 +39,13 @@ const initTextPage = async (nextTextId) => {
       Store.project = result.project
     }
     document.getElementById(
-      'navPathHeader'
+      'navPathHeaderText'
     ).innerHTML = `<a href="/projects">Projects</a> > <a href="/projects/${Store.project.name}">${Store.project.name}</a> > ${result.textName}`
     textEditiorDiv.innerHTML = result.contentHtml
   } else {
     textEditiorDiv.innerHTML = ''
     document.getElementById(
-      'navPathHeader'
+      'navPathHeaderText'
     ).innerHTML = `<a href="/projects">Projects</a> > <a href="/projects">Unkown</a> > ${textId}`
     displayMessage(false, 'Could not load text')
   }
@@ -221,13 +221,13 @@ const updateText = async () => {
     textRaw: textEditiorDiv.innerText,
     htmlText: textEditiorDiv.innerHTML,
     textId: textId,
-    projectId: projectId,
+    projectId: Store.project._id,
     newWords,
-    password,
+    password: Store.password,
   })
   if (result.status === true) {
     closeMessage()
-    initTextEditor(result.nextTextId)
+    initTextPage(result.nextTextId)
   } else {
     displayMessage(false, 'Could not update text')
   }
