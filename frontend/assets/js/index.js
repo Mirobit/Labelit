@@ -5,9 +5,8 @@ import * as projectsFuncs from './components/projects.js'
 import Store from './store.js'
 
 const switchPage = async (oldPage, newUrl) => {
+  closeMessage()
   oldPage.hidden = true
-  //newPage.hidden = false
-  console.log('switching from', oldPage, ' to ', newUrl)
   history.pushState(null, '', newUrl)
   init()
 }
@@ -52,8 +51,13 @@ const displayMessage = (success, message) => {
   }
 }
 
+const closeMessage = () => {
+  document.getElementById('message').innerHTML = ''
+}
+
 export {
   displayMessage,
+  closeMessage,
   switchPage,
   init,
   projectsFuncs,

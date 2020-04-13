@@ -1,5 +1,5 @@
-import { sendData } from '../api.js'
-import { switchPage, displayMessage } from '../index.js'
+import { sendData, getData } from '../api.js'
+import { switchPage, displayMessage, closeMessage } from '../index.js'
 import Store from '../store.js'
 
 // global vars
@@ -27,16 +27,16 @@ const initTextPage = async (nextTextId) => {
     )
     newWords.length = 0
   }
-
+  console.log('pw', Store.password)
   const result = await sendData(`/texts/${textId}/load`, 'POST', {
     password: Store.password,
   })
-  console.log(result)
+  console.log('result', result)
 
   // Place text
   if (result.status === true) {
-    if (Store.project.name === undefined) {
-      Store.project = result.project
+    if (Store.project._id === undefined) {
+      Store.project._id = result.projectId
     }
     document.getElementById(
       'navPathHeaderText'
@@ -204,12 +204,25 @@ const removeLabel = (element) => {
   textEditiorDiv.insertBefore(document.createTextNode(originalWord), parent)
   parent.remove()
   textEditiorDiv.normalize()
-  //window.getSelection().removeAllRanges()
 }
 
 const removeWord = (word) => {
+  // TODO don't add duplicates to db
   //newWords = newWords.filter(newWord => new.Word.hash !== hashWord(word))
   newWords = newWords.filter((newWord) => newWord.str !== word)
+}
+
+const getNextText = async (prev = false) => {
+  console.log(Store.project)
+  const result = await getData(
+    `/texts/next/${textId}/${Store.project._id}/${prev}`
+  )
+  if (result.status === true) {
+    closeMessage()
+    initTextPage(result.textId)
+  } else {
+    displayMessage(false, `Could not load ${prev ? 'previous' : 'next'} text`)
+  }
 }
 
 const updateText = async () => {
@@ -217,10 +230,9 @@ const updateText = async () => {
     displayMessage(false, 'Can not save before all elements are confirmed')
     return
   }
-  const result = await sendData('/texts', 'PUT', {
+  const result = await sendData(`/texts/${textId}`, 'PUT', {
     textRaw: textEditiorDiv.innerText,
     htmlText: textEditiorDiv.innerHTML,
-    textId: textId,
     projectId: Store.project._id,
     newWords,
     password: Store.password,
@@ -233,10 +245,6 @@ const updateText = async () => {
   }
 }
 
-const closeMessage = () => {
-  document.getElementById('message').innerHTML = ''
-}
-
 export {
   removeLabel,
   confirmLabel,
@@ -244,4 +252,5 @@ export {
   clickWord,
   initTextPage,
   updateText,
+  getNextText,
 }

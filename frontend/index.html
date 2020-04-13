@@ -333,10 +333,18 @@
             <div>
               <div id="categorymenu"></div>
               <div class="pagination">
-                <button type="button" class="btn btn-outline-grey btn-sm">
+                <button
+                  type="button"
+                  class="btn btn-outline-grey btn-sm"
+                  onclick="textFuncs.getNextText(true)"
+                >
                   <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev
                 </button>
-                <button type="button" class="btn btn-outline-grey btn-sm">
+                <button
+                  type="button"
+                  class="btn btn-outline-grey btn-sm"
+                  onclick="textFuncs.getNextText()"
+                >
                   Next <i class="fa fa-chevron-right" aria-hidden="true"></i>
                 </button>
               </div>
@@ -372,7 +380,7 @@
       </div>
       <div id="message"></div>
       <div class="footer">
-        © 2020 <a href="https://github.com/mirobit/labelit">Labelit</a>
+        © 2020 <a href="https://github.com/mirobit/labelit">Labelit</a> v0.1.0
       </div>
     </div>
 

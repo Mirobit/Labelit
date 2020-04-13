@@ -15,13 +15,31 @@ router.post('/:textId/load', async (req, res) => {
   }
 })
 
+// Next/prev textId
+router.get('/next/:textId/:projectId/:prev', async (req, res) => {
+  try {
+    const textId = await textsService.getNext(
+      req.params.textId,
+      req.params.projectId,
+      req.params.prev
+    )
+    res.json({
+      status: true,
+      textId,
+    })
+  } catch (error) {
+    console.log(error)
+    res.json({ status: false })
+  }
+})
+
 // Update text
-router.put('/', async (req, res) => {
+router.put('/:textId', async (req, res) => {
   try {
     const result = await textsService.update(
       req.body.textRaw,
       req.body.htmlText,
-      req.body.textId,
+      req.params.textId,
       req.body.projectId,
       req.body.user,
       req.body.newWords,

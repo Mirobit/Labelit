@@ -47,6 +47,7 @@ const load = async (textId, password) => {
     )
     return {
       textName: data.name,
+      projectId: data.project._id,
       contentHtml,
       categories: data.project.categories,
     }
@@ -54,6 +55,35 @@ const load = async (textId, password) => {
     console.log(error)
     throw new Error(error.message)
   }
+}
+
+const getNext = async (textId, projectId, prev) => {
+  console.log('previs', typeof prev, prev)
+  if (prev == 'true') {
+    console.log('in prev')
+    nextText = await Text.findOne({
+      project: projectId,
+      _id: { $lt: textId },
+    })
+      .sort({ _id: -1 })
+      .select('_id')
+  } else {
+    console.log('in next')
+    nextText = await Text.findOne({
+      project: projectId,
+      _id: { $gt: textId },
+    }).select('_id')
+  }
+
+  if (nextText === null) {
+    console.log('end&beginning of texts')
+    const sortBy = prev ? -1 : 1
+    nextText = await Text.findOne({ project: projectId })
+      .sort({ _id: sortBy })
+      .select('_id')
+  }
+
+  return nextText._id
 }
 
 const list = async (projectId) => {
@@ -105,7 +135,6 @@ const update = async (
     await Project.findOneAndUpdate(
       { _id: projectId },
       {
-        $inc: { textUpdatedCount: 1 },
         $push: { words: newWords },
       },
       {
@@ -187,4 +216,13 @@ const exportAll = async (projectId, projectName, folderPath, password) => {
   }
 }
 
-module.exports = { list, create, update, remove, load, exportAll, checkAll }
+module.exports = {
+  list,
+  create,
+  update,
+  remove,
+  load,
+  getNext,
+  exportAll,
+  checkAll,
+}

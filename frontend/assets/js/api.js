@@ -1,13 +1,4 @@
-import { switchPage } from './index.js'
 const BASE_URL = window.location.origin
-
-console.log('api imported')
-let counter = 0
-
-const increase = (pp) => {
-  //switchPage(projectsPage, pp, '/projects/test2')
-  counter++
-}
 
 const sendData = async (endpoint, type, data) => {
   const url = BASE_URL + '/api' + endpoint
@@ -44,4 +35,4 @@ const handleError = (result) => {
   }
 }
 
-export { sendData, getData, increase }
+export { sendData, getData }
