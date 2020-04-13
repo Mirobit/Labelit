@@ -1,7 +1,8 @@
 # Labelit
 
 Labelit is a tool to anonymize data. Just create a project, import your data (text), create categories and start replacing sensitive information with predefined words.
-![](https://i.imgur.com/KPORvW1.png)
+
+<img src="https://i.imgur.com/KPORvW1.png" width="400">
 
 **Warning:** The software is still in development and currently only works in a local enviroment.
 
