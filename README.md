@@ -1,7 +1,8 @@
 # Labelit
 
 Labelit is a tool to anonymize data. Just create a project, import your data (text), create categories and start replacing sensitive information with predefined words.
-**Warning** The software is still in development and currently only works in a local enviroment.
+
+**Warning:** The software is still in development and currently only works in a local enviroment.
 
 ## Installation
 
@@ -18,6 +19,12 @@ $ cd labelit
 $ npm install
 ```
 
+To start the app, simply run:
+
+```bash
+$ npm start
+```
+
 Go to your browser and enter `http://localhost:8000/`
 
 ## Features
@@ -30,7 +37,7 @@ Go to your browser and enter `http://localhost:8000/`
 ## TODO
 
 - User system (inclusive CSRF protection)
-- Be able to host app on remote server and upload text data
+- Be able to host server remotely and upload text data
 - Enable to classification of texts (for ML)
 - Better error handling
 - Subfolder support
