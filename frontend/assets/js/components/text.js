@@ -55,7 +55,7 @@ const initTextPage = async (nextTextId) => {
   const categoryMenu = document.getElementById('categorymenu')
   let categoryMenuHTML = ''
   categories.forEach((category) => {
-    categoryMenuHTML += `<div class="categoryButton"><button type="button" class="btn btn-${category.color}" onclick="textFuncs.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
+    categoryMenuHTML += `<div class="categoryButton"><button type="button" class="btn btn-${category.color} btn-sm" onclick="textFuncs.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
     `
   })
   categoryMenu.innerHTML = categoryMenuHTML
