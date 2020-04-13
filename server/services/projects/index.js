@@ -59,7 +59,9 @@ const update = async (id, data) => {
 
 const remove = async (id) => {
   try {
-    return await Project.findOneAndDelete({ _id: id })
+    await Project.findOneAndDelete({ _id: id })
+    await Text.deleteMany({ project: id })
+    return
   } catch (error) {
     throw new Error(error.message)
   }
