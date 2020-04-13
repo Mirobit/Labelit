@@ -37,11 +37,11 @@ const openProject = (projectName) => {
 }
 
 const createProject = async () => {
-  const name = document.getElementById('name').value
-  const description = document.getElementById('description').value
-  const folderPath = document.getElementById('folderPath').value
-  const passwordEl = document.getElementById('password')
-  const passwordRepeatEl = document.getElementById('passwordRepeat')
+  const name = document.getElementById('nameNew').value
+  const description = document.getElementById('descriptionNew').value
+  const passwordEl = document.getElementById('passwordNew')
+  const passwordRepeatEl = document.getElementById('passwordRepeatNew')
+  const folderPath = document.getElementById('folderPathNew').value
 
   if (passwordEl.value !== passwordRepeatEl.value) {
     passwordEl.classList.add('is-invalid')
@@ -60,15 +60,15 @@ const createProject = async () => {
     name,
     description,
     folderPath,
-    password: password.value,
+    password: passwordEl.value,
   })
   if (result.status === true) {
-    document.getElementById('name').value = ''
-    document.getElementById('description').value = ''
-    document.getElementById('folderPath').value = ''
-    document.getElementById('password').value = ''
-    document.getElementById('passwordRepeat').value = ''
-    initProjectList()
+    document.getElementById('nameNew').value = ''
+    document.getElementById('descriptionNew').value = ''
+    document.getElementById('passwordNew').value = ''
+    document.getElementById('passwordRepeatNew').value = ''
+    document.getElementById('folderPathNew').value = ''
+    initProjectsPage()
     displayMessage(result.status, 'Project successfully created')
   } else {
     displayMessage(result.status, 'Could not create project')

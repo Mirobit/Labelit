@@ -9,7 +9,7 @@ const initPasswordPage = (goUrl) => {
   goNext = goUrl
   if (Store.project.name === undefined) {
     const pathArr = window.location.pathname.split('/')
-    Store.project.name = pathArr[2]
+    Store.project.name = decodeURI(pathArr[2])
   }
   document.getElementById(
     'projectNamePassword'
