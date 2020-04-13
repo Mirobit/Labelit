@@ -12,12 +12,11 @@ const switchPage = async (oldPage, newUrl) => {
 }
 
 const init = async () => {
-  // console.log(window['projectsPage'])
-  console.log('init')
+  // window['projectsPage']
   const route = window.location.pathname
   if (route === '/') {
     // TODO index page
-    console.log('render index')
+    projectsFuncs.initProjectsPage()
   } else if (route === '/projects') {
     projectsFuncs.initProjectsPage()
   } else if (route.includes('/text/')) {

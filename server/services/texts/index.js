@@ -58,9 +58,7 @@ const load = async (textId, password) => {
 }
 
 const getNext = async (textId, projectId, prev) => {
-  console.log('previs', typeof prev, prev)
   if (prev == 'true') {
-    console.log('in prev')
     nextText = await Text.findOne({
       project: projectId,
       _id: { $lt: textId },
@@ -68,7 +66,6 @@ const getNext = async (textId, projectId, prev) => {
       .sort({ _id: -1 })
       .select('_id')
   } else {
-    console.log('in next')
     nextText = await Text.findOne({
       project: projectId,
       _id: { $gt: textId },
@@ -76,7 +73,6 @@ const getNext = async (textId, projectId, prev) => {
   }
 
   if (nextText === null) {
-    console.log('end&beginning of texts')
     const sortBy = prev ? -1 : 1
     nextText = await Text.findOne({ project: projectId })
       .sort({ _id: sortBy })
@@ -168,9 +164,9 @@ const remove = async (id) => {
 const checkAll = async (projectId, password) => {
   let totalHits = 0
   const project = await Project.findById(projectId).select(
-    'password words categories'
+    'password words categories name'
   )
-  if (!(await checkPassword(projectId, password, project.password))) {
+  if (!(await checkPassword(project.name, password, project.password))) {
     throw new Error('Invalid password')
   }
   const texts = await Text.find({ project: projectId }).select(
@@ -205,7 +201,7 @@ const checkAll = async (projectId, password) => {
 
 const exportAll = async (projectId, projectName, folderPath, password) => {
   try {
-    if (!(await checkPassword(projectId, password))) return false
+    if (!(await checkPassword(projectName, password))) return false
     const texts = await Text.find({ project: projectId }).select(
       'name contentEncSaved status'
     )

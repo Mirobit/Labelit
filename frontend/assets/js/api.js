@@ -17,7 +17,6 @@ const sendData = async (endpoint, type, data) => {
 
 const getData = async (endpoint) => {
   const url = BASE_URL + '/api' + endpoint
-  console.log(url)
   const options = {
     method: 'GET',
     headers: {

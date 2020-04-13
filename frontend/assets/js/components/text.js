@@ -27,11 +27,9 @@ const initTextPage = async (nextTextId) => {
     )
     newWords.length = 0
   }
-  console.log('pw', Store.password)
   const result = await sendData(`/texts/${textId}/load`, 'POST', {
     password: Store.password,
   })
-  console.log('result', result)
 
   // Place text
   if (result.status === true) {
@@ -213,7 +211,6 @@ const removeWord = (word) => {
 }
 
 const getNextText = async (prev = false) => {
-  console.log(Store.project)
   const result = await getData(
     `/texts/next/${textId}/${Store.project._id}/${prev}`
   )

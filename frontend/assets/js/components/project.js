@@ -56,7 +56,6 @@ const initProjectPage = async () => {
 }
 
 const openText = (textId) => {
-  console.log('opentext')
   switchPage(
     Store.projectPage,
     `/projects/${encodeURI(Store.project.name)}/text/${textId}`
@@ -145,7 +144,7 @@ const showEditCategory = async (categoryId, node) => {
   })
   node.nextSibling.hidden = false
   document.getElementById('categoryForm').hidden = false
-  const category = project.categories.find(
+  const category = Store.project.categories.find(
     (category) => category._id === categoryId
   )
   const button = document.getElementById('submitCategory')
@@ -153,7 +152,6 @@ const showEditCategory = async (categoryId, node) => {
   document.getElementById('categoryKey').value = category.key
   document.getElementById('categoryColor').value =
     category.color + ',' + category.colorHex
-  console.log(document.getElementById('categoryColor').value)
   button.innerText = 'Update'
   button.onclick = () => projectFuncs.updateCategory(categoryId)
 }
@@ -204,7 +202,7 @@ const removeCategory = async (categoryId) => {
 const checkTexts = async () => {
   const result = await sendData(`/texts/check`, 'POST', {
     projectId: Store.project._id,
-    password: document.getElementById('projectPasswordC').value,
+    password: Store.password,
   })
 
   if (result.status === true) {
@@ -217,17 +215,14 @@ const checkTexts = async () => {
 
 const exportTexts = async () => {
   const folderPath = document.getElementById('exportPath').value
-  const password = document.getElementById('projectPasswordE').value
   if (folderPath === '') {
     displayMessage(false, 'Export path can not be empty')
-  } else if (password === '') {
-    displayMessage(false, 'Password can not be empty')
   }
   const result = await sendData(`/texts/export`, 'POST', {
     projectId: Store.project._id,
     projectName: Store.project.name,
     folderPath,
-    password,
+    password: Store.password,
   })
 
   if (result.status === true) {
@@ -235,9 +230,9 @@ const exportTexts = async () => {
       displayMessage(false, 'Invalid project password')
       return
     }
-    displayMessage(result.status, 'Category successfully updated')
+    displayMessage(result.status, 'Text files successfully exported')
   } else {
-    displayMessage(result.status, 'Could not create update category')
+    displayMessage(result.status, 'Could not export text files')
   }
 }
 

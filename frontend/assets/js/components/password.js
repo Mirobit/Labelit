@@ -29,7 +29,6 @@ const submitPassword = async () => {
     return
   }
   Store.password = passwordDiv.value
-  console.log('setting pw', Store.password)
   document.removeEventListener('keyup', handleEnterPassword)
   switchPage(Store.passwordPage, goNext)
 }

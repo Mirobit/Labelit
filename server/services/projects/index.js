@@ -46,7 +46,6 @@ const create = async (data) => {
 
 const update = async (id, data) => {
   try {
-    console.log(data)
     await Project.findOneAndUpdate({ _id: id }, data, {
       new: true,
       runValidators: true,

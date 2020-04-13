@@ -50,7 +50,7 @@ const write = async (folderPath, projectName, texts, password) => {
   const totalPath = path.join(folderPath, `LabeliT - ${projectName}`)
   await fs.mkdir(totalPath, { recursive: true })
   for (const text of texts) {
-    if (text.status !== 'confirmed') return
+    if (text.status !== 'confirmed') continue
     fs.writeFile(
       path.join(totalPath, text.name),
       decrypt(text.contentEncSaved, password)
