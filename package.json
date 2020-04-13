@@ -20,12 +20,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Mirobit/LableIt.git"
+    "url": "git+https://github.com/mirobit/labelit"
   },
   "author": "Michael Rotarius",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Mirobit/LableIt/issues"
+    "url": "https://github.com/mirobit/labelit/issues"
   },
-  "homepage": "https://github.com/Mirobit/LableIt#readme"
+  "homepage": "https://github.com/mirobit/labelit#readme"
 }
