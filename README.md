@@ -4,7 +4,7 @@ Labelit is a tool to anonymize data. Just create a project, import your data (te
 
 **Warning:** The software is still in development and currently only works in a local enviroment. Do not use it on a remote server, there is no fileupload yet.
 
-<img src="https://i.imgur.com/KPORvW1.png" width="400">
+<img src="https://i.imgur.com/JduLdHt.png" width="400" style="margin-left: 20px"><img src="https://i.imgur.com/OY3MABj.png" width="400" style="margin-left: 20px">
 
 ## Installation
 
@@ -38,7 +38,7 @@ Go to your browser and enter `http://localhost:8000/`
 - Easy to use texteditor: single click selection, keyboard shortcuts and duplicate detection
 - All texts can be checked against previously found sensitive words (project based wordlist)
 - Lightweight single-page application (no heavy frontend framework -> 12 vs ~80 mb, 126 vs ~2400 dependencies)
-- Not a feature more a warning: ES6 -> does not work in IE11
+- Not a feature more a warning: ES6 -> does not work in IE11 (webpack, babel not necessary)
 
 ## TODO
 
