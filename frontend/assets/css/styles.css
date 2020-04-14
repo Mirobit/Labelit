@@ -1,5 +1,8 @@
 body {
   background-color: #f3f3f3;
+  width: 100vw;
+  margin: 0;
+  padding: 0;
 }
 .inline {
   display: flex;
@@ -8,7 +11,9 @@ body {
 .middle {
   vertical-align: middle;
 }
-
+.wrapper {
+  min-height: calc(100vh - 70px);
+}
 .mainContent {
   margin-top: 30px;
 }
@@ -18,12 +23,6 @@ body {
 }
 .navPath {
   margin-bottom: 10px;
-}
-
-#headerText {
-  color: white;
-  font-size: 20px;
-  font-weight: 600;
 }
 .subHeader {
   font-weight: bold;
@@ -91,7 +90,6 @@ body {
   margin-bottom: 15px;
   width: 23rem;
 }
-
 .form-control-sm {
   margin-bottom: 10px;
   margin-right: 10px;
@@ -117,17 +115,23 @@ body {
   box-shadow: 0 0 0 0 rgba(94, 114, 228, 0.5);
 }
 .footer {
-  margin-bottom: 20px;
+  height: 50px;
   float: right;
+  padding-right: 10%;
   font-size: 13px;
   color: #95989b;
-  height: 2.5rem; /* Footer height */
+  height: 2.5rem;
 }
 .link {
   color: #5e72e4;
   cursor: pointer;
 }
 
+#headerText {
+  color: white;
+  font-size: 20px;
+  font-weight: 600;
+}
 #content {
   margin-left: 10%;
   margin-top: 75px;

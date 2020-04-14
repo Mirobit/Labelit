@@ -18,376 +18,381 @@
     <link rel="stylesheet" href="/css/styles.css" />
   </head>
   <body>
-    <nav
-      class="navbar-horizontal navbar-dark bg-default navbar navbar-expand-lg"
-    >
-      <div class="container navBar">
-        <i class="fa fa-file-text-o fa-lg" style="margin-right: 10px;"></i>
-        <span id="headerText">Labelit</span>
-      </div>
-    </nav>
-    <div class="container mainContent">
-      <div id="projectsPage" class="row" hidden>
-        <div class="col-5">
-          <div class="subHeader">New Project</div>
-          <form>
-            <div class="row form-bottom">
-              <div class="col-6">
-                <input
-                  type="text"
-                  class="form-control-alternative form-control"
-                  placeholder="Name"
-                  maxlength="50"
-                  id="nameNew"
-                  aria-describedby="nameHelp"
-                />
-                <small id="nameHelp" class="form-text text-muted"
-                  >Unique project name</small
-                >
-              </div>
-
-              <div class="col-6">
-                <input
-                  type="text"
-                  class="form-control-alternative form-control"
-                  placeholder="Description"
-                  id="descriptionNew"
-                  aria-describedby="descriptionHelp"
-                />
-                <small id="descriptionHelp" class="form-text text-muted"
-                  >Addtional project description</small
-                >
-              </div>
-            </div>
-            <div class="row form-bottom">
-              <div class="col-6">
-                <input
-                  type="password"
-                  placeholder="Password"
-                  class="form-control-alternative form-control"
-                  id="passwordNew"
-                  aria-describedby="passwordHelp"
-                />
-              </div>
-              <div class="col-6">
-                <input
-                  type="password"
-                  placeholder="Repeat password"
-                  class="form-control-alternative form-control"
-                  id="passwordRepeatNew"
-                  aria-describedby="passwordHelp"
-                />
-              </div>
-              <div class="col-12">
-                <small id="passwordHelp" class="form-text text-muted"
-                  >The password is used to store all texts encrypted in the
-                  db</small
-                >
-              </div>
-            </div>
-            <div class="row form-bottom">
-              <div class="col-12">
-                <input
-                  type="text"
-                  class="form-control-alternative form-control"
-                  id="folderPathNew"
-                  placeholder="C:\projectfolder"
-                  aria-describedby="folderPathHelp"
-                />
-                <small id="folderPathHelp" class="form-text text-muted"
-                  >Path to the folder with the .txt files</small
-                >
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-8">
-                <div class="custom-control custom-checkbox mb-3">
+    <div class="wrapper">
+      <nav
+        class="navbar-horizontal navbar-dark bg-default navbar navbar-expand-lg"
+      >
+        <div class="container navBar">
+          <i class="fa fa-file-text-o fa-lg" style="margin-right: 10px;"></i>
+          <span id="headerText">Labelit</span>
+        </div>
+      </nav>
+      <div class="container mainContent">
+        <div id="projectsPage" class="row" hidden>
+          <div class="col-5">
+            <div class="subHeader">New Project</div>
+            <form>
+              <div class="row form-bottom">
+                <div class="col-6">
                   <input
-                    class="custom-control-input"
-                    id="customCheck1"
-                    type="checkbox"
-                  /><label
-                    class="custom-control-label text-muted"
-                    for="customCheck1"
-                    >Enable classification of tetxs</label
+                    type="text"
+                    class="form-control-alternative form-control"
+                    placeholder="Name"
+                    maxlength="50"
+                    id="nameNew"
+                    aria-describedby="nameHelp"
+                  />
+                  <small id="nameHelp" class="form-text text-muted"
+                    >Unique project name</small
+                  >
+                </div>
+
+                <div class="col-6">
+                  <input
+                    type="text"
+                    class="form-control-alternative form-control"
+                    placeholder="Description"
+                    id="descriptionNew"
+                    aria-describedby="descriptionHelp"
+                  />
+                  <small id="descriptionHelp" class="form-text text-muted"
+                    >Addtional project description</small
                   >
                 </div>
               </div>
-              <div class="col-6">
-                <!-- empty for now -->
+              <div class="row form-bottom">
+                <div class="col-6">
+                  <input
+                    type="password"
+                    placeholder="Password"
+                    class="form-control-alternative form-control"
+                    id="passwordNew"
+                    aria-describedby="passwordHelp"
+                  />
+                </div>
+                <div class="col-6">
+                  <input
+                    type="password"
+                    placeholder="Repeat password"
+                    class="form-control-alternative form-control"
+                    id="passwordRepeatNew"
+                    aria-describedby="passwordHelp"
+                  />
+                </div>
+                <div class="col-12">
+                  <small id="passwordHelp" class="form-text text-muted"
+                    >The password is used to store all texts encrypted in the
+                    db</small
+                  >
+                </div>
               </div>
-            </div>
-            <button
-              type="button"
-              class="btn btn-primary"
-              onclick="projectsFuncs.createProject()"
-            >
-              Create Project
-            </button>
-          </form>
-        </div>
-        <div class="col-1"></div>
-        <div class="col-4">
-          <div class="subHeader">List of Projects</div>
-          <div id="projectlist"></div>
-        </div>
-      </div>
-      <div id="projectPage" hidden>
-        <div id="navPathHeaderProject" class="navPath"></div>
-        <div class="row">
-          <div class="col-5" style="margin-right: 0;">
-            <div class="card projectcard">
-              <div class="card-body">
-                <span class="inline">
-                  <div class="subHeader">Information</div>
-                  <button
-                    type="button"
-                    class="btn btn-outline-primary btn-sm"
-                    style="float: right; margin-left: auto;"
-                    onclick="projectFuncs.showProjectForm()"
+              <div class="row form-bottom">
+                <div class="col-12">
+                  <input
+                    type="text"
+                    class="form-control-alternative form-control"
+                    id="folderPathNew"
+                    placeholder="C:\projectfolder"
+                    aria-describedby="folderPathHelp"
+                  />
+                  <small id="folderPathHelp" class="form-text text-muted"
+                    >Path to the folder with the .txt files</small
                   >
-                    Edit
-                  </button>
-                </span>
-
-                <form id="projectForm" class="form-bottom" hidden>
-                  <span class="inline">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-8">
+                  <div class="custom-control custom-checkbox mb-3">
                     <input
-                      type="text"
-                      class="form-control form-control-sm form-control-alternative"
-                      placeholder="Name of project"
-                      id="projectNameInput"
-                      style="width: 135px;"
-                    />
-                    <input
-                      type="text"
-                      class="form-control form-control-sm form-control-alternative"
-                      placeholder="Project description"
-                      id="projectDescriptionInput"
-                      style="width: 135px;"
-                    />
-                  </span>
-                  <button
-                    type="button"
-                    class="btn btn-primary btn-sm"
-                    id="updateProject"
-                    onclick="projectFuncs.updateProject()"
-                  >
-                    Update
-                  </button>
-                </form>
-                <div id="projectDescription"></div>
-                <div id="projectProgress"></div>
-                <div class="row">
-                  <div class="inline" style="padding-left: 15px;">
-                    <input
-                      type="text"
-                      class="form-control form-control-sm form-control-alternative"
-                      placeholder="Export path"
-                      id="exportPath"
-                      style="width: 123px;"
-                    />
-
-                    <button
-                      type="button"
-                      class="btn btn-secondary btn-sm"
-                      id="exportTexts"
-                      onclick="projectFuncs.exportTexts()"
+                      class="custom-control-input"
+                      id="customCheck1"
+                      type="checkbox"
+                    /><label
+                      class="custom-control-label text-muted"
+                      for="customCheck1"
+                      >Enable classification of tetxs</label
                     >
-                      Export
-                    </button>
-                    <span style="margin-left: 60px;">
-                      <button
-                        type="button"
-                        class="btn btn-danger btn-sm"
-                        id="removeCategory"
-                        onclick="projectFuncs.removeProject()"
-                      >
-                        <span
-                          class="fa fa-trash-o fa-lg"
-                          aria-hidden="true"
-                        ></span>
-                      </button>
-                    </span>
                   </div>
                 </div>
+                <div class="col-6">
+                  <!-- empty for now -->
+                </div>
               </div>
-            </div>
-            <div class="card projectcard">
-              <div class="card-body">
-                <span class="inline">
-                  <div class="subHeader">Categories</div>
-                  <button
-                    type="button"
-                    class="btn btn-outline-primary btn-sm"
-                    style="float: right; margin-left: auto;"
-                    onclick="projectFuncs.showNewCategory()"
-                  >
-                    New
-                  </button>
-                </span>
-                <div id="projectCategories"></div>
-                <form id="categoryForm" hidden>
+              <button
+                type="button"
+                class="btn btn-primary"
+                onclick="projectsFuncs.createProject()"
+              >
+                Create Project
+              </button>
+            </form>
+          </div>
+          <div class="col-1"></div>
+          <div class="col-4">
+            <div class="subHeader">List of Projects</div>
+            <div id="projectlist"></div>
+          </div>
+        </div>
+        <div id="projectPage" hidden>
+          <div id="navPathHeaderProject" class="navPath"></div>
+          <div class="row">
+            <div class="col-5" style="margin-right: 0;">
+              <div class="card projectcard">
+                <div class="card-body">
                   <span class="inline">
-                    <input
-                      type="text"
-                      class="form-control form-control-sm form-control-alternative"
-                      placeholder="Name of category"
-                      id="categoryName"
-                      aria-describedby="nameHelp"
-                      style="width: 135px;"
-                    />
-                    <input
-                      type="text"
-                      class="form-control form-control-sm form-control-alternative"
-                      placeholder="Keyboard shortcut (enter letter)"
-                      id="categoryKey"
-                      aria-describedby="descriptionHelp"
-                      maxlength="1"
-                      style="width: 135px;"
-                    />
-                  </span>
-                  <span class="inline">
-                    <select
-                      class="form-control form-control-sm form-control-alternative"
-                      id="categoryColor"
-                      style="width: 180px;"
+                    <div class="subHeader">Information</div>
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary btn-sm"
+                      style="float: right; margin-left: auto;"
+                      onclick="projectFuncs.showProjectForm()"
                     >
-                      <option value="" disabled selected
-                        >Choose category color</option
-                      >
-                      <option value="primary,#007BFF" style="color: #007bff;"
-                        >Blue</option
-                      >
-                      <option value="secondary,#6C757D" style="color: #6c757d;"
-                        >Grey</option
-                      >
-                      <option value="success,#28A745" style="color: #28a745;"
-                        >Green</option
-                      >
-                      <option value="warning,#FFC107" style="color: #ffc107;"
-                        >Yellow</option
-                      >
-                      <option value="info,#17A2B8" style="color: #17a2b8;"
-                        >Cyan</option
-                      >
-                      <option value="dark,#343A40" style="color: #343a40;"
-                        >Black</option
-                      >
-                    </select>
+                      Edit
+                    </button>
+                  </span>
+
+                  <form id="projectForm" class="form-bottom" hidden>
+                    <span class="inline">
+                      <input
+                        type="text"
+                        class="form-control form-control-sm form-control-alternative"
+                        placeholder="Name of project"
+                        id="projectNameInput"
+                        style="width: 135px;"
+                      />
+                      <input
+                        type="text"
+                        class="form-control form-control-sm form-control-alternative"
+                        placeholder="Project description"
+                        id="projectDescriptionInput"
+                        style="margin-right: 0px;"
+                      />
+                    </span>
                     <button
                       type="button"
                       class="btn btn-primary btn-sm"
-                      id="submitCategory"
-                      onclick="projectFuncs.addCategory()"
+                      id="updateProject"
+                      onclick="projectFuncs.updateProject()"
                     >
-                      Add
+                      Update
+                    </button>
+                  </form>
+                  <div id="projectDescription"></div>
+                  <div id="projectProgress"></div>
+                  <div class="row">
+                    <div class="inline" style="padding-left: 15px;">
+                      <input
+                        type="text"
+                        class="form-control form-control-sm form-control-alternative"
+                        placeholder="Export path"
+                        id="exportPath"
+                        style="width: 123px;"
+                      />
+
+                      <button
+                        type="button"
+                        class="btn btn-secondary btn-sm"
+                        id="exportTexts"
+                        onclick="projectFuncs.exportTexts()"
+                      >
+                        Export
+                      </button>
+                      <span style="margin-left: 60px;">
+                        <button
+                          type="button"
+                          class="btn btn-danger btn-sm"
+                          id="removeCategory"
+                          onclick="projectFuncs.removeProject()"
+                        >
+                          <span
+                            class="fa fa-trash-o fa-lg"
+                            aria-hidden="true"
+                          ></span>
+                        </button>
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="card projectcard">
+                <div class="card-body">
+                  <span class="inline">
+                    <div class="subHeader">Categories</div>
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary btn-sm"
+                      style="float: right; margin-left: auto;"
+                      onclick="projectFuncs.showNewCategory()"
+                    >
+                      New
                     </button>
                   </span>
-                </form>
+                  <div id="projectCategories"></div>
+                  <form id="categoryForm" hidden>
+                    <span class="inline">
+                      <input
+                        type="text"
+                        class="form-control form-control-sm form-control-alternative"
+                        placeholder="Name of category"
+                        id="categoryName"
+                        aria-describedby="nameHelp"
+                        style="width: 135px;"
+                      />
+                      <input
+                        type="text"
+                        class="form-control form-control-sm form-control-alternative"
+                        placeholder="Keyboard shortcut (enter letter)"
+                        id="categoryKey"
+                        aria-describedby="descriptionHelp"
+                        maxlength="1"
+                        style="width: 135px;"
+                      />
+                    </span>
+                    <span class="inline">
+                      <select
+                        class="form-control form-control-sm form-control-alternative"
+                        id="categoryColor"
+                        style="width: 180px;"
+                      >
+                        <option value="" disabled selected
+                          >Choose category color</option
+                        >
+                        <option value="primary,#007BFF" style="color: #007bff;"
+                          >Blue</option
+                        >
+                        <option
+                          value="secondary,#6C757D"
+                          style="color: #6c757d;"
+                          >Grey</option
+                        >
+                        <option value="success,#28A745" style="color: #28a745;"
+                          >Green</option
+                        >
+                        <option value="warning,#FFC107" style="color: #ffc107;"
+                          >Yellow</option
+                        >
+                        <option value="info,#17A2B8" style="color: #17a2b8;"
+                          >Cyan</option
+                        >
+                        <option value="dark,#343A40" style="color: #343a40;"
+                          >Black</option
+                        >
+                      </select>
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        id="submitCategory"
+                        onclick="projectFuncs.addCategory()"
+                      >
+                        Add
+                      </button>
+                    </span>
+                  </form>
+                </div>
+              </div>
+            </div>
+            <div class="col-6" style="padding-left: 0;">
+              <div class="card projectcard">
+                <div class="card-body">
+                  <span class="inline">
+                    <div class="subHeader">Texts</div>
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary btn-sm"
+                      style="float: right; margin-left: auto;"
+                      onclick="projectFuncs.checkTexts()"
+                    >
+                      Check
+                    </button>
+                  </span>
+                  <div id="texts"></div>
+                </div>
               </div>
             </div>
           </div>
-          <div class="col-6" style="padding-left: 0;">
-            <div class="card projectcard">
-              <div class="card-body">
-                <span class="inline">
-                  <div class="subHeader">Texts</div>
+        </div>
+        <div id="textPage" hidden>
+          <div id="navPathHeaderText" class="navPath"></div>
+          <div id="textForm">
+            <div class="inline">
+              <div>
+                <div
+                  id="texteditor"
+                  class="texteditor"
+                  onclick="textFuncs.clickWord()"
+                ></div>
+                <div class="save">
+                  <button
+                    id="savetext"
+                    type="button"
+                    class="btn btn-primary"
+                    onclick="textFuncs.updateText()"
+                  >
+                    Save
+                  </button>
+                </div>
+              </div>
+
+              <div>
+                <div id="categorymenu"></div>
+                <div class="pagination">
                   <button
                     type="button"
-                    class="btn btn-outline-primary btn-sm"
-                    style="float: right; margin-left: auto;"
-                    onclick="projectFuncs.checkTexts()"
+                    class="btn btn-outline-grey btn-sm"
+                    onclick="textFuncs.getNextText(true)"
                   >
-                    Check
+                    <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev
                   </button>
-                </span>
-                <div id="texts"></div>
+                  <button
+                    type="button"
+                    class="btn btn-outline-grey btn-sm"
+                    onclick="textFuncs.getNextText()"
+                  >
+                    Next <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div id="textPage" hidden>
-        <div id="navPathHeaderText" class="navPath"></div>
-        <div id="textForm">
-          <div class="inline">
-            <div>
-              <div
-                id="texteditor"
-                class="texteditor"
-                onclick="textFuncs.clickWord()"
-              ></div>
-              <div class="save">
-                <button
-                  id="savetext"
-                  type="button"
-                  class="btn btn-primary"
-                  onclick="textFuncs.updateText()"
-                >
-                  Save
-                </button>
-              </div>
+        <div id="passwordPage" class="row text-center" hidden>
+          <div style="margin-left: 40%;">
+            <div class="subHeader" id="projectNamePassword"></div>
+            <div class="form-bottom">
+              <input
+                type="password"
+                class="form-control form-control-alternative"
+                placeholder="Project password"
+                id="password"
+                aria-describedby="passwordHelp"
+                minlength="4"
+              />
             </div>
-
-            <div>
-              <div id="categorymenu"></div>
-              <div class="pagination">
-                <button
-                  type="button"
-                  class="btn btn-outline-grey btn-sm"
-                  onclick="textFuncs.getNextText(true)"
-                >
-                  <i class="fa fa-chevron-left" aria-hidden="true"></i> Prev
-                </button>
-                <button
-                  type="button"
-                  class="btn btn-outline-grey btn-sm"
-                  onclick="textFuncs.getNextText()"
-                >
-                  Next <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                </button>
-              </div>
+            <div class="">
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="submitPassword"
+                onclick="passwordFuncs.submitPassword()"
+              >
+                <i
+                  class="fa fa-unlock-alt fa-lg"
+                  style="margin-right: 10px;"
+                ></i
+                >Submit
+              </button>
             </div>
           </div>
         </div>
-      </div>
-      <div id="passwordPage" class="row text-center" hidden>
-        <div style="margin-left: 40%;">
-          <div class="subHeader" id="projectNamePassword"></div>
-          <div class="form-bottom">
-            <input
-              type="password"
-              class="form-control form-control-alternative"
-              placeholder="Project password"
-              id="password"
-              aria-describedby="passwordHelp"
-              minlength="4"
-            />
-          </div>
-          <div class="">
-            <button
-              type="button"
-              class="btn btn-primary"
-              id="submitPassword"
-              onclick="passwordFuncs.submitPassword()"
-            >
-              <i class="fa fa-unlock-alt fa-lg" style="margin-right: 10px;"></i
-              >Submit
-            </button>
-          </div>
-        </div>
-      </div>
-      <div id="message"></div>
-      <div class="footer">
-        © 2020 <a href="https://github.com/mirobit/labelit">Labelit</a> v0.1.0
+        <div id="message"></div>
       </div>
     </div>
-
+    <div class="footer">
+      © 2020 <a href="https://github.com/mirobit/labelit">Labelit</a> v1.0.0
+    </div>
     <script src="/vendor/bootstrap/jquery-3.4.1.slim.min.js"></script>
     <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
     <script type="module">
-      // Init
       const t0 = performance.now()
       import {
         init,
@@ -396,7 +401,6 @@
         textFuncs,
         passwordFuncs,
       } from '/js/index.js'
-      // instead of alias
       //Object.entries(exports).forEach(([name, exported]) => window[name] = exported);
       window.projectFuncs = projectFuncs
       window.projectsFuncs = projectsFuncs
