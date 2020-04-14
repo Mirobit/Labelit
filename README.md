@@ -22,6 +22,7 @@ $ npm install
 ```
 
 Now open the `.env.example` file and follow the instructions.
+
 To start the app, simply run:
 
 ```bash
@@ -35,8 +36,9 @@ Go to your browser and enter `http://localhost:8000/`
 - Create projects with custom categories and wordlists
 - Texts and replaced words are stored encrypted (AES-256) in the database
 - Easy to use texteditor: single click selection, keyboard shortcuts and duplicate detection
-- All texts can be checked against previously found words that need to be replaced
+- All texts can be checked against previously found sensitive words (project based wordlist)
 - Lightweight single-page application (no heavy frontend framework -> 12 vs ~80 mb, 126 vs ~2400 dependencies)
+- Not a feature more a warning: ES6 -> does not work in IE11
 
 ## TODO
 
