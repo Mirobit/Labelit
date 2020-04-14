@@ -17,7 +17,7 @@ const initProjectsPage = async () => {
   result.projects.forEach((project) => {
     projectListHTML += `<div class="card projectcard shadow" style="width: 20rem;">
     <div class="card-body">
-      <h5 class="card-title"><span onclick="projectsFuncs.openProject('${project.name}')">${project.name}</span></h5>
+      <h5 class="card-title"><span class="link" onclick="projectsFuncs.openProject('${project.name}')">${project.name}</span></h5>
       <h6 class="card-subtitle mb-2 text-muted">${project.textCount} texts</h6>
       <p class="card-text">${project.description}</p>
       <div class="progress-percentage"><span>${project.progress}%</span></div>

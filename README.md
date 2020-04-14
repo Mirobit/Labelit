@@ -40,7 +40,7 @@ Go to your browser and enter `http://localhost:8000/`
 - Lightweight single-page application (no heavy frontend framework -> 12 vs ~80 mb, 126 vs ~2400 dependencies)
 - Not a feature more a warning: ES6 -> does not work in IE11 (webpack, babel not necessary)
 
-## TODO
+## ToDo
 
 - User system (inclusive CSRF protection)
 - Be able to host server remotely and upload text data

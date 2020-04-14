@@ -123,6 +123,10 @@ body {
   color: #95989b;
   height: 2.5rem; /* Footer height */
 }
+.link {
+  color: #5e72e4;
+  cursor: pointer;
+}
 
 #content {
   margin-left: 10%;

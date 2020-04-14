@@ -47,7 +47,7 @@ const initProjectPage = async () => {
         status = '<span class="unconfirmed"></span>'
       return (
         outputHTML +
-        `<div><span onclick="projectFuncs.openText('${text._id}')">${text.name}</span>${status}</div>
+        `<div><span class="link" onclick="projectFuncs.openText('${text._id}')">${text.name}</span>${status}</div>
     `
       )
     },
