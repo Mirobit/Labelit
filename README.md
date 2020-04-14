@@ -38,7 +38,7 @@ Go to your browser and enter `http://localhost:8000/`
 - Easy to use texteditor: single click selection, keyboard shortcuts and duplicate detection
 - All texts can be checked against previously found sensitive words (project based wordlist)
 - Lightweight single-page application (no heavy frontend framework -> 12 vs ~80 mb, 126 vs ~2400 dependencies)
-- Not a feature more a warning: ES6 -> does not work in IE11 (webpack, babel not necessary)
+- Not a feature more a warning: ES6 -> IE11 not supported (no babel included)
 
 ## ToDo
 

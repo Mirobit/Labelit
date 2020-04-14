@@ -21,7 +21,7 @@ router.get('/next/:textId/:projectId/:prev', async (req, res) => {
     const textId = await textsService.getNext(
       req.params.textId,
       req.params.projectId,
-      req.params.prev
+      req.params.prev === 'true'
     )
     res.json({
       status: true,
@@ -36,7 +36,7 @@ router.get('/next/:textId/:projectId/:prev', async (req, res) => {
 // Update text
 router.put('/:textId', async (req, res) => {
   try {
-    const result = await textsService.update(
+    const nextTextId = await textsService.update(
       req.body.textRaw,
       req.body.htmlText,
       req.params.textId,
@@ -47,8 +47,7 @@ router.put('/:textId', async (req, res) => {
     )
     res.json({
       status: true,
-      nextTextId: result.nextTextId,
-      nextTextName: result.nextTextName,
+      nextTextId: nextTextId,
     })
   } catch (error) {
     console.log(error)

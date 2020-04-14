@@ -57,8 +57,7 @@ const load = async (textId, password) => {
   }
 }
 
-const getNext = async (textId, projectId, prev) => {
-  prev = prev === 'true'
+const getNext = async (textId, projectId, prev = false) => {
   if (prev) {
     nextText = await Text.findOne({
       project: projectId,
@@ -141,13 +140,7 @@ const update = async (
       }
     )
 
-    let nextText = await Text.findOne({ _id: { $gt: textId } }).select(
-      '_id name'
-    )
-    if (nextText === null) {
-      nextText = await Text.findOne().sort({ _id: 1 }).select('_id name')
-    }
-    return { nextTextId: nextText._id, nextTextName: nextText.name }
+    return await getNext(textId, projectId)
   } catch (error) {
     console.log(error)
     throw new Error(error.message)
