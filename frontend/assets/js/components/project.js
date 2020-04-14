@@ -5,14 +5,15 @@ import Store from '../store.js'
 const initProjectPage = async () => {
   Store.projectPage.hidden = false
   const projectName = window.location.pathname.match(/^\/projects\/(.{1,})$/)[1]
-  document.title = `Labelit - Project: ${projectName}`
 
   const result = await getData(`/projects/${projectName}`)
   if (result.status !== true) {
+    document.title = `Labelit - Project`
     displayMessage(result.status, 'Project could not be loaded')
     return
   }
   Store.project = result.project
+  document.title = `Labelit - Project: ${Store.project.name}`
 
   document.getElementById(
     'navPathHeaderProject'

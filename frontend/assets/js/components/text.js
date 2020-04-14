@@ -11,7 +11,6 @@ const initTextPage = async (nextTextId) => {
   textPage.hidden = false
 
   if (nextTextId === undefined) {
-    document.title = `Labelit - Editor`
     textEditiorDiv = document.getElementById('texteditor')
     document.addEventListener('keyup', handleEnterSave)
 
@@ -36,11 +35,13 @@ const initTextPage = async (nextTextId) => {
     if (Store.project._id === undefined) {
       Store.project._id = result.projectId
     }
+    document.title = `Labelit - Text: ${result.textName}`
     document.getElementById(
       'navPathHeaderText'
     ).innerHTML = `<a href="/projects">Projects</a> > <a href="/projects/${Store.project.name}">${Store.project.name}</a> > ${result.textName}`
     textEditiorDiv.innerHTML = result.contentHtml
   } else {
+    document.title = `Labelit - Text`
     textEditiorDiv.innerHTML = ''
     document.getElementById(
       'navPathHeaderText'
