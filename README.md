@@ -2,7 +2,7 @@
 
 Labelit is a tool to anonymize data. Just create a project, import your data (text files), create categories and start replacing sensitive information with predefined words.
 
-**Warning:** The software is still in development and currently only works in a local enviroment. Do not use it on a remote server, there is no fileupload yet.
+**Warning:** The software is still in early development and currently only works in a local enviroment. Do not use it on a remote server, there is no fileupload yet.
 
 <img src="https://i.imgur.com/JduLdHt.png" width="400" style="margin-left: 20px"> <img src="https://i.imgur.com/zE1ChFB.png" width="400">
 
