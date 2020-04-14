@@ -58,7 +58,8 @@ const load = async (textId, password) => {
 }
 
 const getNext = async (textId, projectId, prev) => {
-  if (prev == 'true') {
+  prev = prev === 'true'
+  if (prev) {
     nextText = await Text.findOne({
       project: projectId,
       _id: { $lt: textId },
