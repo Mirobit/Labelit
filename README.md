@@ -37,8 +37,8 @@ Go to your browser and enter `http://localhost:8000/`
 - Texts and replaced words are stored encrypted (AES-256) in the database
 - Easy to use texteditor: single click selection, keyboard shortcuts and duplicate detection
 - All texts can be checked against previously found sensitive words (project based wordlist)
-- Lightweight single-page application (no heavy frontend framework -> 12 vs ~80 mb, 169 vs ~2400 dependencies)
-- Not a feature, more a notice: ES6 -> IE 11 not supported (on purpose, IE needs to vanish from the web)
+- Lightweight single-page application (no heavy frontend framework -> 17 vs ~80 mb, 180 vs ~2400 dependencies)
+- Not a feature, more a notice: ES6 -> IE 11 not supported (on purpose, IE needs be to vanished from the web)
 
 ## ToDo
 
