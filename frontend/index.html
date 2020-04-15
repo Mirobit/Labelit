@@ -8,7 +8,7 @@
     <meta name="description" content="Anonmize and annotate text" />
     <meta name="author" content="Michael Rotarius" />
 
-    <link rel="shortcut icon" type="image/x-icon" href="images/favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico" />
 
     <link rel="stylesheet" href="/vendor/argon-design-system-react.css" />
     <link
@@ -28,7 +28,14 @@
         </div>
       </nav>
       <div class="container mainContent">
-        <div id="projectsPage" class="row" hidden>
+        <div id="navPathHeader" class="navPath">
+          <span id="navPath1">Home</span
+          ><span id="navPath2divider" hidden> > </span
+          ><span id="navPath2"></span
+          ><span id="navPath3divider" hidden> > </span
+          ><span id="navPath3"></span>
+        </div>
+        <div id="homePage" class="row" hidden>
           <div class="col-5">
             <div class="subHeader">New Project</div>
             <form>
@@ -121,7 +128,7 @@
               <button
                 type="button"
                 class="btn btn-primary"
-                onclick="projectsFuncs.createProject()"
+                onclick="homeFuncs.createProject()"
               >
                 Create Project
               </button>
@@ -134,7 +141,6 @@
           </div>
         </div>
         <div id="projectPage" hidden>
-          <div id="navPathHeaderProject" class="navPath"></div>
           <div class="row">
             <div class="col-5" style="margin-right: 0;">
               <div class="card projectcard">
@@ -312,7 +318,6 @@
           </div>
         </div>
         <div id="textPage" hidden>
-          <div id="navPathHeaderText" class="navPath"></div>
           <div id="textForm">
             <div class="inline">
               <div>
@@ -357,7 +362,7 @@
         </div>
         <div id="passwordPage" class="row text-center" hidden>
           <div style="margin-left: 40%;">
-            <div class="subHeader" id="projectNamePassword"></div>
+            <!-- <div class="subHeader" id="projectNamePassword"></div> -->
             <div class="form-bottom">
               <input
                 type="password"
@@ -390,20 +395,20 @@
     <div class="footer">
       © 2020 <a href="https://github.com/mirobit/labelit">Labelit</a> v1.0.0
     </div>
-    <script src="/vendor/bootstrap/jquery-3.4.1.slim.min.js"></script>
-    <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+    <!-- <script src="/assets/vendor/bootstrap/jquery-3.4.1.slim.min.js"></script>
+    <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script> -->
     <script type="module">
       const t0 = performance.now()
       import {
         init,
-        projectsFuncs,
+        homeFuncs,
         projectFuncs,
         textFuncs,
         passwordFuncs,
       } from '/js/index.js'
       //Object.entries(exports).forEach(([name, exported]) => window[name] = exported);
       window.projectFuncs = projectFuncs
-      window.projectsFuncs = projectsFuncs
+      window.homeFuncs = homeFuncs
       window.textFuncs = textFuncs
       window.passwordFuncs = passwordFuncs
       init()

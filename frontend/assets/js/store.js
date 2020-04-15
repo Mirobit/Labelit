@@ -1,7 +1,7 @@
 class Store {
   constructor() {}
 
-  projectsPage = document.getElementById('projectsPage')
+  homePage = document.getElementById('homePage')
   projectPage = document.getElementById('projectPage')
   textPage = document.getElementById('textPage')
   passwordPage = document.getElementById('passwordPage')

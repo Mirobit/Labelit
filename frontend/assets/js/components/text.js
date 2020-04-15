@@ -1,5 +1,10 @@
 import { sendData, getData } from '../api.js'
-import { switchPage, displayMessage, closeMessage } from '../index.js'
+import {
+  switchPage,
+  setNavPath,
+  displayMessage,
+  closeMessage,
+} from '../index.js'
 import Store from '../store.js'
 
 // global vars
@@ -7,7 +12,7 @@ let textId, textEditiorDiv, categories
 const newWords = []
 
 // Initialize text editor area
-const initTextPage = async (nextTextId) => {
+const init = async (nextTextId) => {
   textPage.hidden = false
 
   if (nextTextId === undefined) {
@@ -19,11 +24,7 @@ const initTextPage = async (nextTextId) => {
     textId = url.match(regex)[1]
   } else {
     textId = nextTextId
-    history.pushState(
-      null,
-      '',
-      `/projects/${Store.project.name}/text/${textId}`
-    )
+    history.pushState(null, '', `/project/${Store.project.name}/text/${textId}`)
     newWords.length = 0
   }
   const result = await sendData(`/texts/${textId}/load`, 'POST', {
@@ -36,16 +37,12 @@ const initTextPage = async (nextTextId) => {
       Store.project._id = result.projectId
     }
     document.title = `Labelit - Text: ${result.textName}`
-    document.getElementById(
-      'navPathHeaderText'
-    ).innerHTML = `<a href="/projects">Projects</a> > <a href="/projects/${Store.project.name}">${Store.project.name}</a> > ${result.textName}`
+    setNavPath(Store.textPage, Store.project.name, result.textName)
     textEditiorDiv.innerHTML = result.contentHtml
   } else {
-    document.title = `Labelit - Text`
+    document.title = `Labelit - Text: ${textId}`
     textEditiorDiv.innerHTML = ''
-    document.getElementById(
-      'navPathHeaderText'
-    ).innerHTML = `<a href="/projects">Projects</a> > <a href="/projects">Unkown</a> > ${textId}`
+    setNavPath(Store.textPage, 'Unknown', result.textId)
     displayMessage(false, 'Could not load text')
   }
 
@@ -61,6 +58,11 @@ const initTextPage = async (nextTextId) => {
 
   // Init key event listener
   document.addEventListener('keyup', (event) => addLabel(event.key))
+}
+
+const close = () => {
+  Store.textPage.hidden = true
+  document.removeEventListener('keyup', (event) => addLabel(event.key))
 }
 
 // Enables single click word selection
@@ -111,8 +113,6 @@ const clickWord = () => {
     }
   }
 }
-
-// TODO: remove keylistener when unmounted
 
 const handleEnterSave = (event) => {
   if (event.key === 'Enter') updateText()
@@ -217,7 +217,7 @@ const getNextText = async (prev = false) => {
   )
   if (result.status === true) {
     closeMessage()
-    initTextPage(result.textId)
+    init(result.textId)
   } else {
     displayMessage(false, `Could not load ${prev ? 'previous' : 'next'} text`)
   }
@@ -237,7 +237,7 @@ const updateText = async () => {
   })
   if (result.status === true) {
     closeMessage()
-    initTextPage(result.nextTextId)
+    init(result.nextTextId)
   } else {
     displayMessage(false, 'Could not update text')
   }
@@ -248,7 +248,7 @@ export {
   confirmLabel,
   addLabel,
   clickWord,
-  initTextPage,
+  init,
   updateText,
   getNextText,
 }

@@ -1,11 +1,12 @@
 import { sendData, getData } from '../api.js'
-import { switchPage, displayMessage } from '../index.js'
+import { switchPage, setNavPath, displayMessage } from '../index.js'
 import Store from '../store.js'
 
 let projects = []
 
-const initProjectsPage = async () => {
+const init = async () => {
   document.title = `Labelit - Projects`
+  setNavPath(Store.homePage)
   const result = await getData('/projects')
   if (result.status !== true) {
     displayMessage(result.status, 'Could not load project list')
@@ -17,7 +18,7 @@ const initProjectsPage = async () => {
   result.projects.forEach((project) => {
     projectListHTML += `<div class="card projectcard shadow" style="width: 20rem;">
     <div class="card-body">
-      <h5 class="card-title"><span class="link" onclick="projectsFuncs.openProject('${project.name}')">${project.name}</span></h5>
+      <h5 class="card-title"><span class="link" onclick="homeFuncs.openProject('${project.name}')">${project.name}</span></h5>
       <h6 class="card-subtitle mb-2 text-muted">${project.textCount} texts</h6>
       <p class="card-text">${project.description}</p>
       <div class="progress-percentage"><span>${project.progress}%</span></div>
@@ -29,11 +30,11 @@ const initProjectsPage = async () => {
   </div>`
   })
   projectList.innerHTML = projectListHTML
-  projectsPage.hidden = false
+  homePage.hidden = false
 }
 
 const openProject = (projectName) => {
-  switchPage(Store.projectsPage, `/projects/${encodeURI(projectName)}`)
+  switchPage(Store.homePage, `/project/${encodeURI(projectName)}`)
 }
 
 const createProject = async () => {
@@ -68,11 +69,11 @@ const createProject = async () => {
     document.getElementById('passwordNew').value = ''
     document.getElementById('passwordRepeatNew').value = ''
     document.getElementById('folderPathNew').value = ''
-    initProjectsPage()
+    init()
     displayMessage(result.status, 'Project successfully created')
   } else {
     displayMessage(result.status, 'Could not create project')
   }
 }
 
-export { createProject, initProjectsPage, openProject }
+export { createProject, init, openProject }

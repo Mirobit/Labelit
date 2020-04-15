@@ -1,23 +1,22 @@
 import { sendData, getData } from '../api.js'
-import { switchPage, displayMessage } from '../index.js'
+import { switchPage, setNavPath, displayMessage } from '../index.js'
 import Store from '../store.js'
 
-const initProjectPage = async () => {
+const init = async () => {
   Store.projectPage.hidden = false
-  const projectName = window.location.pathname.match(/^\/projects\/(.{1,})$/)[1]
+  const projectName = window.location.pathname.match(/^\/project\/(.{1,})$/)[1]
 
   const result = await getData(`/projects/${projectName}`)
   if (result.status !== true) {
     document.title = `Labelit - Project`
+    setNavPath(Store.projectPage, projectName)
     displayMessage(result.status, 'Project could not be loaded')
     return
   }
   Store.project = result.project
   document.title = `Labelit - Project: ${Store.project.name}`
 
-  document.getElementById(
-    'navPathHeaderProject'
-  ).innerHTML = `<a href="/projects">Projects</a> > ${Store.project.name}`
+  setNavPath(Store.projectPage, Store.project.name)
 
   document.getElementById('projectDescription').innerText =
     Store.project.description
@@ -59,7 +58,7 @@ const initProjectPage = async () => {
 const openText = (textId) => {
   switchPage(
     Store.projectPage,
-    `/projects/${encodeURI(Store.project.name)}/text/${textId}`
+    `/project/${encodeURI(Store.project.name)}/text/${textId}`
   )
 }
 
@@ -73,7 +72,7 @@ const updateProject = async () => {
   if (result.status === true) {
     document.getElementById('projectForm').hidden = true
     history.pushState(null, '', `/projects/${newProjectName}`)
-    initProjectPage()
+    init()
     displayMessage(result.status, 'Project successfully updated')
   } else {
     displayMessage(result.status, 'Project could not be updated')
@@ -119,7 +118,7 @@ const addCategory = async () => {
   const colorArr = categoryColorEl.value.split(',')
 
   const result = await sendData(
-    `/projects/${Store.project._id}/categories`,
+    `/project/${Store.project._id}/categories`,
     'POST',
     {
       name: categoryNameEl.value,
@@ -132,7 +131,7 @@ const addCategory = async () => {
     categoryNameEl.value = ''
     categoryKeyEl.value = ''
     categoryColorEl.value = ''
-    initProjectPage()
+    init()
     displayMessage(result.status, 'Category successfully added')
   } else {
     displayMessage(result.status, 'Could not create add category')
@@ -174,7 +173,7 @@ const updateCategory = async (categoryId) => {
     }
   )
   if (result.status === true) {
-    initProjectPage()
+    init()
     categoryNameEl.value = ''
     categoryKeyEl.value = ''
     categoryColorEl.value = ''
@@ -189,11 +188,11 @@ const updateCategory = async (categoryId) => {
 
 const removeCategory = async (categoryId) => {
   const result = await sendData(
-    `/projects/${project._id}/categories/${categoryId}`,
+    `/projects/${Store.project._id}/categories/${categoryId}`,
     'DELETE'
   )
   if (result.status === true) {
-    initProjectPage()
+    init()
     displayMessage(result.status, 'Category successfully removed')
   } else {
     displayMessage(result.status, 'Could not remove Category')
@@ -207,7 +206,7 @@ const checkTexts = async () => {
   })
 
   if (result.status === true) {
-    initProjectPage()
+    init()
     displayMessage(result.status, 'All texts checked')
   } else {
     displayMessage(result.status, 'Could not check texts')
@@ -247,7 +246,7 @@ const showProjectForm = () => {
 }
 
 export {
-  initProjectPage,
+  init,
   updateProject,
   removeProject,
   addCategory,

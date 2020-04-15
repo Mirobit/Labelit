@@ -1,21 +1,28 @@
 import { sendData } from '../api.js'
-import { switchPage, displayMessage } from '../index.js'
+import { switchPage, displayMessage, setNavPath } from '../index.js'
 import Store from '../store.js'
 
 let goNext
 
-const initPasswordPage = (goUrl) => {
+const init = (goUrl) => {
   Store.passwordPage.hidden = false
   goNext = goUrl
+  let goText = false
   if (Store.project.name === undefined) {
     const pathArr = window.location.pathname.split('/')
     Store.project.name = decodeURI(pathArr[2])
+    if (pathArr[4]) goText = true
   }
-  document.getElementById(
-    'projectNamePassword'
-  ).innerText = `Project: ${Store.project.name}`
+
+  setNavPath(Store.passwordPage, Store.project.name, goText ? 'Text' : null)
+
   document.title = `Labelit - Project: ${Store.project.name}`
   document.addEventListener('keyup', handleEnterPassword)
+}
+
+const close = () => {
+  Store.passwordPage.hidden = true
+  document.removeEventListener('keyup', handleEnterPassword)
 }
 
 const submitPassword = async () => {
@@ -29,7 +36,7 @@ const submitPassword = async () => {
     return
   }
   Store.password = passwordDiv.value
-  document.removeEventListener('keyup', handleEnterPassword)
+
   switchPage(Store.passwordPage, goNext)
 }
 
@@ -37,4 +44,4 @@ const handleEnterPassword = (event) => {
   if (event.key === 'Enter') submitPassword()
 }
 
-export { initPasswordPage, submitPassword }
+export { init, close, submitPassword }
