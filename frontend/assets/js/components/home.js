@@ -6,7 +6,7 @@ let projects = []
 
 const init = async () => {
   document.title = `Labelit - Projects`
-  setNavPath(Store.homePage)
+  setNavPath(close)
   const result = await getData('/projects')
   if (result.status !== true) {
     displayMessage(result.status, 'Could not load project list')
@@ -33,8 +33,12 @@ const init = async () => {
   homePage.hidden = false
 }
 
+const close = () => {
+  Store.homePage.hidden = true
+}
+
 const openProject = (projectName) => {
-  switchPage(Store.homePage, `/project/${encodeURI(projectName)}`)
+  switchPage(close, `/project/${encodeURI(projectName)}`)
 }
 
 const createProject = async () => {

@@ -4,9 +4,9 @@ import * as projectFuncs from './components/project.js'
 import * as homeFuncs from './components/home.js'
 import Store from './store.js'
 
-const switchPage = async (oldPage, newUrl) => {
+const switchPage = async (closeFunc, newUrl) => {
   closeMessage()
-  oldPage.hidden = true
+  closeFunc()
   history.pushState(null, '', newUrl)
   init()
 }
@@ -50,7 +50,7 @@ const closeMessage = () => {
   document.getElementById('message').innerHTML = ''
 }
 
-const setNavPath = (oldPage, projectName, textName) => {
+const setNavPath = (closeFunc, projectName, textName) => {
   const divider2 = document.getElementById('navPath2divider')
   const divider3 = document.getElementById('navPath3divider')
   const navPath1El = document.getElementById('navPath1')
@@ -59,12 +59,13 @@ const setNavPath = (oldPage, projectName, textName) => {
 
   if (projectName) {
     navPath1El.classList.add('link')
-    navPath1El.onclick = () => switchPage(oldPage, `/`)
+    navPath1El.onclick = () => switchPage(closeFunc, `/`)
     divider2.hidden = false
     navPath2El.innerText = `${projectName}`
 
     if (textName) {
-      navPath2El.onclick = () => switchPage(oldPage, `/project/${projectName}`)
+      navPath2El.onclick = () =>
+        switchPage(closeFunc, `/project/${projectName}`)
       navPath2El.classList.add('link')
       divider3.hidden = false
       navPath3El.innerText = `${textName}`

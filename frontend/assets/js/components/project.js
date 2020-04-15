@@ -9,14 +9,14 @@ const init = async () => {
   const result = await getData(`/projects/${projectName}`)
   if (result.status !== true) {
     document.title = `Labelit - Project`
-    setNavPath(Store.projectPage, projectName)
+    setNavPath(close, projectName)
     displayMessage(result.status, 'Project could not be loaded')
     return
   }
   Store.project = result.project
   document.title = `Labelit - Project: ${Store.project.name}`
 
-  setNavPath(Store.projectPage, Store.project.name)
+  setNavPath(close, Store.project.name)
 
   document.getElementById('projectDescription').innerText =
     Store.project.description
@@ -55,11 +55,12 @@ const init = async () => {
   )
 }
 
+const close = () => {
+  Store.projectPage.hidden = true
+}
+
 const openText = (textId) => {
-  switchPage(
-    Store.projectPage,
-    `/project/${encodeURI(Store.project.name)}/text/${textId}`
-  )
+  switchPage(close, `/project/${encodeURI(Store.project.name)}/text/${textId}`)
 }
 
 const updateProject = async () => {

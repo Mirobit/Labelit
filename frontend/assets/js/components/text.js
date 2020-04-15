@@ -37,12 +37,12 @@ const init = async (nextTextId) => {
       Store.project._id = result.projectId
     }
     document.title = `Labelit - Text: ${result.textName}`
-    setNavPath(Store.textPage, Store.project.name, result.textName)
+    setNavPath(close, Store.project.name, result.textName)
     textEditiorDiv.innerHTML = result.contentHtml
   } else {
     document.title = `Labelit - Text: ${textId}`
     textEditiorDiv.innerHTML = ''
-    setNavPath(Store.textPage, 'Unknown', result.textId)
+    setNavPath(close, 'Unknown', result.textId)
     displayMessage(false, 'Could not load text')
   }
 
@@ -57,12 +57,12 @@ const init = async (nextTextId) => {
   categoryMenu.innerHTML = categoryMenuHTML
 
   // Init key event listener
-  document.addEventListener('keyup', (event) => addLabel(event.key))
+  document.addEventListener('keyup', addLabel)
 }
 
 const close = () => {
   Store.textPage.hidden = true
-  document.removeEventListener('keyup', (event) => addLabel(event.key))
+  document.removeEventListener('keyup', addLabel)
 }
 
 // Enables single click word selection
@@ -119,9 +119,9 @@ const handleEnterSave = (event) => {
 }
 
 // Adds label to selected text
-const addLabel = (key) => {
+const addLabel = (event) => {
   const label = categories.find((category) => {
-    return category.key === key
+    return category.key === event.key
   })
   if (label === undefined) return
   // Get selected text

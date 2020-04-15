@@ -14,7 +14,7 @@ const init = (goUrl) => {
     if (pathArr[4]) goText = true
   }
 
-  setNavPath(Store.passwordPage, Store.project.name, goText ? 'Text' : null)
+  setNavPath(close, Store.project.name, goText ? 'Text' : null)
 
   document.title = `Labelit - Project: ${Store.project.name}`
   document.addEventListener('keyup', handleEnterPassword)
@@ -22,6 +22,7 @@ const init = (goUrl) => {
 
 const close = () => {
   Store.passwordPage.hidden = true
+  document.getElementById('password').value = ''
   document.removeEventListener('keyup', handleEnterPassword)
 }
 
@@ -32,12 +33,12 @@ const submitPassword = async () => {
     password: passwordDiv.value,
   })
   if (!resultPassword.valid) {
+    Store.project.name = undefined
     displayMessage(false, 'Invalid project password')
     return
   }
   Store.password = passwordDiv.value
-
-  switchPage(Store.passwordPage, goNext)
+  switchPage(close, goNext)
 }
 
 const handleEnterPassword = (event) => {
