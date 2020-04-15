@@ -1,6 +1,7 @@
 import { sendData, getData } from '../api.js'
-import { switchPage, setNavPath, displayMessage } from '../index.js'
+import { switchPage, setNavPath } from '../index.js'
 import Store from '../store.js'
+import { displayMessage } from '../components/message.js'
 
 let projects = []
 

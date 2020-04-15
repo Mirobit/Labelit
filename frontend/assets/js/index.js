@@ -1,7 +1,8 @@
-import * as passwordFuncs from './components/password.js'
-import * as textFuncs from './components/text.js'
-import * as projectFuncs from './components/project.js'
-import * as homeFuncs from './components/home.js'
+import * as passwordFuncs from './pages/password.js'
+import * as textFuncs from './pages/text.js'
+import * as projectFuncs from './pages/project.js'
+import * as homeFuncs from './pages/home.js'
+import { closeMessage, displayMessage } from './components/message.js'
 import Store from './store.js'
 
 const switchPage = async (closeFunc, newUrl) => {
@@ -36,18 +37,6 @@ const checkIfPassword = (goUrl) => {
     return true
   }
   return false
-}
-
-const displayMessage = (success, message) => {
-  if (success === true) {
-    Store.messageDiv.innerHTML = `<div class="alert alert-success alert-dismissible" role="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>${message}</div>`
-  } else {
-    Store.messageDiv.innerHTML = `<div class="alert alert-warning alert-dismissible" role="alert"><a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>${message}</div>`
-  }
-}
-
-const closeMessage = () => {
-  document.getElementById('message').innerHTML = ''
 }
 
 const setNavPath = (closeFunc, projectName, textName) => {
@@ -86,8 +75,6 @@ const setNavPath = (closeFunc, projectName, textName) => {
 }
 
 export {
-  displayMessage,
-  closeMessage,
   switchPage,
   setNavPath,
   init,

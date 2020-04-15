@@ -1,11 +1,7 @@
 import { sendData, getData } from '../api.js'
-import {
-  switchPage,
-  setNavPath,
-  displayMessage,
-  closeMessage,
-} from '../index.js'
+import { setNavPath } from '../index.js'
 import Store from '../store.js'
+import { closeMessage, displayMessage } from '../components/message.js'
 
 // global vars
 let textId, textEditiorDiv, categories
