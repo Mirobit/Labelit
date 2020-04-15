@@ -16,9 +16,9 @@ Labelit is a tool to anonymize data. Just create a project, import your data (te
 Make sure that you installed Node.js and MongoDB is running:
 
 ```bash
-$ git clone https://github.com/Mirobit/Labelit.git
-$ cd Labelit
-$ npm install
+git clone https://github.com/Mirobit/Labelit.git
+cd Labelit
+npm install
 ```
 
 Now open the `.env.example` file and follow the instructions.
@@ -26,7 +26,7 @@ Now open the `.env.example` file and follow the instructions.
 To start the app, simply run:
 
 ```bash
-$ npm start
+npm start
 ```
 
 Go to your browser and enter `http://localhost:8000/`
@@ -37,8 +37,8 @@ Go to your browser and enter `http://localhost:8000/`
 - Texts and replaced words are stored encrypted (AES-256) in the database
 - Easy to use texteditor: single click selection, keyboard shortcuts and duplicate detection
 - All texts can be checked against previously found sensitive words (project based wordlist)
-- Lightweight single-page application (no heavy frontend framework -> 12 vs ~80 mb, 126 vs ~2400 dependencies)
-- Not a feature more a warning: ES6 -> IE11 not supported (no babel included)
+- Lightweight single-page application (no heavy frontend framework -> 12 vs ~80 mb, 169 vs ~2400 dependencies)
+- Not a feature, more a notice: ES6 -> IE 11 not supported (on purpose, IE needs to vanish from the web)
 
 ## ToDo
 

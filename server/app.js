@@ -33,7 +33,6 @@ app.use(express.json())
 //   )
 //   next()
 // })
-console.log(__dirname)
 app.use(express.static(path.join(__dirname, '../frontend/assets')))
 app.use(routes)
 
