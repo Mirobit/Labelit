@@ -107,6 +107,7 @@ router.put('/:projectId/categories/:categoryId', async (req, res) => {
         key: req.body.key,
         keyUp: req.body.key.toUpperCase(),
         color: req.body.color,
+        colorHex: req.body.colorHex,
       }
     )
     res.json({ status: true, category })

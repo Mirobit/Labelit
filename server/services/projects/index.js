@@ -75,33 +75,41 @@ const checkPassword = async (projectName, password, projectPassword) => {
   return hash(password) === projectPassword
 }
 
-const addCategory = async (projectId, data) => {
+const addCategory = async (projectId, newCategory) => {
   try {
-    const project = await Project.findOneAndUpdate(
-      { _id: projectId },
-      { $push: { categories: data } },
-      { new: true, runValidators: true }
-    )
+    const project = await Project.findById(projectId)
+    if (
+      project.categories.some(
+        (category) =>
+          category.name.toUpperCase() === newCategory.name.toUpperCase() ||
+          category.key === newCategory.key ||
+          category.color === newCategory.color
+      )
+    ) {
+      throw new Error('Duplicate category')
+    }
+    project.categories.push(newCategory)
+    project.save()
+
     return project
   } catch (error) {
-    throw new Error(error.message)
+    throw new Error(error)
   }
 }
 
 const updateCategory = async (projectId, categoryId, data) => {
   try {
-    const project = await Project.findOneAndUpdate(
-      { _id: projectId, 'categories._id': categoryId },
-      {
-        $set: {
-          'categories.$.name': data.name,
-          'categories.$.key': data.key,
-          'categories.$.keyUp': data.keyUp,
-          'categories.$.color': data.color,
-        },
-      },
-      { runValidators: true, new: true }
+    const project = await Project.findById(projectId)
+
+    const cIndex = project.categories.findIndex(
+      (category) => category.id === categoryId
     )
+    if (cIndex) {
+      project.categories[cIndex] = { ...data, _id: categoryId }
+    }
+
+    await project.save()
+
     return project
   } catch (error) {
     throw new Error(error.message)

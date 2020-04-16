@@ -167,7 +167,7 @@ const updateCategory = async (categoryId) => {
   const colorArr = categoryColorEl.value.split(',')
 
   const result = await sendData(
-    `/projects/${project._id}/categories/${categoryId}`,
+    `/projects/${Store.project._id}/categories/${categoryId}`,
     'PUT',
     {
       name: categoryNameEl.value,
