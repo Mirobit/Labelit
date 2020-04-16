@@ -1,5 +1,5 @@
 import { sendData } from '../api.js'
-import { switchPage, setNavPath } from '../index.js'
+import { switchPage, setNavPath } from '../router.js'
 import Store from '../store.js'
 import { displayMessage } from '../components/message.js'
 

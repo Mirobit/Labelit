@@ -193,7 +193,7 @@
                         class="form-control form-control-sm form-control-alternative"
                         placeholder="Export path"
                         id="exportPath"
-                        style="width: 123px;"
+                        style="width: 140px;"
                       />
 
                       <button
@@ -403,24 +403,16 @@
       <a href="https://github.com/mirobit/labelit"
         ><i class="fa fa-github-alt" aria-hidden="true"></i> Labelit</a
       >
-      v1.0.0
+      v0.9.9
     </div>
     <!-- <script src="/assets/vendor/bootstrap/jquery-3.4.1.slim.min.js"></script>
     <script src="/assets/vendor/bootstrap/bootstrap.bundle.min.js"></script> -->
     <script type="module">
       const t0 = performance.now()
-      import {
-        init,
-        homeFuncs,
-        projectFuncs,
-        textFuncs,
-        passwordFuncs,
-      } from '/js/index.js'
-      //Object.entries(exports).forEach(([name, exported]) => window[name] = exported);
-      window.projectFuncs = projectFuncs
-      window.homeFuncs = homeFuncs
-      window.textFuncs = textFuncs
-      window.passwordFuncs = passwordFuncs
+      import { init, pages } from '/js/index.js'
+      Object.entries(pages).forEach(
+        ([name, exported]) => (window[name] = exported)
+      )
       init()
 
       const t1 = performance.now()

@@ -1,6 +1,6 @@
 {
   "name": "labelit",
-  "version": "1.0.0",
+  "version": "0.9.9",
   "description": "Anononymize and classify data",
   "main": "server/app.js",
   "engines": {

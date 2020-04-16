@@ -1,5 +1,5 @@
 import { sendData, getData } from '../api.js'
-import { setNavPath } from '../index.js'
+import { setNavPath } from '../router.js'
 import Store from '../store.js'
 import { closeMessage, displayMessage } from '../components/message.js'
 
