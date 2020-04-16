@@ -58,12 +58,12 @@ const init = async (nextTextId) => {
   document.getElementById('categorymenu').innerHTML = categoryMenuHTML
 
   // Init key event listener
-  document.addEventListener('keyup', addLabel)
+  document.addEventListener('keyup', handleAddLabel)
 }
 
 const close = () => {
   Store.textPage.hidden = true
-  document.removeEventListener('keyup', addLabel)
+  document.removeEventListener('keyup', handleAddLabel)
 }
 
 // Enables single click word selection
@@ -115,14 +115,18 @@ const clickWord = () => {
   }
 }
 
+// Necessary to use removeEventListener
+const handleAddLabel = (event) => {
+  addLabel(event.key)
+}
 const handleEnterSave = (event) => {
   if (event.key === 'Enter') updateText()
 }
 
 // Adds label to selected text
-const addLabel = (event) => {
+const addLabel = (key) => {
   const label = categories.find((category) => {
-    return category.key === event.key
+    return category.key === key
   })
   if (label === undefined) return
   // Get selected text
