@@ -40,12 +40,14 @@ const init = async (nextTextId) => {
     textEditiorDiv.innerHTML = ''
     setNavPath(close, 'Unknown', result.textId)
     displayMessage(false, 'Could not load text')
+    return
   }
 
   // Create category menu
+  categories = result.categories
   let categoryMenuHTML = 'No categories'
-  if (result.categories.length > 0) {
-    categoryMenuHTML = result.categories.reduce(
+  if (categories.length > 0) {
+    categoryMenuHTML = categories.reduce(
       (outputHTML, category) =>
         outputHTML +
         `<div class="categoryButton"><button type="button" class="btn btn-${category.color} btn-sm" onclick="textFuncs.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>

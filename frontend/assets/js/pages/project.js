@@ -122,7 +122,7 @@ const addCategory = async () => {
   const colorArr = categoryColorEl.value.split(',')
 
   const result = await sendData(
-    `/project/${Store.project._id}/categories`,
+    `/projects/${Store.project._id}/categories`,
     'POST',
     {
       name: categoryNameEl.value,
@@ -138,7 +138,7 @@ const addCategory = async () => {
     init()
     displayMessage(result.status, 'Category successfully added')
   } else {
-    displayMessage(result.status, 'Could not create add category')
+    displayMessage(result.status, 'Could not add category')
   }
 }
 

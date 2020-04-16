@@ -111,12 +111,17 @@ const update = async (
   password
 ) => {
   try {
-    newWords = newWords.map((newWord) => {
-      return {
-        strEnc: encrypt(newWord.str, password),
+    const project = await Project.findById(projectId)
+    for (const newWord of newWords) {
+      const strEnc = encrypt(newWord.str, password)
+      if (project.words.some((word) => word.strEnc === strEnc)) continue
+      project.words.push({
+        strEnc: strEnc,
         category: newWord.category,
-      }
-    })
+      })
+    }
+    await project.save()
+
     await Text.findOneAndUpdate(
       { _id: textId },
       {
@@ -128,17 +133,17 @@ const update = async (
         runValidators: true,
       }
     )
-    await Project.findOneAndUpdate(
-      { _id: projectId },
-      {
-        $push: { words: newWords },
-      },
-      {
-        runValidators: true,
-        new: true,
-        upsert: true,
-      }
-    )
+    // await Project.findOneAndUpdate(
+    //   { _id: projectId },
+    //   {
+    //     $push: { words: newWords },
+    //   },
+    //   {
+    //     runValidators: true,
+    //     new: true,
+    //     upsert: true,
+    //   }
+    // )
 
     return await getNext(textId, projectId)
   } catch (error) {
