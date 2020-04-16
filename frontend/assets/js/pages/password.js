@@ -29,12 +29,15 @@ const close = () => {
 
 const submitPassword = async () => {
   const passwordDiv = document.getElementById('password')
-  const resultPassword = await sendData(`/projects/password`, 'POST', {
+  const result = await sendData(`/projects/password`, 'POST', {
     projectName: Store.project.name,
     password: passwordDiv.value,
   })
-  if (!resultPassword.valid) {
-    Store.project.name = undefined
+  if (!result.status) {
+    displayMessage(false, 'Invalid project')
+    return
+  }
+  if (!result.valid) {
     displayMessage(false, 'Invalid project password')
     return
   }

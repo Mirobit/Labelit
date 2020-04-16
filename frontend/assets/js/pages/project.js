@@ -28,16 +28,23 @@ const init = async () => {
     <div class="progress-bar" style="width: ${Store.project.progress}%;" role="progressbar" aria-valuenow="${Store.project.progress}" aria-valuemin="0" aria-valuemax="100"></div>
   </div>`
 
-  document.getElementById(
-    'projectCategories'
-  ).innerHTML = Store.project.categories.reduce((outputHTML, category) => {
-    return (
-      outputHTML +
-      `<button type="button" class="btn btn-${category.color} btn-sm" onclick="projectFuncs.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
+  let categoryMenuHTML
+  if (Store.project.categories.length === 0) {
+    categoryMenuHTML = 'No categories'
+  } else {
+    categoryMenuHTML = Store.project.categories.reduce(
+      (outputHTML, category) => {
+        return (
+          outputHTML +
+          `<button type="button" class="btn btn-${category.color} btn-sm" onclick="projectFuncs.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
     </button><span class="remove middle" onclick="projectFuncs.removeCategory('${category._id}')" hidden></span>
     `
+        )
+      },
+      ''
     )
-  }, '')
+  }
+  document.getElementById('projectCategories').innerHTML = categoryMenuHTML
 
   document.getElementById('texts').innerHTML = Store.project.texts.reduce(
     (outputHTML, text) => {
