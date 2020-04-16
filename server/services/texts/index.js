@@ -111,18 +111,7 @@ const update = async (
   password
 ) => {
   try {
-    const project = await Project.findById(projectId)
-    for (const newWord of newWords) {
-      const strEnc = encrypt(newWord.str, password)
-      if (project.words.some((word) => word.strEnc === strEnc)) continue
-      project.words.push({
-        strEnc: strEnc,
-        category: newWord.category,
-      })
-    }
-    await project.save()
-
-    await Text.findOneAndUpdate(
+    const text = await Text.findOneAndUpdate(
       { _id: textId },
       {
         contentEncSaved: encrypt(textRaw, password),
@@ -132,18 +121,24 @@ const update = async (
       {
         runValidators: true,
       }
-    )
-    // await Project.findOneAndUpdate(
-    //   { _id: projectId },
-    //   {
-    //     $push: { words: newWords },
-    //   },
-    //   {
-    //     runValidators: true,
-    //     new: true,
-    //     upsert: true,
-    //   }
-    // )
+    ).select('status')
+
+    const project = await Project.findById(projectId)
+    for (const newWord of newWords) {
+      const strEnc = encrypt(newWord.str, password)
+      if (project.words.some((word) => word.strEnc === strEnc)) continue
+      project.words.push({
+        strEnc: strEnc,
+        category: newWord.category,
+      })
+    }
+    if (text.status === 'new') {
+      project.textUpdatedCount++
+      project.progress = Math.round(
+        (project.textUpdatedCount / project.textCount) * 100
+      )
+    }
+    await project.save()
 
     return await getNext(textId, projectId)
   } catch (error) {
