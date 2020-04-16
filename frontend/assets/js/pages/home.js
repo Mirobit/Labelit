@@ -7,6 +7,8 @@ let projects = []
 
 const init = async () => {
   document.title = `Labelit - Projects`
+  Store.password = ''
+  Store.project = {}
   setNavPath(close)
   const result = await getData('/projects')
   if (result.status !== true) {
