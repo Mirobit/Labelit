@@ -1,3 +1,6 @@
+html {
+  overflow-x: hidden;
+}
 body {
   background-color: #f3f3f3;
   width: 100vw;
@@ -12,7 +15,7 @@ body {
   vertical-align: middle;
 }
 .wrapper {
-  min-height: calc(100vh - 70px);
+  min-height: calc(100vh - 65px);
 }
 .mainContent {
   margin-top: 30px;
@@ -115,7 +118,6 @@ body {
   box-shadow: 0 0 0 0 rgba(94, 114, 228, 0.5);
 }
 .footer {
-  height: 50px;
   float: right;
   padding-right: 10%;
   font-size: 13px;
@@ -127,6 +129,9 @@ body {
   cursor: pointer;
 }
 
+#texts {
+  font-size: 18px;
+}
 #headerText {
   color: white;
   font-size: 20px;
