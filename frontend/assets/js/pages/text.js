@@ -43,18 +43,17 @@ const init = async (nextTextId) => {
   }
 
   // Create category menu
-  categories = result.categories
-  const categoryMenu = document.getElementById('categorymenu')
-  let categoryMenuHTML
-  if (categories.length === 0) {
-    categoryMenuHTML = 'No categories'
-  } else {
-    categories.forEach((category) => {
-      categoryMenuHTML += `<div class="categoryButton"><button type="button" class="btn btn-${category.color} btn-sm" onclick="textFuncs.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
-    `
-    })
+  let categoryMenuHTML = 'No categories'
+  if (result.categories.length > 0) {
+    categoryMenuHTML = result.categories.reduce(
+      (outputHTML, category) =>
+        outputHTML +
+        `<div class="categoryButton"><button type="button" class="btn btn-${category.color} btn-sm" onclick="textFuncs.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
+    `,
+      ''
+    )
   }
-  categoryMenu.innerHTML = categoryMenuHTML
+  document.getElementById('categorymenu').innerHTML = categoryMenuHTML
 
   // Init key event listener
   document.addEventListener('keyup', addLabel)
