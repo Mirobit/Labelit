@@ -97,17 +97,24 @@ const addCategory = async (projectId, newCategory) => {
   }
 }
 
-const updateCategory = async (projectId, categoryId, data) => {
+const updateCategory = async (projectId, categoryId, categoryData) => {
   try {
     const project = await Project.findById(projectId)
 
-    const cIndex = project.categories.findIndex(
+    const catIndex = project.categories.findIndex(
       (category) => category.id === categoryId
     )
-    if (cIndex) {
-      project.categories[cIndex] = { ...data, _id: categoryId }
-    }
+    const dupIndex = project.categories.findIndex(
+      (category) =>
+        category._id != categoryId &&
+        (category.name.toUpperCase() === categoryData.name.toUpperCase() ||
+          category.key === categoryData.key ||
+          category.color === categoryData.color)
+    )
 
+    if (dupIndex !== -1) throw new Error('Duplicate category')
+
+    project.categories[catIndex] = { ...categoryData, _id: categoryId }
     await project.save()
 
     return project
