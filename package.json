@@ -13,7 +13,7 @@
     "path": "^0.12.7"
   },
   "devDependencies": {
-    "cross-env": "~7.0.2"
+    "cross-env": "^7.0.2"
   },
   "scripts": {
     "start": "node server/app.js",
