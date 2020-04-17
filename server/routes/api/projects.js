@@ -13,7 +13,7 @@ router.get('/:name', async (req, res) => {
   }
 })
 
-// All
+// List
 router.get('/', async (req, res) => {
   try {
     const projects = await projectsService.list()

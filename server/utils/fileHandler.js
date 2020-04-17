@@ -14,28 +14,32 @@ const read = async (folderPath, projectId, password) => {
     throw new Error('Path does not exist')
   }
 
-  // Check if directory or file
-  if (stat.isFile()) {
-    const content = await fs.readFile(folderPath)
-    texts[0] = { name: stat.name, content, project: projectId }
-  } else {
-    const files = await fs.readdir(folderPath, { withFileTypes: true })
-    for (const file of files) {
-      if (file.isDirectory()) return
-      textCount++
-      const content = await fs.readFile(
-        path.join(folderPath, file.name),
-        'utf8'
-      )
-      const contentEnc = encrypt(content, password)
-      texts.push({
-        name: file.name,
-        contentEncOrg: contentEnc,
-        contentEncSaved: contentEnc,
-        contentEncHtml: contentEnc,
-        project: projectId,
-      })
+  try {
+    // Check if directory or file
+    if (stat.isFile()) {
+      const content = await fs.readFile(folderPath)
+      texts[0] = { name: stat.name, content, project: projectId }
+    } else {
+      const files = await fs.readdir(folderPath, { withFileTypes: true })
+      for (const file of files) {
+        if (file.isDirectory()) return
+        textCount++
+        const content = await fs.readFile(
+          path.join(folderPath, file.name),
+          'utf8'
+        )
+        const contentEnc = encrypt(content, password)
+        texts.push({
+          name: file.name,
+          contentEncOrg: contentEnc,
+          contentEncSaved: contentEnc,
+          contentEncHtml: contentEnc,
+          project: projectId,
+        })
+      }
     }
+  } catch (error) {
+    throw new Error('Error reading files')
   }
 
   return { textCount, texts }
