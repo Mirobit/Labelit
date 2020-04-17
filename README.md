@@ -42,7 +42,7 @@ Go to your browser and enter `http://localhost:8000/`
 
 ## ToDo
 
-- User system (inclusive CSRF protection)
+- User system
 - Be able to host server remotely and upload text data
 - Enable classification of texts (for ML)
 - Better error handling

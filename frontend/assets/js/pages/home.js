@@ -13,6 +13,7 @@ const init = async () => {
   const result = await getData('/projects')
   if (result.status !== true) {
     displayMessage(result.status, 'Could not load project list')
+    return
   }
 
   const projectList = document.getElementById('projectlist')

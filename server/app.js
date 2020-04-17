@@ -22,6 +22,21 @@ mongoose
 
 const app = express()
 app.use(express.json())
+
+// Security
+app.disable('x-powered-by')
+app.use((req, res, next) => {
+  res.header('X-Frame-Options', 'DENY')
+  res.header('Strict-Transport-Security', 'max-age=31536000')
+  res.header('X-Content-Type-Options', 'nosniff')
+  res.header('Referrer-Policy', 'same-origin')
+  res.header(
+    'Content-Security-Policy',
+    "default-src 'self' script-src 'unsafe-inline'"
+  )
+  next()
+})
+
 app.use(express.static(path.join(__dirname, '../frontend/assets')))
 app.use(routes)
 
