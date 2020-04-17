@@ -407,12 +407,13 @@
     </div>
     <script src="/vendor/bootstrap/jquery-3.4.1.slim.min.js"></script>
     <script src="/vendor/bootstrap/bootstrap.bundle.min.js"></script>
-    <script type="module">
+    <script async type="module">
       const t0 = performance.now()
-      import { init, pages } from '/js/index.js'
+      import { route as init, pages } from '/js/index.js'
       Object.entries(pages).forEach(
         ([name, exported]) => (window[name] = exported)
       )
+
       init()
 
       const t1 = performance.now()
