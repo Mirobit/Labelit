@@ -45,21 +45,44 @@ const read = async (folderPath, projectId, password) => {
   return { textCount, texts }
 }
 
-const write = async (folderPath, projectName, texts, password) => {
+const write = async (
+  folderPath,
+  projectName,
+  texts,
+  password,
+  classActive,
+  projectClassifications
+) => {
   try {
     stat = await fs.lstat(folderPath)
   } catch (error) {
     throw new Error('Path does not exist')
   }
-  const totalPath = path.join(folderPath, `LabeliT - ${projectName}`)
+  const totalPath = path.join(folderPath, `Labelit - ${projectName}`)
   await fs.mkdir(totalPath, { recursive: true })
+  const classContent = {}
+
   for (const text of texts) {
     if (text.status !== 'confirmed') continue
+    if (classActive)
+      classContent[text.name] = text.classifications.map(
+        (classification) =>
+          projectClassifications.find(
+            (pClassification) =>
+              pClassification._id.toString() == classification.toString()
+          ).name
+      )
     fs.writeFile(
       path.join(totalPath, text.name),
       decrypt(text.contentEncSaved, password)
     )
   }
+
+  if (classActive)
+    fs.writeFile(
+      path.join(totalPath, 'classifications.json'),
+      JSON.stringify(classContent, null, 4)
+    )
 }
 
 module.exports = { read, write }

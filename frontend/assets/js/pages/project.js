@@ -339,7 +339,6 @@ const exportTexts = async () => {
   }
   const result = await sendData(`/texts/export`, 'POST', {
     projectId: Store.project._id,
-    projectName: Store.project.name,
     folderPath,
     password: Store.password,
   })

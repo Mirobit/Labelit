@@ -75,7 +75,6 @@ router.post('/export', async (req, res) => {
   try {
     const result = await textsService.exportAll(
       req.body.projectId,
-      req.body.projectName,
       req.body.folderPath,
       req.body.password
     )

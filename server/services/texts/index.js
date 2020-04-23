@@ -188,13 +188,24 @@ const checkAll = async (projectId, password) => {
   return totalHits
 }
 
-const exportAll = async (projectId, projectName, folderPath, password) => {
+const exportAll = async (projectId, folderPath, password) => {
   try {
-    if (!(await checkPassword(projectName, password))) return false
-    const texts = await Text.find({ project: projectId }).select(
-      'name contentEncSaved status'
+    const project = await Project.findById(projectId).select(
+      'name classActive classifications'
     )
-    fileHandler.write(folderPath, projectName, texts, password)
+    if (!(await checkPassword(project.name, password))) return false
+    const texts = await Text.find({ project: projectId }).select(
+      'name contentEncSaved status classifications'
+    )
+    await fileHandler.write(
+      folderPath,
+      project.name,
+      texts,
+      password,
+      project.classActive,
+      project.classifications
+    )
+
     return true
   } catch (error) {
     throw new Error(error.message)
