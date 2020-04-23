@@ -31,6 +31,10 @@ body {
   font-weight: bold;
   margin-bottom: 15px;
 }
+.menuHeader {
+  font-weight: bold;
+  margin-bottom: 10px;
+}
 .labeled {
   color: white;
   border-radius: 0.25rem;

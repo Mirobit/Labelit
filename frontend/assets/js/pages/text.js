@@ -50,7 +50,7 @@ const init = async (nextTextId) => {
       outputHTML +
       `<div class="categoryButton"><button type="button" class="btn btn-${category.color} btn-sm" onclick="textFuncs.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
     `,
-    '<div class="subHeader">Categories</div>'
+    '<div class="menuHeader">Categories</div>'
   )
 
   // Create classification menu
@@ -58,7 +58,7 @@ const init = async (nextTextId) => {
     document.getElementById('classificationsmenu').hidden = false
     document.getElementById(
       'classificationsmenu'
-    ).innerHTML = result.classifications.reduce(
+    ).innerHTML = result.projectClassifications.reduce(
       (outputHTML, classification) =>
         outputHTML +
         `<div class="custom-control custom-checkbox mb-3">
@@ -68,13 +68,16 @@ const init = async (nextTextId) => {
           id="classificationCheckbox${classification.name}"
           value="${classification._id}"
           type="checkbox"
+          ${
+            result.classifications.includes(classification._id) ? 'checked' : ''
+          }
         /><label
           class="custom-control-label "
           for="classificationCheckbox${classification.name}"
           >${classification.name}</label
         >
       </div>`,
-      '<div class="subHeader">Classifications</div>'
+      '<div class="menuHeader">Classifications</div>'
     )
   }
 

@@ -51,7 +51,8 @@ const load = async (textId, password) => {
       contentHtml,
       categories: data.project.categories,
       classActive: data.project.classActive,
-      classifications: data.project.classifications,
+      classifications: data.classifications,
+      projectClassifications: data.project.classifications,
     }
   } catch (error) {
     console.log(error)
@@ -104,7 +105,6 @@ const update = async (
   classifications
 ) => {
   try {
-    console.log(classifications)
     const text = await Text.findOneAndUpdate(
       { _id: textId },
       {
