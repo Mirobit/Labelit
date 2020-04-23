@@ -93,16 +93,6 @@ const list = async (projectId) => {
   }
 }
 
-const create = async (data) => {
-  try {
-    const text = fileHandler.read(data.path)
-    await new Text(data).save()
-    return true
-  } catch (error) {
-    throw new Error(error.message)
-  }
-}
-
 const update = async (
   textRaw,
   htmlText,
@@ -110,15 +100,18 @@ const update = async (
   projectId,
   user,
   newWords,
-  password
+  password,
+  classifications
 ) => {
   try {
+    console.log(classifications)
     const text = await Text.findOneAndUpdate(
       { _id: textId },
       {
         contentEncSaved: encrypt(textRaw, password),
         contentEncHtml: encrypt(htmlText, password),
         status: 'confirmed',
+        classifications,
       },
       {
         runValidators: true,
@@ -210,7 +203,6 @@ const exportAll = async (projectId, projectName, folderPath, password) => {
 
 module.exports = {
   list,
-  create,
   update,
   remove,
   load,

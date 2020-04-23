@@ -43,7 +43,8 @@ router.put('/:textId', async (req, res) => {
       req.body.projectId,
       req.body.user,
       req.body.newWords,
-      req.body.password
+      req.body.password,
+      req.body.classifications
     )
     res.json({
       status: true,

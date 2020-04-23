@@ -29,7 +29,7 @@ const textSchema = new Schema(
       type: String,
       required: false,
     },
-    classification: [{ type: Schema.Types.ObjectId }],
+    classifications: [{ type: Schema.Types.ObjectId }],
     status: {
       type: String,
       enum: ['new', 'unconfirmed', 'confirmed'],

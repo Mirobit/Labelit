@@ -4,7 +4,7 @@ import Store from '../store.js'
 import { closeMessage, displayMessage } from '../components/message.js'
 
 // global vars
-let textId, textEditiorDiv, categories
+let textId, textEditiorDiv, categories, classActive
 const newWords = []
 
 // Initialize text editor area
@@ -31,6 +31,7 @@ const init = async (nextTextId) => {
     if (Store.project._id === undefined) {
       Store.project._id = result.projectId
     }
+    classActive = result.classActive
     document.title = `Labelit - Text: ${result.textName}`
     setNavPath(close, Store.project.name, result.textName)
     textEditiorDiv.innerHTML = result.contentHtml
@@ -44,29 +45,26 @@ const init = async (nextTextId) => {
 
   // Create category menu
   categories = result.categories
-  let categoryMenuHTML = '<div class="subHeader">Categories</div>'
-  if (categories.length > 0) {
-    categoryMenuHTML = categories.reduce(
-      (outputHTML, category) =>
-        outputHTML +
-        `<div class="categoryButton"><button type="button" class="btn btn-${category.color} btn-sm" onclick="textFuncs.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
+  document.getElementById('categorymenu').innerHTML = categories.reduce(
+    (outputHTML, category) =>
+      outputHTML +
+      `<div class="categoryButton"><button type="button" class="btn btn-${category.color} btn-sm" onclick="textFuncs.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
     `,
-      '<div class="subHeader">Categories</div>'
-    )
-  }
-  document.getElementById('categorymenu').innerHTML = categoryMenuHTML
+    '<div class="subHeader">Categories</div>'
+  )
 
-  // Create classification menu classificationsmenu
-  if (result.classActive) {
+  // Create classification menu
+  if (classActive) {
     document.getElementById('classificationsmenu').hidden = false
-    let classificationsMenuHTML = '<div class="subHeader">Texts</div>'
-    if (result.classifications.length > 0) {
-      classificationsMenuHTML = result.classifications.reduce(
-        (outputHTML, classification) =>
-          outputHTML +
-          `<div class="custom-control custom-checkbox mb-3">
+    document.getElementById(
+      'classificationsmenu'
+    ).innerHTML = result.classifications.reduce(
+      (outputHTML, classification) =>
+        outputHTML +
+        `<div class="custom-control custom-checkbox mb-3">
         <input
           class="custom-control-input"
+          name="classifications"
           id="classificationCheckbox${classification.name}"
           value="${classification._id}"
           type="checkbox"
@@ -76,12 +74,8 @@ const init = async (nextTextId) => {
           >${classification.name}</label
         >
       </div>`,
-        '<div class="subHeader">Classifications</div>'
-      )
-    }
-    document.getElementById(
-      'classificationsmenu'
-    ).innerHTML = classificationsMenuHTML
+      '<div class="subHeader">Classifications</div>'
+    )
   }
 
   // Init key event listener
@@ -238,12 +232,6 @@ const removeLabel = (element) => {
   textEditiorDiv.normalize()
 }
 
-const removeWord = (word) => {
-  // TODO don't add duplicates to db
-  //newWords = newWords.filter(newWord => new.Word.hash !== hashWord(word))
-  newWords = newWords.filter((newWord) => newWord.str !== word)
-}
-
 const getNextText = async (prev = false) => {
   const result = await getData(
     `/texts/next/${textId}/${Store.project._id}/${prev}`
@@ -261,12 +249,29 @@ const updateText = async () => {
     displayMessage(false, 'Can not save before all elements are confirmed')
     return
   }
+
+  const classList = document
+    .getElementById('classificationsmenu')
+    .querySelectorAll('input[type=checkbox]:checked')
+  if (classActive && classList.length === 0) {
+    displayMessage(
+      false,
+      'Can not save before at least one classification is selected'
+    )
+    return
+  }
+  const classArr = []
+  for (let i = 0; i < classList.length; i++) {
+    classArr.push(classList[i].value)
+  }
+
   const result = await sendData(`/texts/${textId}`, 'PUT', {
     textRaw: textEditiorDiv.innerText,
     htmlText: textEditiorDiv.innerHTML,
     projectId: Store.project._id,
     newWords,
     password: Store.password,
+    classifications: classArr,
   })
   if (result.status === true) {
     closeMessage()
