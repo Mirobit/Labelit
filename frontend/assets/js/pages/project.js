@@ -124,7 +124,6 @@ const showNewCategory = () => {
   Array.from(
     document
       .getElementById('projectCategories')
-      .getElementById('categories')
       .getElementsByClassName('remove')
   ).forEach((element) => {
     element.hidden = true
@@ -243,6 +242,7 @@ const removeCategory = async (categoryId) => {
     'DELETE'
   )
   if (result.status === true) {
+    document.getElementById('categoryForm').hidden = true
     init()
     displayMessage(result.status, 'Category successfully removed')
   } else {
@@ -350,6 +350,7 @@ const removeClassification = async (classificationId) => {
     'DELETE'
   )
   if (result.status === true) {
+    document.getElementById('classificationForm').hidden = true
     init()
     displayMessage(result.status, 'Classification successfully removed')
   } else {
