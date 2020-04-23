@@ -13,7 +13,6 @@ const init = async (nextTextId) => {
 
   if (nextTextId === undefined) {
     textEditiorDiv = document.getElementById('texteditor')
-    document.addEventListener('keyup', handleEnterSave)
 
     const url = decodeURI(window.location.pathname)
     const regex = /text\/(.*)$/
@@ -58,12 +57,12 @@ const init = async (nextTextId) => {
   document.getElementById('categorymenu').innerHTML = categoryMenuHTML
 
   // Init key event listener
-  document.addEventListener('keyup', handleAddLabel)
+  document.addEventListener('keyup', handleKeyPress)
 }
 
 const close = () => {
   Store.textPage.hidden = true
-  document.removeEventListener('keyup', handleAddLabel)
+  document.removeEventListener('keyup', handleKeyPress)
 }
 
 // Enables single click word selection
@@ -116,11 +115,11 @@ const clickWord = () => {
 }
 
 // Necessary to use removeEventListener
-const handleAddLabel = (event) => {
-  addLabel(event.key)
-}
-const handleEnterSave = (event) => {
+const handleKeyPress = (event) => {
   if (event.key === 'Enter') updateText()
+  else if (event.key === 'ArrowRight') getNextText()
+  else if (event.key === 'ArrowLeft') getNextText(true)
+  else addLabel(event.key)
 }
 
 // Adds label to selected text

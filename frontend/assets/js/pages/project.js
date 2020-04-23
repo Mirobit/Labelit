@@ -90,7 +90,7 @@ const removeProject = async () => {
   if (!confirmed) return
   const result = await sendData(`/projects/${Store.project._id}`, 'DELETE')
   if (result.status === true) {
-    window.location.pathname = ''
+    switchPage(close, `/`)
   } else {
     displayMessage(result.status, 'Could not remove project')
   }
