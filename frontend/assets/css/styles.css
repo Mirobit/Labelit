@@ -72,16 +72,16 @@ body {
   background: url('..//images/confirm.png');
   background-size: 100% 100%;
   display: inline-block;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   margin-left: 5px;
 }
 .unconfirmed {
   background: url('..//images/unconfirmed.png');
   background-size: 100% 100%;
   display: inline-block;
-  width: 16px;
-  height: 16px;
+  width: 14px;
+  height: 14px;
   margin-left: 5px;
 }
 .save {
