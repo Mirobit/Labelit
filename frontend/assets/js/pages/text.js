@@ -56,12 +56,41 @@ const init = async (nextTextId) => {
   }
   document.getElementById('categorymenu').innerHTML = categoryMenuHTML
 
+  // Create classification menu classificationsmenu
+  if (result.classActive) {
+    document.getElementById('classificationsmenu').hidden = false
+    let classificationsMenuHTML = 'No classifications'
+    if (result.classifications.length > 0) {
+      classificationsMenuHTML = result.classifications.reduce(
+        (outputHTML, classification) =>
+          outputHTML +
+          `<div class="custom-control custom-checkbox mb-3">
+        <input
+          class="custom-control-input"
+          id="classificationCheckbox"
+          value="${classification._id}"
+          type="checkbox"
+        /><label
+          class="custom-control-label "
+          for="classificationCheckbox"
+          >${classification.name}</label
+        >
+      </div>`,
+        ''
+      )
+    }
+    document.getElementById(
+      'classificationsmenu'
+    ).innerHTML = classificationsMenuHTML
+  }
+
   // Init key event listener
   document.addEventListener('keyup', handleKeyPress)
 }
 
 const close = () => {
   Store.textPage.hidden = true
+  document.getElementById('classificationsmenu').hidden = true
   document.removeEventListener('keyup', handleKeyPress)
 }
 
@@ -158,8 +187,7 @@ const addLabel = (key) => {
   spanOriginal.hidden = true
   spanOriginal.innerText = selected
   const spanRemove = span.appendChild(document.createElement('span'))
-  spanRemove.classList.add('remove')
-  spanRemove.id = 'removeInit'
+  spanRemove.classList.add('removeInit')
 
   // Insert created element and remove selection
   range.insertNode(span)

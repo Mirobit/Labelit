@@ -76,7 +76,7 @@ const checkPassword = async (projectName, password, projectPassword) => {
 
 const addCategory = async (projectId, newCategory) => {
   try {
-    await Project.findById(projectId)
+    const project = await Project.findById(projectId)
     if (
       project.categories.some(
         (category) =>
@@ -98,7 +98,7 @@ const addCategory = async (projectId, newCategory) => {
 
 const updateCategory = async (projectId, categoryId, categoryData) => {
   try {
-    await Project.findById(projectId)
+    const project = await Project.findById(projectId)
 
     const catIndex = project.categories.findIndex(
       (category) => category._id == categoryId

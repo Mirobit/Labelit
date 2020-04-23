@@ -5,46 +5,43 @@ const textSchema = new Schema(
   {
     name: {
       type: String,
-      required: true
+      required: true,
     },
     project: {
       type: Schema.Types.ObjectId,
       ref: 'Project',
-      required: true
+      required: true,
     },
     filePath: {
       type: String,
       required: false,
-      default: ''
+      default: '',
     },
     contentEncOrg: {
       type: String,
-      required: true
+      required: true,
     },
     contentEncSaved: {
       type: String,
-      required: false
+      required: false,
     },
     contentEncHtml: {
       type: String,
-      required: false
+      required: false,
     },
-    classification: {
-      type: String,
-      required: false
-    },
+    classification: [{ type: Schema.Types.ObjectId }],
     status: {
       type: String,
       enum: ['new', 'unconfirmed', 'confirmed'],
-      default: 'new'
-    }
+      default: 'new',
+    },
     // user: { type: Schema.Types.ObjectId, required: true }
   },
   {
     timestamps: {
       createdAt: 'created_at',
-      updatedAt: 'updated_at'
-    }
+      updatedAt: 'updated_at',
+    },
   }
 )
 

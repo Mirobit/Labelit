@@ -86,9 +86,9 @@ body {
 .categoryButton {
   margin-bottom: 12px;
 }
-.categoryButton > :last-child {
+/* .categoryButton > :last-child {
   margin-bottom: 0 !important;
-}
+} */
 .projectcard {
   margin-bottom: 15px;
   width: 23rem;
@@ -129,6 +129,17 @@ body {
   cursor: pointer;
 }
 
+.textmenu {
+  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
+  border-radius: 2px;
+  background-color: white;
+  margin-left: 20px;
+  padding: 15px;
+}
+.textmenu > :last-child {
+  margin-bottom: 0 !important;
+}
+
 #headerText {
   color: white;
   font-size: 20px;
@@ -142,16 +153,7 @@ body {
   max-width: 400px;
   margin-top: 20px;
 }
-#categorymenu {
-  box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
-  border-radius: 2px;
-  background-color: white;
-  margin-left: 20px;
-  padding: 15px;
-}
-#categorymenu > :last-child {
-  margin-bottom: 0 !important;
-}
+
 #texteditor {
   white-space: pre-wrap;
   font-size: 18px;
