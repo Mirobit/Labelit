@@ -16,34 +16,25 @@ const projectSchema = new Schema(
       type: String,
       required: true,
     },
-    textCount: {
-      type: Number,
-      required: true,
-    },
     password: {
       type: String,
       required: true,
       select: false,
     },
+    textCount: {
+      type: Number,
+      required: true,
+    },
     textUpdatedCount: {
       type: Number,
-      required: false,
       default: 0,
     },
     progress: {
       type: Number,
-      required: false,
-      default: 0,
-    },
-    currentText: {
-      type: Number,
-      required: false,
       default: 0,
     },
     categories: [
       {
-        //_id: false,
-        // TODO unique validation doesn't work -> applies unqiue to all categories in all projects
         name: {
           type: String,
           required: true,
@@ -66,6 +57,10 @@ const projectSchema = new Schema(
         },
       },
     ],
+    classificationEnabled: {
+      type: Boolean,
+      default: false,
+    },
     classifications: [
       {
         name: {
