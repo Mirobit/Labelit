@@ -26,7 +26,6 @@ const list = async () => {
 
 const create = async (data) => {
   try {
-    console.log(data)
     const project = await new Project(data)
     const textData = await fileHandler.read(
       data.folderPath,
@@ -105,8 +104,8 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
       (category) => category._id == categoryId
     )
     const dupIndex = project.categories.findIndex(
-      (category) =>
-        category._id != categoryId &&
+      (category, index) =>
+        index !== catIndex &&
         (category.name.toUpperCase() === categoryData.name.toUpperCase() ||
           category.key === categoryData.key ||
           category.color === categoryData.color)
@@ -146,7 +145,7 @@ const addClassification = async (projectId, newClassification) => {
           newClassification.name.toUpperCase()
       )
     ) {
-      throw new Error('Duplicate category')
+      throw new Error('Duplicate classification')
     }
     project.classifications.push(newClassification)
     await project.save()
@@ -170,14 +169,8 @@ const updateClassification = async (
     )
     const dupIndex = project.classifications.findIndex(
       (classification, index) => {
-        console.log(
-          index,
-          classIndex,
-          classification.name,
-          classificationData.name
-        )
         return (
-          index != classIndex &&
+          index !== classIndex &&
           classification.name.toUpperCase() ===
             classificationData.name.toUpperCase()
         )
@@ -194,7 +187,6 @@ const updateClassification = async (
 
     return
   } catch (error) {
-    console.log(error)
     throw new Error(error.message)
   }
 }

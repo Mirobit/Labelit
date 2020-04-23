@@ -18,7 +18,6 @@ const init = async () => {
   Store.project = result.project
   document.title = `Labelit - Project: ${Store.project.name}`
   setNavPath(close, Store.project.name)
-  console.log(result.project)
 
   // Texts
   document.getElementById('texts').innerHTML = Store.project.texts.reduce(
