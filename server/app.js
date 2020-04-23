@@ -33,7 +33,7 @@ app.use((req, res, next) => {
   res.header('X-XSS-Protection', '1 mode=block')
   res.header(
     'Content-Security-Policy',
-    "default-src 'self' script-src 'unsafe-inline'"
+    "default-src 'self' style-src 'unsafe-inline'"
   )
   next()
 })

@@ -5,6 +5,18 @@ import * as homeFuncs from './pages/home.js'
 import Store from './store.js'
 import { closeMessage, displayMessage } from './components/message.js'
 
+const init = () => {
+  const pages = {
+    homeFuncs,
+    projectFuncs,
+    textFuncs,
+    passwordFuncs,
+  }
+
+  Object.entries(pages).forEach(([name, page]) => (window[name] = page))
+  route()
+}
+
 const route = async () => {
   const route = window.location.pathname
   if (route === '/') {
@@ -74,11 +86,5 @@ const setNavPath = (closeFunc, projectName, textName) => {
   }
 }
 
-const pages = {
-  homeFuncs,
-  projectFuncs,
-  textFuncs,
-  passwordFuncs,
-}
-
-export { switchPage, setNavPath, route, pages }
+export default init()
+export { switchPage, setNavPath }
