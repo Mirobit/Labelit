@@ -83,6 +83,7 @@ const init = async () => {
 const close = () => {
   Store.projectPage.hidden = true
   document.getElementById('classifications').hidden = true
+  document.getElementById('exportPath').value = ''
 }
 
 const openText = (textId) => {
@@ -121,23 +122,29 @@ const removeProject = async () => {
 
 const showNewCategory = () => {
   Array.from(
-    document.getElementById('categories').getElementsByClassName('remove')
+    document
+      .getElementById('projectCategories')
+      .getElementById('categories')
+      .getElementsByClassName('remove')
   ).forEach((element) => {
     element.hidden = true
   })
-  const current = document.getElementById('categoryForm').hidden
-  if (current === false) {
-    const button = document.getElementById('submitCategory')
-    if (button.innerText === 'Update') {
-      button.innerText = 'Add'
-      document.getElementById('categoryName').value = ''
-      document.getElementById('categoryKey').value = ''
-      document.getElementById('categoryColor').value = ''
-      button.onclick = () => projectFuncs.addCategory()
+
+  const form = document.getElementById('categoryForm')
+  const button = document.getElementById('submitCategory')
+
+  if (button.innerText === 'UPDATE') {
+    button.innerText = 'ADD'
+    document.getElementById('categoryName').value = ''
+    document.getElementById('categoryKey').value = ''
+    document.getElementById('categoryColor').value = ''
+    button.onclick = () => projectFuncs.addCategory()
+    if (form.hidden === false) {
       return
     }
   }
-  document.getElementById('categoryForm').hidden = !current
+
+  form.hidden = !form.hidden
 }
 
 const addCategory = async () => {
@@ -168,21 +175,36 @@ const addCategory = async () => {
 }
 
 const showEditCategory = async (categoryId, node) => {
-  Array.from(document.getElementsByClassName('remove')).forEach((element) => {
+  Array.from(
+    document
+      .getElementById('projectCategories')
+      .getElementsByClassName('remove')
+  ).forEach((element) => {
     element.hidden = true
   })
-  node.nextSibling.hidden = false
-  document.getElementById('categoryForm').hidden = false
-  const category = Store.project.categories.find(
-    (category) => category._id === categoryId
-  )
+
+  const form = document.getElementById('categoryForm')
   const button = document.getElementById('submitCategory')
-  document.getElementById('categoryName').value = category.name
-  document.getElementById('categoryKey').value = category.key
-  document.getElementById('categoryColor').value =
-    category.color + ',' + category.colorHex
-  button.innerText = 'Update'
-  button.onclick = () => projectFuncs.updateCategory(categoryId)
+
+  if (button.innerText.includes('ADD')) {
+    const category = Store.project.categories.find(
+      (category) => category._id === categoryId
+    )
+
+    node.nextSibling.hidden = false
+    document.getElementById('categoryName').value = category.name
+    document.getElementById('categoryKey').value = category.key
+    document.getElementById('categoryColor').value =
+      category.color + ',' + category.colorHex
+    button.innerText = 'UPDATE'
+    button.onclick = () => projectFuncs.updateCategory(categoryId)
+    if (form.hidden === false) {
+      return
+    }
+  }
+
+  if (form.hidden === true) node.nextSibling.hidden = false
+  form.hidden = !form.hidden
 }
 
 const updateCategory = async (categoryId) => {
@@ -230,20 +252,24 @@ const removeCategory = async (categoryId) => {
 
 const showNewClassification = () => {
   Array.from(
-    document.getElementById('classifications').getElementsByClassName('remove')
+    document
+      .getElementById('projectClassifications')
+      .getElementsByClassName('remove')
   ).forEach((element) => {
     element.hidden = true
   })
   const form = document.getElementById('classificationForm')
-  if (form.hidden === false) {
-    const button = document.getElementById('submitClassification')
-    if (button.innerText === 'Update') {
-      button.innerText = 'Add'
-      document.getElementById('classificationName').value = ''
-      button.onclick = () => projectFuncs.addClassification()
+  const button = document.getElementById('submitClassification')
+
+  if (button.innerText === 'UPDATE') {
+    button.innerText = 'ADD'
+    document.getElementById('classificationName').value = ''
+    button.onclick = () => projectFuncs.addClassification()
+    if (form.hidden === false) {
       return
     }
   }
+
   form.hidden = !form.hidden
 }
 
@@ -268,19 +294,32 @@ const addClassification = async () => {
 
 const showEditClassification = async (classificationId, node) => {
   Array.from(
-    document.getElementById('classifications').getElementsByClassName('remove')
+    document
+      .getElementById('projectClassifications')
+      .getElementsByClassName('remove')
   ).forEach((element) => {
     element.hidden = true
   })
-  node.nextSibling.hidden = false
-  document.getElementById('classificationForm').hidden = false
-  const classification = Store.project.classifications.find(
-    (classification) => classification._id === classificationId
-  )
+
+  const form = document.getElementById('classificationForm')
   const button = document.getElementById('submitClassification')
-  document.getElementById('classificationName').value = classification.name
-  button.innerText = 'Update'
-  button.onclick = () => projectFuncs.updateClassification(classificationId)
+
+  if (button.innerText.includes('ADD')) {
+    const classification = Store.project.classifications.find(
+      (classification) => classification._id === classificationId
+    )
+
+    node.nextSibling.hidden = false
+    document.getElementById('classificationName').value = classification.name
+    button.innerText = 'UPDATE'
+    button.onclick = () => projectFuncs.updateClassification(classificationId)
+    if (form.hidden === false) {
+      return
+    }
+  }
+
+  if (form.hidden === true) node.nextSibling.hidden = false
+  form.hidden = !form.hidden
 }
 
 const updateClassification = async (classificationId) => {
