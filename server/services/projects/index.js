@@ -77,7 +77,7 @@ const checkPassword = async (projectName, password, projectPassword) => {
 
 const addCategory = async (projectId, newCategory) => {
   try {
-    const project = await Project.findById(projectId)
+    await Project.findById(projectId)
     if (
       project.categories.some(
         (category) =>
@@ -91,7 +91,7 @@ const addCategory = async (projectId, newCategory) => {
     project.categories.push(newCategory)
     project.save()
 
-    return project
+    return
   } catch (error) {
     throw new Error(error)
   }
@@ -99,7 +99,7 @@ const addCategory = async (projectId, newCategory) => {
 
 const updateCategory = async (projectId, categoryId, categoryData) => {
   try {
-    const project = await Project.findById(projectId)
+    await Project.findById(projectId)
 
     const catIndex = project.categories.findIndex(
       (category) => category._id == categoryId
@@ -117,7 +117,7 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
     project.categories[catIndex] = { ...categoryData, _id: categoryId }
     await project.save()
 
-    return project
+    return
   } catch (error) {
     throw new Error(error.message)
   }
@@ -125,11 +125,12 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
 
 const removeCategory = async (projectId, categoryId) => {
   try {
-    const project = await Project.findOneAndUpdate(
+    await Project.findOneAndUpdate(
       { _id: projectId },
       { $pull: { categories: { _id: categoryId } } }
     )
-    return project
+
+    return
   } catch (error) {
     throw new Error(error.message)
   }
@@ -150,7 +151,7 @@ const addClassification = async (projectId, newClassification) => {
     project.classifications.push(newClassification)
     await project.save()
 
-    return project
+    return
   } catch (error) {
     throw new Error(error)
   }
@@ -190,8 +191,8 @@ const updateClassification = async (
       _id: classificationId,
     }
     await project.save()
-    console.log(project.classifications)
-    return project
+
+    return
   } catch (error) {
     console.log(error)
     throw new Error(error.message)
@@ -200,11 +201,12 @@ const updateClassification = async (
 
 const removeClassification = async (projectId, classificationId) => {
   try {
-    const project = await Project.findOneAndUpdate(
+    await Project.findOneAndUpdate(
       { _id: projectId },
       { $pull: { classifications: { _id: classificationId } } }
     )
-    return project
+
+    return
   } catch (error) {
     throw new Error(error.message)
   }

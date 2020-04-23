@@ -83,14 +83,14 @@ router.post('/password', async (req, res) => {
 // Add Category
 router.post('/:projectId/categories', async (req, res) => {
   try {
-    const project = await projectsService.addCategory(req.params.projectId, {
+    await projectsService.addCategory(req.params.projectId, {
       name: req.body.name,
       key: req.body.key,
       keyUp: req.body.key.toUpperCase(),
       color: req.body.color,
       colorHex: req.body.colorHex,
     })
-    res.json({ status: true, project })
+    res.json({ status: true })
   } catch (error) {
     console.log(error)
     res.json({ status: false })
@@ -100,7 +100,7 @@ router.post('/:projectId/categories', async (req, res) => {
 // Update Category
 router.put('/:projectId/categories/:categoryId', async (req, res) => {
   try {
-    const category = await projectsService.updateCategory(
+    await projectsService.updateCategory(
       req.params.projectId,
       req.params.categoryId,
       {
@@ -111,7 +111,7 @@ router.put('/:projectId/categories/:categoryId', async (req, res) => {
         colorHex: req.body.colorHex,
       }
     )
-    res.json({ status: true, category })
+    res.json({ status: true })
   } catch (error) {
     console.log(error)
     res.json({ status: false })
@@ -135,13 +135,10 @@ router.delete('/:projectId/categories/:categoryId', async (req, res) => {
 // Add Classification
 router.post('/:projectId/classifications', async (req, res) => {
   try {
-    const project = await projectsService.addClassification(
-      req.params.projectId,
-      {
-        name: req.body.name,
-      }
-    )
-    res.json({ status: true, project })
+    await projectsService.addClassification(req.params.projectId, {
+      name: req.body.name,
+    })
+    res.json({ status: true })
   } catch (error) {
     console.log(error)
     res.json({ status: false })
@@ -153,14 +150,14 @@ router.put(
   '/:projectId/classifications/:classificationId',
   async (req, res) => {
     try {
-      const classification = await projectsService.updateClassification(
+      await projectsService.updateClassification(
         req.params.projectId,
         req.params.classificationId,
         {
           name: req.body.name,
         }
       )
-      res.json({ status: true, classification })
+      res.json({ status: true })
     } catch (error) {
       console.log(error)
       res.json({ status: false })
