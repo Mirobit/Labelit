@@ -73,12 +73,12 @@ router.post('/check', async (req, res) => {
 // Export Texts
 router.post('/export', async (req, res) => {
   try {
-    const result = await textsService.exportAll(
+    await textsService.exportAll(
       req.body.projectId,
       req.body.folderPath,
       req.body.password
     )
-    res.json({ status: true, valid: result })
+    res.json({ status: true })
   } catch (error) {
     console.log(error)
     res.json({ status: false })

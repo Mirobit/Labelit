@@ -190,23 +190,25 @@ const checkAll = async (projectId, password) => {
 
 const exportAll = async (projectId, folderPath, password) => {
   try {
-    const project = await Project.findById(projectId).select(
-      'name classActive classifications'
-    )
-    if (!(await checkPassword(project.name, password))) return false
-    const texts = await Text.find({ project: projectId }).select(
-      'name contentEncSaved status classifications'
-    )
+    const project = await Project.findById(projectId)
+      .select('name classActive classifications texts')
+      .populate({
+        path: 'texts',
+        select: 'name contentEncSaved status classifications',
+      })
+    if (!(await checkPassword(project.name, password)))
+      throw new Error('Invalid project password')
+
     await fileHandler.write(
       folderPath,
       project.name,
-      texts,
+      project.texts,
       password,
       project.classActive,
       project.classifications
     )
 
-    return true
+    return
   } catch (error) {
     throw new Error(error.message)
   }

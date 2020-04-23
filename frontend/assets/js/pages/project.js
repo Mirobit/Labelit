@@ -344,10 +344,6 @@ const exportTexts = async () => {
   })
 
   if (result.status === true) {
-    if (result.valid === false) {
-      displayMessage(false, 'Invalid project password')
-      return
-    }
     displayMessage(result.status, 'Text files successfully exported')
   } else {
     displayMessage(result.status, 'Could not export text files')
