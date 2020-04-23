@@ -32,6 +32,7 @@ router.post('/', async (req, res) => {
       description: req.body.description,
       folderPath: req.body.folderPath,
       password: req.body.password,
+      classActive: req.body.classification,
     })
     res.json({ status: true })
   } catch (error) {
@@ -117,7 +118,7 @@ router.put('/:projectId/categories/:categoryId', async (req, res) => {
   }
 })
 
-// Remove
+// Remove Category
 router.delete('/:projectId/categories/:categoryId', async (req, res) => {
   try {
     await projectsService.removeCategory(
@@ -130,5 +131,58 @@ router.delete('/:projectId/categories/:categoryId', async (req, res) => {
     res.json({ status: false })
   }
 })
+
+// Add Classification
+router.post('/:projectId/classifications', async (req, res) => {
+  try {
+    const project = await projectsService.addClassification(
+      req.params.projectId,
+      {
+        name: req.body.name,
+      }
+    )
+    res.json({ status: true, project })
+  } catch (error) {
+    console.log(error)
+    res.json({ status: false })
+  }
+})
+
+// Update Classification
+router.put(
+  '/:projectId/classifications/:classificationId',
+  async (req, res) => {
+    try {
+      const classification = await projectsService.updateClassification(
+        req.params.projectId,
+        req.params.classificationId,
+        {
+          name: req.body.name,
+        }
+      )
+      res.json({ status: true, classification })
+    } catch (error) {
+      console.log(error)
+      res.json({ status: false })
+    }
+  }
+)
+
+// Remove Classification
+router.delete(
+  '/:projectId/classifications/:classificationId',
+  async (req, res) => {
+    try {
+      await projectsService.removeClassification(
+        req.params.projectId,
+        req.params.classificationId
+      )
+      res.json({ status: true })
+    } catch (error) {
+      console.log(error)
+      res.json({ status: false })
+    }
+  }
+)
 
 module.exports = router

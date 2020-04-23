@@ -158,7 +158,8 @@ const addLabel = (key) => {
   spanOriginal.hidden = true
   spanOriginal.innerText = selected
   const spanRemove = span.appendChild(document.createElement('span'))
-  spanRemove.classList.add('removeInit')
+  spanRemove.classList.add('remove')
+  spanRemove.id = 'removeInit'
 
   // Insert created element and remove selection
   range.insertNode(span)
@@ -177,7 +178,7 @@ const addLabel = (key) => {
     new RegExp('(?![^<]*>)\\b' + selected + '\\b((?!<\\/span))', 'g'),
     confirmHTML
   )
-  // Necessary since all previously set eventlisteners are removed during innerHTMLreplace
+  // Necessary since all previously set eventlisteners are removed during innerHTML.replace
   // No working -> spanRemove.onclick = () => removeLabel(spanRemove)
   textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(
     new RegExp('<span class="removeInit"></span>', 'g'),

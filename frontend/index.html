@@ -112,11 +112,11 @@
                   <div class="custom-control custom-checkbox mb-3">
                     <input
                       class="custom-control-input"
-                      id="customCheck1"
+                      id="classificationNew"
                       type="checkbox"
                     /><label
                       class="custom-control-label text-muted"
-                      for="customCheck1"
+                      for="classificationNew"
                       >Enable classification of tetxs</label
                     >
                   </div>
@@ -144,6 +144,24 @@
         <div id="projectPage" hidden>
           <div class="row">
             <div class="col-5" style="margin-right: 0;">
+              <div class="card projectcard">
+                <div class="card-body">
+                  <span class="inline">
+                    <div class="subHeader">Texts</div>
+                    <button
+                      type="button"
+                      class="btn btn-outline-primary btn-sm"
+                      style="float: right; margin-left: auto;"
+                      onclick="projectFuncs.checkTexts()"
+                    >
+                      Check
+                    </button>
+                  </span>
+                  <div id="texts"></div>
+                </div>
+              </div>
+            </div>
+            <div class="col-5" style="padding-left: 0;">
               <div class="card projectcard">
                 <div class="card-body">
                   <span class="inline">
@@ -221,7 +239,7 @@
                   </div>
                 </div>
               </div>
-              <div class="card projectcard">
+              <div class="card projectcard" id="categories">
                 <div class="card-body">
                   <span class="inline">
                     <div class="subHeader">Categories</div>
@@ -297,22 +315,44 @@
                   </form>
                 </div>
               </div>
-            </div>
-            <div class="col-6" style="padding-left: 0;">
-              <div class="card projectcard">
+              <div class="card projectcard" id="classifications" hidden>
                 <div class="card-body">
                   <span class="inline">
-                    <div class="subHeader">Texts</div>
+                    <div class="subHeader">Classifications</div>
                     <button
                       type="button"
                       class="btn btn-outline-primary btn-sm"
                       style="float: right; margin-left: auto;"
-                      onclick="projectFuncs.checkTexts()"
+                      onclick="projectFuncs.showNewClassification()"
                     >
-                      Check
+                      New
                     </button>
                   </span>
-                  <div id="texts"></div>
+                  <div id="projectClassifications"></div>
+                  <form
+                    id="classificationForm"
+                    style="margin-top: 10px;"
+                    hidden
+                  >
+                    <span class="inline">
+                      <input
+                        type="text"
+                        class="form-control form-control-sm form-control-alternative"
+                        placeholder="Name of classification"
+                        id="classificationName"
+                        aria-describedby="nameHelp"
+                        style="width: 160px;"
+                      />
+                      <button
+                        type="button"
+                        class="btn btn-primary btn-sm"
+                        id="submitClassification"
+                        onclick="projectFuncs.addClassification()"
+                      >
+                        Add
+                      </button>
+                    </span>
+                  </form>
                 </div>
               </div>
             </div>

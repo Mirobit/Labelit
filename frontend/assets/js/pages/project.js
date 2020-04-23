@@ -14,33 +14,13 @@ const init = async () => {
     displayMessage(result.status, 'Project could not be loaded')
     return
   }
+  // Main
   Store.project = result.project
   document.title = `Labelit - Project: ${Store.project.name}`
-
   setNavPath(close, Store.project.name)
+  console.log(result.project)
 
-  document.getElementById('projectDescription').innerText =
-    Store.project.description
-  document.getElementById(
-    'projectProgress'
-  ).innerHTML = ` <div class="progress-percentage"><span>${Store.project.progress}%</span></div>
-  <div class="progress">
-    <div class="progress-bar" style="width: ${Store.project.progress}%;" role="progressbar" aria-valuenow="${Store.project.progress}" aria-valuemin="0" aria-valuemax="100"></div>
-  </div>`
-
-  let categoryMenuHTML = 'No categories'
-  if (Store.project.categories.length > 0) {
-    categoryMenuHTML = Store.project.categories.reduce(
-      (outputHTML, category) =>
-        outputHTML +
-        `<button type="button" class="btn btn-${category.color} btn-sm" onclick="projectFuncs.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
-    </button><span class="remove middle" onclick="projectFuncs.removeCategory('${category._id}')" hidden></span>
-    `,
-      ''
-    )
-  }
-  document.getElementById('projectCategories').innerHTML = categoryMenuHTML
-
+  // Texts
   document.getElementById('texts').innerHTML = Store.project.texts.reduce(
     (outputHTML, text) => {
       let status = ''
@@ -56,10 +36,54 @@ const init = async () => {
     },
     ''
   )
+
+  // Information
+  document.getElementById('projectDescription').innerText =
+    Store.project.description
+  document.getElementById(
+    'projectProgress'
+  ).innerHTML = ` <div class="progress-percentage"><span>${Store.project.progress}%</span></div>
+  <div class="progress">
+    <div class="progress-bar" style="width: ${Store.project.progress}%;" role="progressbar" aria-valuenow="${Store.project.progress}" aria-valuemin="0" aria-valuemax="100"></div>
+  </div>`
+
+  // Categories
+  let categoryMenuHTML = 'No categories'
+  if (Store.project.categories.length > 0) {
+    categoryMenuHTML = Store.project.categories.reduce(
+      (outputHTML, category) =>
+        outputHTML +
+        `<button type="button" class="btn btn-${category.color} btn-sm" onclick="projectFuncs.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
+    </button><span class="remove middle" onclick="projectFuncs.removeCategory('${category._id}')" hidden></span>
+    `,
+      ''
+    )
+  }
+  document.getElementById('projectCategories').innerHTML = categoryMenuHTML
+
+  // Classifications
+  if (Store.project.classActive) {
+    document.getElementById('classifications').hidden = false
+    let classificationMenuHTML = 'No classifications'
+    if (Store.project.classifications.length > 0) {
+      classificationMenuHTML = Store.project.classifications.reduce(
+        (outputHTML, classification) =>
+          outputHTML +
+          `<button type="button" class="btn btn-secondary btn-sm" onclick="projectFuncs.showEditClassification('${classification._id}', this)">${classification.name} <span class="sr-only">key</span>
+      </button><span class="remove middle" onclick="projectFuncs.removeClassification('${classification._id}')" hidden></span>
+      `,
+        ''
+      )
+    }
+    document.getElementById(
+      'projectClassifications'
+    ).innerHTML = classificationMenuHTML
+  }
 }
 
 const close = () => {
   Store.projectPage.hidden = true
+  document.getElementById('classifications').hidden = true
 }
 
 const openText = (textId) => {
@@ -97,7 +121,9 @@ const removeProject = async () => {
 }
 
 const showNewCategory = () => {
-  Array.from(document.getElementsByClassName('remove')).forEach((element) => {
+  Array.from(
+    document.getElementById('categories').getElementsByClassName('remove')
+  ).forEach((element) => {
     element.hidden = true
   })
   const current = document.getElementById('categoryForm').hidden
@@ -203,6 +229,96 @@ const removeCategory = async (categoryId) => {
   }
 }
 
+const showNewClassification = () => {
+  Array.from(
+    document.getElementById('classifications').getElementsByClassName('remove')
+  ).forEach((element) => {
+    element.hidden = true
+  })
+  const form = document.getElementById('classificationForm')
+  if (form.hidden === false) {
+    const button = document.getElementById('submitClassification')
+    if (button.innerText === 'Update') {
+      button.innerText = 'Add'
+      document.getElementById('classificationName').value = ''
+      button.onclick = () => projectFuncs.addClassification()
+      return
+    }
+  }
+  form.hidden = !form.hidden
+}
+
+const addClassification = async () => {
+  const classificationNameEl = document.getElementById('classificationName')
+
+  const result = await sendData(
+    `/projects/${Store.project._id}/classifications`,
+    'POST',
+    {
+      name: classificationNameEl.value,
+    }
+  )
+  if (result.status === true) {
+    classificationNameEl.value = ''
+    init()
+    displayMessage(result.status, 'Classification successfully added')
+  } else {
+    displayMessage(result.status, 'Could not add classification')
+  }
+}
+
+const showEditClassification = async (classificationId, node) => {
+  Array.from(
+    document.getElementById('classifications').getElementsByClassName('remove')
+  ).forEach((element) => {
+    element.hidden = true
+  })
+  node.nextSibling.hidden = false
+  document.getElementById('classificationForm').hidden = false
+  const classification = Store.project.classifications.find(
+    (classification) => classification._id === classificationId
+  )
+  const button = document.getElementById('submitClassification')
+  document.getElementById('classificationName').value = classification.name
+  button.innerText = 'Update'
+  button.onclick = () => projectFuncs.updateClassification(classificationId)
+}
+
+const updateClassification = async (classificationId) => {
+  const classificationNameEl = document.getElementById('classificationName')
+
+  const result = await sendData(
+    `/projects/${Store.project._id}/classifications/${classificationId}`,
+    'PUT',
+    {
+      name: classificationNameEl.value,
+    }
+  )
+  if (result.status === true) {
+    init()
+    classificationNameEl.value = ''
+    const button = document.getElementById('submitClassification')
+    button.innerText = 'Add'
+    button.onclick = projectFuncs.addClassification
+    displayMessage(result.status, 'Classification successfully updated')
+  } else {
+    displayMessage(result.status, 'Could not update classification')
+  }
+}
+
+const removeClassification = async (classificationId) => {
+  const result = await sendData(
+    `/projects/${Store.project._id}/classifications/${classificationId}`,
+    'DELETE'
+  )
+  if (result.status === true) {
+    init()
+    displayMessage(result.status, 'Classification successfully removed')
+  } else {
+    displayMessage(result.status, 'Could not remove classification')
+  }
+}
+
 const checkTexts = async () => {
   const result = await sendData(`/texts/check`, 'POST', {
     projectId: Store.project._id,
@@ -251,15 +367,20 @@ const showProjectForm = () => {
 
 export {
   init,
+  showProjectForm,
   updateProject,
   removeProject,
   addCategory,
+  showNewCategory,
   showEditCategory,
   updateCategory,
   removeCategory,
+  addClassification,
+  showNewClassification,
+  showEditClassification,
+  updateClassification,
+  removeClassification,
   exportTexts,
   checkTexts,
-  showNewCategory,
-  showProjectForm,
   openText,
 }

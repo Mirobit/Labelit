@@ -26,7 +26,7 @@ const list = async () => {
 
 const create = async (data) => {
   try {
-    // TODO: parallelise?
+    console.log(data)
     const project = await new Project(data)
     const textData = await fileHandler.read(
       data.folderPath,
@@ -102,7 +102,7 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
     const project = await Project.findById(projectId)
 
     const catIndex = project.categories.findIndex(
-      (category) => category.id === categoryId
+      (category) => category._id == categoryId
     )
     const dupIndex = project.categories.findIndex(
       (category) =>
@@ -135,6 +135,81 @@ const removeCategory = async (projectId, categoryId) => {
   }
 }
 
+const addClassification = async (projectId, newClassification) => {
+  try {
+    const project = await Project.findById(projectId)
+    if (
+      project.classifications.some(
+        (classification) =>
+          classification.name.toUpperCase() ===
+          newClassification.name.toUpperCase()
+      )
+    ) {
+      throw new Error('Duplicate category')
+    }
+    project.classifications.push(newClassification)
+    await project.save()
+
+    return project
+  } catch (error) {
+    throw new Error(error)
+  }
+}
+
+const updateClassification = async (
+  projectId,
+  classificationId,
+  classificationData
+) => {
+  try {
+    const project = await Project.findById(projectId)
+
+    const classIndex = project.classifications.findIndex(
+      (classification) => classification._id == classificationId
+    )
+    const dupIndex = project.classifications.findIndex(
+      (classification, index) => {
+        console.log(
+          index,
+          classIndex,
+          classification.name,
+          classificationData.name
+        )
+        return (
+          index != classIndex &&
+          classification.name.toUpperCase() ===
+            classificationData.name.toUpperCase()
+        )
+      }
+    )
+
+    if (dupIndex !== -1) throw new Error('Duplicate classification')
+
+    project.classifications[classIndex] = {
+      ...classificationData,
+      _id: classificationId,
+    }
+    await project.save()
+    console.log(project.classifications)
+    return project
+  } catch (error) {
+    console.log(error)
+    throw new Error(error.message)
+  }
+}
+
+const removeClassification = async (projectId, classificationId) => {
+  try {
+    const project = await Project.findOneAndUpdate(
+      { _id: projectId },
+      { $pull: { classifications: { _id: classificationId } } }
+    )
+    return project
+  } catch (error) {
+    throw new Error(error.message)
+  }
+}
+
 module.exports = {
   get,
   list,
@@ -145,4 +220,7 @@ module.exports = {
   addCategory,
   updateCategory,
   removeCategory,
+  addClassification,
+  updateClassification,
+  removeClassification,
 }

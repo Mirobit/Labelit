@@ -57,26 +57,11 @@ const projectSchema = new Schema(
         },
       },
     ],
-    classificationEnabled: {
+    classActive: {
       type: Boolean,
       default: false,
     },
-    classifications: [
-      {
-        name: {
-          type: String,
-          required: true,
-        },
-        key: {
-          type: String,
-          required: true,
-        },
-        color: {
-          type: String,
-          required: true,
-        },
-      },
-    ],
+    classifications: [{ name: { type: String } }],
     texts: [{ type: Schema.Types.ObjectId, ref: 'Text' }],
     words: [
       {

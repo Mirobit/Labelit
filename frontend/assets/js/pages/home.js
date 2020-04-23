@@ -48,6 +48,7 @@ const openProject = (projectName) => {
 const createProject = async () => {
   const name = document.getElementById('nameNew').value
   const description = document.getElementById('descriptionNew').value
+  const classification = document.getElementById('classificationNew').checked
   const passwordEl = document.getElementById('passwordNew')
   const passwordRepeatEl = document.getElementById('passwordRepeatNew')
   const folderPath = document.getElementById('folderPathNew').value
@@ -70,6 +71,7 @@ const createProject = async () => {
     description,
     folderPath,
     password: passwordEl.value,
+    classification,
   })
   if (result.status === true) {
     document.getElementById('nameNew').value = ''
@@ -77,6 +79,7 @@ const createProject = async () => {
     document.getElementById('passwordNew').value = ''
     document.getElementById('passwordRepeatNew').value = ''
     document.getElementById('folderPathNew').value = ''
+    document.getElementById('classificationNew').checked = false
     init()
     displayMessage(result.status, 'Project successfully created')
   } else {
