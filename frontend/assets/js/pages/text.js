@@ -44,14 +44,14 @@ const init = async (nextTextId) => {
 
   // Create category menu
   categories = result.categories
-  let categoryMenuHTML = 'No categories'
+  let categoryMenuHTML = '<div class="subHeader">Categories</div>'
   if (categories.length > 0) {
     categoryMenuHTML = categories.reduce(
       (outputHTML, category) =>
         outputHTML +
         `<div class="categoryButton"><button type="button" class="btn btn-${category.color} btn-sm" onclick="textFuncs.addLabel('${category.key}')">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span></button></div>
     `,
-      ''
+      '<div class="subHeader">Categories</div>'
     )
   }
   document.getElementById('categorymenu').innerHTML = categoryMenuHTML
@@ -59,7 +59,7 @@ const init = async (nextTextId) => {
   // Create classification menu classificationsmenu
   if (result.classActive) {
     document.getElementById('classificationsmenu').hidden = false
-    let classificationsMenuHTML = 'No classifications'
+    let classificationsMenuHTML = '<div class="subHeader">Texts</div>'
     if (result.classifications.length > 0) {
       classificationsMenuHTML = result.classifications.reduce(
         (outputHTML, classification) =>
@@ -67,16 +67,16 @@ const init = async (nextTextId) => {
           `<div class="custom-control custom-checkbox mb-3">
         <input
           class="custom-control-input"
-          id="classificationCheckbox"
+          id="classificationCheckbox${classification.name}"
           value="${classification._id}"
           type="checkbox"
         /><label
           class="custom-control-label "
-          for="classificationCheckbox"
+          for="classificationCheckbox${classification.name}"
           >${classification.name}</label
         >
       </div>`,
-        ''
+        '<div class="subHeader">Classifications</div>'
       )
     }
     document.getElementById(
