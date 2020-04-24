@@ -23,7 +23,10 @@
     "type": "git",
     "url": "git+https://github.com/mirobit/labelit"
   },
-  "author": "Michael Rotarius",
+  "author": "Michael Rotarius (https://github.com/Mirobit)",
+  "contributors": [
+    "Leona Hammelrath (https://github.com/leona-ha)"
+  ],
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/mirobit/labelit/issues"
