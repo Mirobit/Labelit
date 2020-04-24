@@ -145,7 +145,7 @@
         <!-- Home Page End -->
         <!-- Project Page Start -->
         <div class="row" id="projectPage" hidden>
-          <div class="col-5" style="padding-left: 0;">
+          <div class="col-5" style="max-width: 400px;">
             <div class="card projectcard">
               <div class="card-body">
                 <span class="inline">
@@ -334,13 +334,11 @@
               </div>
             </div>
           </div>
-          <div class="col-5" style="margin-right: 0;">
-            <div class="card projectcard" style="width: 25rem;">
+          <div class="col-5">
+            <div class="card projectcard" style="width: 23rem;">
               <div class="card-body">
                 <span class="inline">
-                  <div class="subHeader">
-                    <i class="fa fa-files-o" aria-hidden="true"></i> Texts
-                  </div>
+                  <div class="subHeader">Texts</div>
                   <button
                     type="button"
                     class="btn btn-outline-primary btn-sm"
@@ -375,8 +373,7 @@
                   <button
                     id="savetext"
                     type="button"
-                    class="btn btn-outline-primary"
-                    style="width: 100%;"
+                    class="btn btn-outline-primary saveButton"
                     onclick="textFuncs.updateText()"
                   >
                     <i
@@ -421,7 +418,7 @@
                 minlength="4"
               />
             </div>
-            <div class="">
+            <div>
               <button
                 type="button"
                 class="btn btn-primary"

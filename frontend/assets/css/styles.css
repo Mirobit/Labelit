@@ -114,6 +114,10 @@ body {
   margin-left: 20px;
   margin-bottom: 10px;
 }
+.saveButton {
+  width: 100%;
+  background-color: white;
+}
 .btn-outline-grey {
   color: #525f7f;
   background-color: #fff;
