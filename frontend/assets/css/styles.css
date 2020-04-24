@@ -84,9 +84,6 @@ body {
   height: 14px;
   margin-left: 5px;
 }
-.save {
-  margin-top: 20px;
-}
 .categoryButton {
   margin-bottom: 12px;
 }
@@ -104,11 +101,18 @@ body {
 .form-bottom {
   margin-bottom: 15px;
 }
+.sidebar {
+  width: auto;
+}
 .pagination {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-left: 20px;
+}
+.save {
+  margin-left: 20px;
+  margin-bottom: 10px;
 }
 .btn-outline-grey {
   color: #525f7f;
