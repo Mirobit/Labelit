@@ -135,7 +135,7 @@ const update = async (
     }
     await project.save()
 
-    return await getNext(textId, projectId)
+    return
   } catch (error) {
     console.log(error)
     throw new Error(error.message)

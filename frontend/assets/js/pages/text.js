@@ -263,6 +263,8 @@ const updateText = async () => {
     )
     return
   }
+
+  // Array with selected classifications
   const classArr = []
   for (let i = 0; i < classList.length; i++) {
     classArr.push(classList[i].value)
@@ -278,7 +280,7 @@ const updateText = async () => {
   })
   if (result.status === true) {
     closeMessage()
-    init(result.nextTextId)
+    displayMessage(true, 'Text saved')
   } else {
     displayMessage(false, 'Could not update text')
   }

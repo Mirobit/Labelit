@@ -36,7 +36,7 @@ router.get('/next/:textId/:projectId/:prev', async (req, res) => {
 // Update text
 router.put('/:textId', async (req, res) => {
   try {
-    const nextTextId = await textsService.update(
+    await textsService.update(
       req.body.textRaw,
       req.body.htmlText,
       req.params.textId,
@@ -46,10 +46,7 @@ router.put('/:textId', async (req, res) => {
       req.body.password,
       req.body.classifications
     )
-    res.json({
-      status: true,
-      nextTextId: nextTextId,
-    })
+    res.json({ status: true })
   } catch (error) {
     console.log(error)
     res.json({ status: false })
