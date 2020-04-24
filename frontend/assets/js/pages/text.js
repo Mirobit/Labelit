@@ -1,5 +1,5 @@
 import { sendData, getData } from '../api.js'
-import { setNavPath } from '../index.js'
+import { setNavPath, switchPage } from '../index.js'
 import Store from '../store.js'
 import { closeMessage, displayMessage } from '../components/message.js'
 
@@ -19,7 +19,11 @@ const init = async (nextTextId) => {
     textId = url.match(regex)[1]
   } else {
     textId = nextTextId
-    history.pushState(null, '', `/project/${Store.project.name}/text/${textId}`)
+    history.pushState(
+      null,
+      '',
+      `/project/${encodeURI(Store.project.name)}/text/${textId}`
+    )
     newWords.length = 0
   }
   const result = await sendData(`/texts/${textId}/load`, 'POST', {
@@ -239,12 +243,13 @@ const getNextText = async (prev = false) => {
   const result = await getData(
     `/texts/next/${textId}/${Store.project._id}/${prev}`
   )
-  if (result.status === true) {
-    closeMessage()
-    init(result.textId)
-  } else {
+  if (result.status === false) {
     displayMessage(false, `Could not load ${prev ? 'previous' : 'next'} text`)
+    return
   }
+  closeMessage()
+  if (result.textId) init(result.textId)
+  else switchPage(close, `/project/${encodeURI(Store.project.name)}`)
 }
 
 const updateText = async () => {

@@ -31,7 +31,8 @@ npm start
 
 Go to your browser and enter `http://localhost:8000/`
 
-## How to Use Labelit
+## How To
+
 See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md)
 
 ## Features

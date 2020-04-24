@@ -64,6 +64,7 @@ const getNext = async (textId, projectId, prev = false) => {
   if (prev) {
     nextText = await Text.findOne({
       project: projectId,
+      status: { $ne: 'confirmed' },
       _id: { $lt: textId },
     })
       .sort({ _id: -1 })
@@ -71,18 +72,22 @@ const getNext = async (textId, projectId, prev = false) => {
   } else {
     nextText = await Text.findOne({
       project: projectId,
+      status: { $ne: 'confirmed' },
       _id: { $gt: textId },
     }).select('_id')
   }
 
   if (nextText === null) {
     const sortBy = prev ? -1 : 1
-    nextText = await Text.findOne({ project: projectId })
+    nextText = await Text.findOne({
+      project: projectId,
+      status: { $ne: 'confirmed' },
+    })
       .sort({ _id: sortBy })
       .select('_id')
   }
-
-  return nextText._id
+  if (nextText) return nextText._id
+  return ''
 }
 
 const list = async (projectId) => {

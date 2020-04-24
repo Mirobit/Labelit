@@ -66,7 +66,7 @@ const setNavPath = (closeFunc, projectName, textName) => {
 
     if (textName) {
       navPath2El.onclick = () =>
-        switchPage(closeFunc, `/project/${projectName}`)
+        switchPage(closeFunc, `/project/${encodeURI(projectName)}`)
       navPath2El.classList.add('link')
       divider3.hidden = false
       navPath3El.innerText = `${textName}`
