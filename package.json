@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "node server/app.js",
-    "dev": "cross-env NODE_ENV=development nodemon server/app.js"
+    "dev": "nodemon server/app.js"
   },
   "repository": {
     "type": "git",
