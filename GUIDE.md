@@ -1,6 +1,6 @@
 # User Guide for the Labelit Platform
 
-This document will tell you how to use the Labelit Platform. If you have problems installing or running Labelit check README.md.
+This document will tell you how to use the Labelit Platform. If you have problems installing or running Labelit check [README.md](https://github.com/Mirobit/Labelit/blob/master/README.md).
 
 ## Landing Page
 
