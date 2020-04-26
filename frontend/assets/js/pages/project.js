@@ -185,21 +185,24 @@ const showEditCategory = async (categoryId, node) => {
   const form = document.getElementById('categoryForm')
   const button = document.getElementById('submitCategory')
 
-  if (button.innerText.includes('ADD')) {
-    const category = Store.project.categories.find(
-      (category) => category._id === categoryId
-    )
+  const category = Store.project.categories.find(
+    (category) => category._id === categoryId
+  )
 
-    node.nextSibling.hidden = false
-    document.getElementById('categoryName').value = category.name
-    document.getElementById('categoryKey').value = category.key
-    document.getElementById('categoryColor').value =
-      category.color + ',' + category.colorHex
-    button.innerText = 'UPDATE'
-    button.onclick = () => projectFuncs.updateCategory(categoryId)
-    if (form.hidden === false) {
-      return
-    }
+  node.nextSibling.hidden = false
+  if (document.getElementById('categoryName').value === category.name) {
+    form.hidden = !form.hidden
+    node.nextSibling.hidden = true
+    return
+  }
+  document.getElementById('categoryName').value = category.name
+  document.getElementById('categoryKey').value = category.key
+  document.getElementById('categoryColor').value =
+    category.color + ',' + category.colorHex
+  button.innerText = 'UPDATE'
+  button.onclick = () => projectFuncs.updateCategory(categoryId)
+  if (form.hidden === false) {
+    return
   }
 
   if (form.hidden === true) node.nextSibling.hidden = false
@@ -304,18 +307,24 @@ const showEditClassification = async (classificationId, node) => {
   const form = document.getElementById('classificationForm')
   const button = document.getElementById('submitClassification')
 
-  if (button.innerText.includes('ADD')) {
-    const classification = Store.project.classifications.find(
-      (classification) => classification._id === classificationId
-    )
+  const classification = Store.project.classifications.find(
+    (classification) => classification._id === classificationId
+  )
+  node.nextSibling.hidden = false
 
-    node.nextSibling.hidden = false
-    document.getElementById('classificationName').value = classification.name
-    button.innerText = 'UPDATE'
-    button.onclick = () => projectFuncs.updateClassification(classificationId)
-    if (form.hidden === false) {
-      return
-    }
+  if (
+    document.getElementById('classificationName').value === classification.name
+  ) {
+    form.hidden = !form.hidden
+    node.nextSibling.hidden = true
+    return
+  }
+
+  document.getElementById('classificationName').value = classification.name
+  button.innerText = 'UPDATE'
+  button.onclick = () => projectFuncs.updateClassification(classificationId)
+  if (form.hidden === false) {
+    return
   }
 
   if (form.hidden === true) node.nextSibling.hidden = false
