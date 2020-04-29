@@ -128,6 +128,56 @@ body {
 .btn-outline-grey.focus {
   box-shadow: 0 0 0 0 rgba(94, 114, 228, 0.5);
 }
+.btn-main {
+  color: #fff;
+  background-color: #93c4c6;
+  border-color: #fff;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.btn-main:hover {
+  color: #fff;
+  background-color: #83afb1;
+  border-color: #fff;
+}
+.btn-main:focus,
+.btn-main.focus {
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.btn-outline-main {
+  color: #93c4c6;
+  border-color: #93c4c6;
+}
+.btn-outline-main:hover {
+  color: #fff;
+  background-color: #93c4c6;
+  border-color: white;
+}
+.btn-outline-main:focus,
+.btn-outline-main.focus {
+  box-shadow: 0 0 0 0 rgba(94, 114, 228, 0.5);
+}
+
+.custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
+  border-color: #93c4c6;
+}
+.custom-control-input:checked ~ .custom-control-label::before {
+  color: #fff;
+  border-color: #93c4c6;
+  background-color: #93c4c6;
+  box-shadow: none;
+}
+.custom-control-input:focus:not(:checked) ~ .custom-control-label::before {
+  border-color: #cad1d7;
+}
+.custom-control-input:not(:disabled):active ~ .custom-control-label::before {
+  color: #fff;
+  background-color: #93c4c6;
+  border-color: #93c4c6;
+  box-shadow: none;
+}
+
 .footer {
   float: right;
   padding-right: 10%;
