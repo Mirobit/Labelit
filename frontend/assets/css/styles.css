@@ -154,8 +154,10 @@ body {
 
 #headerText {
   color: white;
-  font-size: 20px;
+  font-size: 24px;
+  letter-spacing: 0.1em;
   font-weight: 600;
+  margin-left: 10px;
 }
 #content {
   margin-left: 10%;
