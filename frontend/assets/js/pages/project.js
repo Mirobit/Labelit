@@ -99,7 +99,7 @@ const updateProject = async () => {
   })
   if (result.status === true) {
     document.getElementById('projectForm').hidden = true
-    history.pushState(null, '', `/projects/${newProjectName}`)
+    history.pushState(null, '', `/project/${newProjectName}`)
     init()
     displayMessage(result.status, 'Project successfully updated')
   } else {
