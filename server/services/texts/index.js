@@ -30,34 +30,30 @@ const checkWorldlist = (contentHtml, words, categories, password) => {
 }
 
 const load = async (textId, password) => {
-  try {
-    const data = await Text.findById(textId).populate({
-      path: 'project',
-      select:
-        'password categories classifications classActive showConfirmed words name',
-    })
-    if (hash(password) !== data.project.password) {
-      throw new Error('Invalid project password')
-    }
+  const data = await Text.findById(textId).populate({
+    path: 'project',
+    select:
+      'password categories classifications classActive showConfirmed words name',
+  })
+  if (hash(password) !== data.project.password) {
+    throw { name: 'Custom', message: 'Invalid project password' }
+  }
 
-    let { contentHtml, hits } = checkWorldlist(
-      decrypt(data.contentEncHtml, password),
-      data.project.words,
-      data.project.categories,
-      password
-    )
-    return {
-      textName: data.name,
-      projectId: data.project._id,
-      contentHtml,
-      showConfirmed: data.project.showConfirmed,
-      categories: data.project.categories,
-      classActive: data.project.classActive,
-      classifications: data.classifications,
-      projectClassifications: data.project.classifications,
-    }
-  } catch (error) {
-    throw new Error(error.message)
+  let { contentHtml, hits } = checkWorldlist(
+    decrypt(data.contentEncHtml, password),
+    data.project.words,
+    data.project.categories,
+    password
+  )
+  return {
+    textName: data.name,
+    projectId: data.project._id,
+    contentHtml,
+    showConfirmed: data.project.showConfirmed,
+    categories: data.project.categories,
+    classActive: data.project.classActive,
+    classifications: data.classifications,
+    projectClassifications: data.project.classifications,
   }
 }
 
@@ -93,12 +89,7 @@ const getNext = async (textId, projectId, showConfirmed, prev = false) => {
 }
 
 const list = async (projectId) => {
-  try {
-    const texts = await Texts.find({ project: projectId })
-    return texts
-  } catch (error) {
-    throw new Error(error.message)
-  }
+  return await Texts.find({ project: projectId })
 }
 
 const update = async (
@@ -111,49 +102,40 @@ const update = async (
   password,
   classifications
 ) => {
-  try {
-    const text = await Text.findOneAndUpdate(
-      { _id: textId },
-      {
-        contentEncSaved: encrypt(textRaw, password),
-        contentEncHtml: encrypt(htmlText, password),
-        status: 'confirmed',
-        classifications,
-      },
-      {
-        runValidators: true,
-      }
-    ).select('status')
-
-    const project = await Project.findById(projectId)
-    for (const newWord of newWords) {
-      const strEnc = encrypt(newWord.str, password)
-      if (project.words.some((word) => word.strEnc === strEnc)) continue
-      project.words.push({
-        strEnc: strEnc,
-        category: newWord.category,
-      })
+  const text = await Text.findOneAndUpdate(
+    { _id: textId },
+    {
+      contentEncSaved: encrypt(textRaw, password),
+      contentEncHtml: encrypt(htmlText, password),
+      status: 'confirmed',
+      classifications,
+    },
+    {
+      runValidators: true,
     }
-    if (text.status === 'new') {
-      project.textUpdatedCount++
-      project.progress = Math.round(
-        (project.textUpdatedCount / project.textCount) * 100
-      )
-    }
-    await project.save()
+  ).select('status')
 
-    return
-  } catch (error) {
-    throw new Error(error.message)
+  const project = await Project.findById(projectId)
+  for (const newWord of newWords) {
+    const strEnc = encrypt(newWord.str, password)
+    if (project.words.some((word) => word.strEnc === strEnc)) continue
+    project.words.push({
+      strEnc: strEnc,
+      category: newWord.category,
+    })
   }
+  if (text.status === 'new') {
+    project.textUpdatedCount++
+    project.progress = Math.round(
+      (project.textUpdatedCount / project.textCount) * 100
+    )
+  }
+
+  await project.save()
 }
 
 const remove = async (id) => {
-  try {
-    return await Text.findOneAndDelete({ _id: id })
-  } catch (error) {
-    throw new Error(error.message)
-  }
+  return await Text.findOneAndDelete({ _id: id })
 }
 
 const checkAll = async (projectId, password) => {
@@ -195,29 +177,23 @@ const checkAll = async (projectId, password) => {
 }
 
 const exportAll = async (projectId, folderPath, password) => {
-  try {
-    const project = await Project.findById(projectId)
-      .select('name classActive classifications texts')
-      .populate({
-        path: 'texts',
-        select: 'name contentEncSaved status classifications',
-      })
+  const project = await Project.findById(projectId)
+    .select('name classActive classifications texts')
+    .populate({
+      path: 'texts',
+      select: 'name contentEncSaved status classifications',
+    })
 
-    await checkPassword(project.name, password)
+  await checkPassword(project.name, password)
 
-    await fileHandler.write(
-      folderPath,
-      project.name,
-      project.texts,
-      password,
-      project.classActive,
-      project.classifications
-    )
-
-    return
-  } catch (error) {
-    throw new Error(error.message)
-  }
+  await fileHandler.write(
+    folderPath,
+    project.name,
+    project.texts,
+    password,
+    project.classActive,
+    project.classifications
+  )
 }
 
 module.exports = {

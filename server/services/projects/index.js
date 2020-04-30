@@ -17,47 +17,34 @@ const list = async () => {
 }
 
 const create = async (data) => {
-  try {
-    const project = await new Project(data)
-    const textData = await fileHandler.read(
-      data.folderPath,
-      project._id,
-      data.password
-    )
-    project.textCount = textData.textCount
-    const texts = await Text.insertMany(textData.texts)
-    project.texts = texts.map((text) => text._id)
-    project.password = hash(data.password)
-    await project.save()
-    return true
-  } catch (error) {
-    throw new Error(error.message)
-  }
+  const project = await new Project(data)
+  const textData = await fileHandler.read(
+    data.folderPath,
+    project._id,
+    data.password
+  )
+  project.textCount = textData.textCount
+  const texts = await Text.insertMany(textData.texts)
+  project.texts = texts.map((text) => text._id)
+  project.password = hash(data.password)
+
+  await project.save()
 }
 
 const update = async (id, data) => {
-  try {
-    for (let prop in data) {
-      if (data[prop] === undefined) delete data[prop]
-    }
-    await Project.findOneAndUpdate({ _id: id }, data, {
-      new: true,
-      runValidators: true,
-    })
-    return
-  } catch (error) {
-    throw new Error(error.message)
+  for (let prop in data) {
+    if (data[prop] === undefined) delete data[prop]
   }
+
+  await Project.findOneAndUpdate({ _id: id }, data, {
+    new: true,
+    runValidators: true,
+  })
 }
 
 const remove = async (id) => {
-  try {
-    await Project.findOneAndDelete({ _id: id })
-    await Text.deleteMany({ project: id })
-    return
-  } catch (error) {
-    throw new Error(error.message)
-  }
+  await Project.findOneAndDelete({ _id: id })
+  await Text.deleteMany({ project: id })
 }
 
 const checkPassword = async (projectName, password, projectPassword) => {
@@ -72,85 +59,64 @@ const checkPassword = async (projectName, password, projectPassword) => {
 }
 
 const addCategory = async (projectId, newCategory) => {
-  try {
-    const project = await Project.findById(projectId)
-    if (
-      project.categories.some(
-        (category) =>
-          category.name.toUpperCase() === newCategory.name.toUpperCase() ||
-          category.key === newCategory.key ||
-          category.color === newCategory.color
-      )
-    ) {
-      throw new Error('Duplicate category')
-    }
-    project.categories.push(newCategory)
-    project.save()
-
-    return
-  } catch (error) {
-    throw new Error(error)
+  const project = await Project.findById(projectId)
+  if (
+    project.categories.some(
+      (category) =>
+        category.name.toUpperCase() === newCategory.name.toUpperCase() ||
+        category.key === newCategory.key ||
+        category.color === newCategory.color
+    )
+  ) {
+    throw { name: 'Custom', message: 'Duplicate category' }
   }
+  project.categories.push(newCategory)
+
+  await project.save()
 }
 
 const updateCategory = async (projectId, categoryId, categoryData) => {
-  try {
-    const project = await Project.findById(projectId)
+  const project = await Project.findById(projectId)
 
-    const catIndex = project.categories.findIndex(
-      (category) => category._id == categoryId
-    )
-    const dupIndex = project.categories.findIndex(
-      (category, index) =>
-        index !== catIndex &&
-        (category.name.toUpperCase() === categoryData.name.toUpperCase() ||
-          category.key === categoryData.key ||
-          category.color === categoryData.color)
-    )
+  const catIndex = project.categories.findIndex(
+    (category) => category._id == categoryId
+  )
+  const dupIndex = project.categories.findIndex(
+    (category, index) =>
+      index !== catIndex &&
+      (category.name.toUpperCase() === categoryData.name.toUpperCase() ||
+        category.key === categoryData.key ||
+        category.color === categoryData.color)
+  )
 
-    if (dupIndex !== -1) throw new Error('Duplicate category')
+  if (dupIndex !== -1) throw { name: 'Custom', message: 'Duplicate category' }
 
-    project.categories[catIndex] = { ...categoryData, _id: categoryId }
-    await project.save()
+  project.categories[catIndex] = { ...categoryData, _id: categoryId }
 
-    return
-  } catch (error) {
-    throw new Error(error.message)
-  }
+  await project.save()
 }
 
 const removeCategory = async (projectId, categoryId) => {
-  try {
-    await Project.findOneAndUpdate(
-      { _id: projectId },
-      { $pull: { categories: { _id: categoryId } } }
-    )
-
-    return
-  } catch (error) {
-    throw new Error(error.message)
-  }
+  await Project.findOneAndUpdate(
+    { _id: projectId },
+    { $pull: { categories: { _id: categoryId } } }
+  )
 }
 
 const addClassification = async (projectId, newClassification) => {
-  try {
-    const project = await Project.findById(projectId)
-    if (
-      project.classifications.some(
-        (classification) =>
-          classification.name.toUpperCase() ===
-          newClassification.name.toUpperCase()
-      )
-    ) {
-      throw new Error('Duplicate classification')
-    }
-    project.classifications.push(newClassification)
-    await project.save()
-
-    return
-  } catch (error) {
-    throw new Error(error)
+  const project = await Project.findById(projectId)
+  if (
+    project.classifications.some(
+      (classification) =>
+        classification.name.toUpperCase() ===
+        newClassification.name.toUpperCase()
+    )
+  ) {
+    throw { name: 'Custom', message: 'Duplicate classification' }
   }
+  project.classifications.push(newClassification)
+
+  await project.save()
 }
 
 const updateClassification = async (
@@ -158,47 +124,37 @@ const updateClassification = async (
   classificationId,
   classificationData
 ) => {
-  try {
-    const project = await Project.findById(projectId)
+  const project = await Project.findById(projectId)
 
-    const classIndex = project.classifications.findIndex(
-      (classification) => classification._id == classificationId
-    )
-    const dupIndex = project.classifications.findIndex(
-      (classification, index) => {
-        return (
-          index !== classIndex &&
-          classification.name.toUpperCase() ===
-            classificationData.name.toUpperCase()
-        )
-      }
-    )
-
-    if (dupIndex !== -1) throw new Error('Duplicate classification')
-
-    project.classifications[classIndex] = {
-      ...classificationData,
-      _id: classificationId,
+  const classIndex = project.classifications.findIndex(
+    (classification) => classification._id == classificationId
+  )
+  const dupIndex = project.classifications.findIndex(
+    (classification, index) => {
+      return (
+        index !== classIndex &&
+        classification.name.toUpperCase() ===
+          classificationData.name.toUpperCase()
+      )
     }
-    await project.save()
+  )
 
-    return
-  } catch (error) {
-    throw new Error(error.message)
+  if (dupIndex !== -1)
+    throw { name: 'Custom', message: 'Duplicate classification' }
+
+  project.classifications[classIndex] = {
+    ...classificationData,
+    _id: classificationId,
   }
+
+  await project.save()
 }
 
 const removeClassification = async (projectId, classificationId) => {
-  try {
-    await Project.findOneAndUpdate(
-      { _id: projectId },
-      { $pull: { classifications: { _id: classificationId } } }
-    )
-
-    return
-  } catch (error) {
-    throw new Error(error.message)
-  }
+  await Project.findOneAndUpdate(
+    { _id: projectId },
+    { $pull: { classifications: { _id: classificationId } } }
+  )
 }
 
 module.exports = {
