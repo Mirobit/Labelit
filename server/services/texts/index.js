@@ -4,8 +4,9 @@ const fileHandler = require('../../utils/fileHandler')
 const { checkPassword } = require('../projects')
 const { encrypt, decrypt, hash } = require('../../utils/crypter')
 
-const checkWorldlist = (contentHtml, words, categories, password) => {
+const checkWorldlist = (status, contentHtml, words, categories, password) => {
   let hits = 0
+  if (status === 'confirmed') return { contentHtml, hits }
   const categoriesMap = new Map()
   categories.forEach((category) => {
     categoriesMap.set(String(category._id), category)
@@ -40,6 +41,7 @@ const load = async (textId, password) => {
   }
 
   let { contentHtml, hits } = checkWorldlist(
+    data.status,
     decrypt(data.contentEncHtml, password),
     data.project.words,
     data.project.categories,
