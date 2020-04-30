@@ -33,6 +33,10 @@ const projectSchema = new Schema(
       type: Number,
       default: 0,
     },
+    showConfirmed: {
+      type: Boolean,
+      default: true,
+    },
     categories: [
       {
         name: {

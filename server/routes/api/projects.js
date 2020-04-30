@@ -47,6 +47,7 @@ router.put('/:id', async (req, res) => {
     await projectsService.update(req.params.id, {
       name: req.body.name,
       description: req.body.description,
+      showConfirmed: req.body.showConfirmed,
     })
     res.json({ status: true })
   } catch (error) {

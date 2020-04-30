@@ -101,6 +101,11 @@ body {
 .form-bottom {
   margin-bottom: 15px;
 }
+.showConfirmed {
+  transform: scale(0.9);
+  margin-left: 40px;
+  margin-top: 5px;
+}
 .sidebar {
   width: auto;
 }

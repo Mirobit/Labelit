@@ -16,22 +16,26 @@ router.post('/:textId/load', async (req, res) => {
 })
 
 // Next/prev textId
-router.get('/next/:textId/:projectId/:prev', async (req, res) => {
-  try {
-    const textId = await textsService.getNext(
-      req.params.textId,
-      req.params.projectId,
-      req.params.prev === 'true'
-    )
-    res.json({
-      status: true,
-      textId,
-    })
-  } catch (error) {
-    console.log(error)
-    res.json({ status: false })
+router.get(
+  '/next/:textId/:projectId/:showConfirmed/:prev',
+  async (req, res) => {
+    try {
+      const textId = await textsService.getNext(
+        req.params.textId,
+        req.params.projectId,
+        req.params.showConfirmed,
+        req.params.prev === 'true'
+      )
+      res.json({
+        status: true,
+        textId,
+      })
+    } catch (error) {
+      console.log(error)
+      res.json({ status: false })
+    }
   }
-})
+)
 
 // Update text
 router.put('/:textId', async (req, res) => {

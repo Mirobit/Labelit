@@ -1,6 +1,9 @@
+import { closeMessage } from './components/message.js'
+
 const BASE_URL = window.location.origin
 
 const sendData = async (endpoint, type, data) => {
+  closeMessage()
   const url = BASE_URL + '/api' + endpoint
   const options = {
     method: type,
@@ -16,6 +19,7 @@ const sendData = async (endpoint, type, data) => {
 }
 
 const getData = async (endpoint) => {
+  closeMessage()
   const url = BASE_URL + '/api' + endpoint
   const options = {
     method: 'GET',

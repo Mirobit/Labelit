@@ -45,6 +45,9 @@ const create = async (data) => {
 
 const update = async (id, data) => {
   try {
+    for (let prop in data) {
+      if (data[prop] === undefined) delete data[prop]
+    }
     await Project.findOneAndUpdate({ _id: id }, data, {
       new: true,
       runValidators: true,

@@ -33,7 +33,8 @@ const load = async (textId, password) => {
   try {
     const data = await Text.findById(textId).populate({
       path: 'project',
-      select: 'password categories classifications classActive words name',
+      select:
+        'password categories classifications classActive showConfirmed words name',
     })
     if (hash(password) !== data.project.password) {
       throw new Error('Invalid project password')
@@ -49,6 +50,7 @@ const load = async (textId, password) => {
       textName: data.name,
       projectId: data.project._id,
       contentHtml,
+      showConfirmed: data.project.showConfirmed,
       categories: data.project.categories,
       classActive: data.project.classActive,
       classifications: data.classifications,
@@ -60,11 +62,12 @@ const load = async (textId, password) => {
   }
 }
 
-const getNext = async (textId, projectId, prev = false) => {
+const getNext = async (textId, projectId, showConfirmed, prev = false) => {
+  const confirmedFilter = showConfirmed === 'true' ? 'all' : 'confirmed'
   if (prev) {
     nextText = await Text.findOne({
       project: projectId,
-      status: { $ne: 'confirmed' },
+      status: { $ne: confirmedFilter },
       _id: { $lt: textId },
     })
       .sort({ _id: -1 })
@@ -72,7 +75,7 @@ const getNext = async (textId, projectId, prev = false) => {
   } else {
     nextText = await Text.findOne({
       project: projectId,
-      status: { $ne: 'confirmed' },
+      status: { $ne: confirmedFilter },
       _id: { $gt: textId },
     }).select('_id')
   }
@@ -81,7 +84,7 @@ const getNext = async (textId, projectId, prev = false) => {
     const sortBy = prev ? -1 : 1
     nextText = await Text.findOne({
       project: projectId,
-      status: { $ne: 'confirmed' },
+      status: { $ne: confirmedFilter },
     })
       .sort({ _id: sortBy })
       .select('_id')

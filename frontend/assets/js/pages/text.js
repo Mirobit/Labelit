@@ -1,7 +1,7 @@
 import { sendData, getData } from '../api.js'
 import { setNavPath, switchPage } from '../index.js'
 import Store from '../store.js'
-import { closeMessage, displayMessage } from '../components/message.js'
+import { displayMessage } from '../components/message.js'
 
 // global vars
 let textId, textEditiorDiv, categories, classActive
@@ -84,6 +84,9 @@ const init = async (nextTextId) => {
       '<div class="menuHeader">Classifications</div>'
     )
   }
+
+  // Set show confirmed
+  document.getElementById('showConfirmed').checked = result.showConfirmed
 
   // Init key event listener
   document.addEventListener('keyup', handleKeyPress)
@@ -240,14 +243,14 @@ const removeLabel = (element) => {
 }
 
 const getNextText = async (prev = false) => {
+  const showConfirmed = document.getElementById('showConfirmed').checked
   const result = await getData(
-    `/texts/next/${textId}/${Store.project._id}/${prev}`
+    `/texts/next/${textId}/${Store.project._id}/${showConfirmed}/${prev}`
   )
   if (result.status === false) {
     displayMessage(false, `Could not load ${prev ? 'previous' : 'next'} text`)
     return
   }
-  closeMessage()
   if (result.textId) init(result.textId)
   else switchPage(close, `/project/${encodeURI(Store.project.name)}`)
 }
@@ -284,10 +287,21 @@ const updateText = async () => {
     classifications: classArr,
   })
   if (result.status === true) {
-    closeMessage()
     displayMessage(true, 'Text saved')
   } else {
     displayMessage(false, 'Could not update text')
+  }
+}
+
+const changeShowConfirmed = async (element) => {
+  const result = await sendData(`/projects/${Store.project._id}`, 'PUT', {
+    showConfirmed: element.checked,
+  })
+
+  if (result.status === true) {
+    Store.project.showConfirmed = element.checked
+  } else {
+    displayMessage(false, 'Could save setting')
   }
 }
 
@@ -299,4 +313,5 @@ export {
   init,
   updateText,
   getNextText,
+  changeShowConfirmed,
 }
