@@ -57,7 +57,6 @@ const load = async (textId, password) => {
       projectClassifications: data.project.classifications,
     }
   } catch (error) {
-    console.log(error)
     throw new Error(error.message)
   }
 }
@@ -145,7 +144,6 @@ const update = async (
 
     return
   } catch (error) {
-    console.log(error)
     throw new Error(error.message)
   }
 }

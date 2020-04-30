@@ -39,7 +39,18 @@ app.use((req, res, next) => {
 })
 
 app.use(express.static(path.join(__dirname, '../frontend/assets')))
+
 app.use(routes)
+
+app.use((error, req, res, next) => {
+  let message = error.message
+  if (error.name !== 'Custom') {
+    message = 'server'
+    console.log(error)
+    // TODO: winston logging
+  }
+  res.json({ status: false, message })
+})
 
 app.listen(process.env.PORT, () => {
   console.log(`Server is up and running: http://localhost:${process.env.PORT}`)

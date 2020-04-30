@@ -4,24 +4,16 @@ const fileHandler = require('../../utils/fileHandler')
 const { hash } = require('../../utils/crypter')
 
 const get = async (name) => {
-  try {
-    const project = await Project.findOne({ name }).populate({
-      path: 'texts',
-      select: 'name status',
-    })
-    return project
-  } catch (error) {
-    throw new Error(error.message)
-  }
+  const project = await Project.findOne({ name }).populate({
+    path: 'texts',
+    select: 'name status',
+  })
+  return project
 }
 
 const list = async () => {
-  try {
-    const projects = await Project.find({}, null, { sort: { created_at: -1 } }) // .select({ "name": 1, "_id": 0})
-    return projects
-  } catch (error) {
-    throw new Error(error.message)
-  }
+  const projects = await Project.find({}, null, { sort: { created_at: -1 } }) // .select({ "name": 1, "_id": 0})
+  return projects
 }
 
 const create = async (data) => {
