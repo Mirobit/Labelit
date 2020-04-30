@@ -1,3 +1,5 @@
+'use strict'
+
 import * as passwordFuncs from './pages/password.js'
 import * as textFuncs from './pages/text.js'
 import * as projectFuncs from './pages/project.js'
