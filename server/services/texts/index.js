@@ -163,9 +163,9 @@ const checkAll = async (projectId, password) => {
   const project = await Project.findById(projectId).select(
     'password words categories name'
   )
-  if (!(await checkPassword(project.name, password, project.password))) {
-    throw new Error('Invalid password')
-  }
+
+  await checkPassword(project.name, password, project.password)
+
   const texts = await Text.find({ project: projectId }).select(
     'contentEncHtml status name'
   )
@@ -204,8 +204,8 @@ const exportAll = async (projectId, folderPath, password) => {
         path: 'texts',
         select: 'name contentEncSaved status classifications',
       })
-    if (!(await checkPassword(project.name, password)))
-      throw new Error('Invalid project password')
+
+    await checkPassword(project.name, password)
 
     await fileHandler.write(
       folderPath,

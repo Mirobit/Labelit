@@ -1,7 +1,6 @@
 import { sendData } from '../api.js'
 import { switchPage, setNavPath } from '../index.js'
 import Store from '../store.js'
-import { displayMessage } from '../components/message.js'
 
 let goNext
 
@@ -33,14 +32,11 @@ const submitPassword = async () => {
     projectName: Store.project.name,
     password: passwordDiv.value,
   })
+
   if (!result.status) {
-    displayMessage(false, 'Invalid project')
     return
   }
-  if (!result.valid) {
-    displayMessage(false, 'Invalid project password')
-    return
-  }
+
   Store.password = passwordDiv.value
   switchPage(close, goNext)
 }

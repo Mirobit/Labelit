@@ -70,14 +70,14 @@ router.delete('/:id', async (req, res) => {
 // Check Passswort
 router.post('/password', async (req, res) => {
   try {
-    const result = await projectsService.checkPassword(
-      req.body.projectName,
-      req.body.password
-    )
-    res.json({ status: true, valid: result })
+    await projectsService.checkPassword(req.body.projectName, req.body.password)
+    res.json({ status: true })
   } catch (error) {
     console.log(error)
-    res.json({ status: false })
+    res.json({
+      status: false,
+      message: error.name === 'Custom' ? error.message : 'server',
+    })
   }
 })
 

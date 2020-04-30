@@ -11,8 +11,7 @@ const init = async () => {
   Store.project = {}
   setNavPath(close)
   const result = await getData('/projects')
-  if (result.status !== true) {
-    displayMessage(result.status, 'Could not load project list')
+  if (!result.status) {
     return
   }
 
@@ -73,18 +72,19 @@ const createProject = async () => {
     password: passwordEl.value,
     classification,
   })
-  if (result.status === true) {
-    document.getElementById('nameNew').value = ''
-    document.getElementById('descriptionNew').value = ''
-    document.getElementById('passwordNew').value = ''
-    document.getElementById('passwordRepeatNew').value = ''
-    document.getElementById('folderPathNew').value = ''
-    document.getElementById('classificationNew').checked = false
-    init()
-    displayMessage(result.status, 'Project successfully created')
-  } else {
-    displayMessage(result.status, 'Could not create project')
+
+  if (!result.status) {
+    return
   }
+
+  document.getElementById('nameNew').value = ''
+  document.getElementById('descriptionNew').value = ''
+  document.getElementById('passwordNew').value = ''
+  document.getElementById('passwordRepeatNew').value = ''
+  document.getElementById('folderPathNew').value = ''
+  document.getElementById('classificationNew').checked = false
+  init()
+  displayMessage(true, 'Project successfully created')
 }
 
 export { createProject, init, openProject }

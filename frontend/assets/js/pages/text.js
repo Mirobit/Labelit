@@ -1,7 +1,7 @@
 import { sendData, getData } from '../api.js'
 import { setNavPath, switchPage } from '../index.js'
 import Store from '../store.js'
-import { displayMessage } from '../components/message.js'
+import { closeMessage, displayMessage } from '../components/message.js'
 
 // global vars
 let textId, textEditiorDiv, categories, classActive
@@ -9,6 +9,7 @@ const newWords = []
 
 // Initialize text editor area
 const init = async (nextTextId) => {
+  closeMessage()
   textPage.hidden = false
 
   if (nextTextId === undefined) {
@@ -31,7 +32,7 @@ const init = async (nextTextId) => {
   })
 
   // Place text
-  if (result.status === true) {
+  if (result.status) {
     if (Store.project._id === undefined) {
       Store.project._id = result.projectId
     }
@@ -43,7 +44,6 @@ const init = async (nextTextId) => {
     document.title = `Labelit - Text: ${textId}`
     textEditiorDiv.innerHTML = ''
     setNavPath(close, 'Unknown', result.textId)
-    displayMessage(false, 'Could not load text')
     return
   }
 
@@ -247,10 +247,11 @@ const getNextText = async (prev = false) => {
   const result = await getData(
     `/texts/next/${textId}/${Store.project._id}/${showConfirmed}/${prev}`
   )
-  if (result.status === false) {
-    displayMessage(false, `Could not load ${prev ? 'previous' : 'next'} text`)
+
+  if (!result.status) {
     return
   }
+
   if (result.textId) init(result.textId)
   else switchPage(close, `/project/${encodeURI(Store.project.name)}`)
 }
@@ -286,10 +287,8 @@ const updateText = async () => {
     password: Store.password,
     classifications: classArr,
   })
-  if (result.status === true) {
+  if (result.status) {
     displayMessage(true, 'Text saved')
-  } else {
-    displayMessage(false, 'Could not update text')
   }
 }
 
@@ -298,11 +297,11 @@ const changeShowConfirmed = async (element) => {
     showConfirmed: element.checked,
   })
 
-  if (result.status === true) {
-    Store.project.showConfirmed = element.checked
-  } else {
-    displayMessage(false, 'Could save setting')
+  if (!result.status) {
+    return
   }
+
+  Store.project.showConfirmed = element.checked
 }
 
 export {

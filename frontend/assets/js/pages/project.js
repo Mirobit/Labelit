@@ -8,10 +8,9 @@ const init = async () => {
   const projectName = window.location.pathname.match(/^\/project\/(.{1,})$/)[1]
 
   const result = await getData(`/projects/${projectName}`)
-  if (result.status !== true) {
+  if (!result.status) {
     document.title = `Labelit - Project`
     setNavPath(close, projectName)
-    displayMessage(result.status, 'Project could not be loaded')
     return
   }
   // Main
@@ -97,14 +96,15 @@ const updateProject = async () => {
     name: newProjectName,
     description: document.getElementById('projectDescriptionInput').value,
   })
-  if (result.status === true) {
-    document.getElementById('projectForm').hidden = true
-    history.pushState(null, '', `/project/${newProjectName}`)
-    init()
-    displayMessage(result.status, 'Project successfully updated')
-  } else {
-    displayMessage(result.status, 'Project could not be updated')
+
+  if (!result.status) {
+    return
   }
+
+  document.getElementById('projectForm').hidden = true
+  history.pushState(null, '', `/project/${newProjectName}`)
+  init()
+  displayMessage(true, 'Project successfully updated')
 }
 
 const removeProject = async () => {
@@ -113,11 +113,12 @@ const removeProject = async () => {
   )
   if (!confirmed) return
   const result = await sendData(`/projects/${Store.project._id}`, 'DELETE')
-  if (result.status === true) {
-    switchPage(close, `/`)
-  } else {
-    displayMessage(result.status, 'Could not remove project')
+
+  if (!result.status) {
+    return
   }
+
+  switchPage(close, `/`)
 }
 
 const showNewCategory = () => {
@@ -138,7 +139,7 @@ const showNewCategory = () => {
     document.getElementById('categoryKey').value = ''
     document.getElementById('categoryColor').value = ''
     button.onclick = () => projectFuncs.addCategory()
-    if (form.hidden === false) {
+    if (!form.hidden) {
       return
     }
   }
@@ -162,15 +163,16 @@ const addCategory = async () => {
       colorHex: colorArr[1],
     }
   )
-  if (result.status === true) {
-    categoryNameEl.value = ''
-    categoryKeyEl.value = ''
-    categoryColorEl.value = ''
-    init()
-    displayMessage(result.status, 'Category successfully added')
-  } else {
-    displayMessage(result.status, 'Could not add category')
+
+  if (!result.status) {
+    return
   }
+
+  categoryNameEl.value = ''
+  categoryKeyEl.value = ''
+  categoryColorEl.value = ''
+  init()
+  displayMessage(true, 'Category successfully added')
 }
 
 const showEditCategory = async (categoryId, node) => {
@@ -201,11 +203,11 @@ const showEditCategory = async (categoryId, node) => {
     category.color + ',' + category.colorHex
   button.innerText = 'UPDATE'
   button.onclick = () => projectFuncs.updateCategory(categoryId)
-  if (form.hidden === false) {
+  if (!form.hidden) {
     return
   }
 
-  if (form.hidden === true) node.nextSibling.hidden = false
+  if (form.hidden) node.nextSibling.hidden = false
   form.hidden = !form.hidden
 }
 
@@ -225,18 +227,19 @@ const updateCategory = async (categoryId) => {
       colorHex: colorArr[1],
     }
   )
-  if (result.status === true) {
-    init()
-    categoryNameEl.value = ''
-    categoryKeyEl.value = ''
-    categoryColorEl.value = ''
-    const button = document.getElementById('submitCategory')
-    button.innerText = 'Add'
-    button.onclick = projectFuncs.addCategory
-    displayMessage(result.status, 'Category successfully updated')
-  } else {
-    displayMessage(result.status, 'Could not update category')
+
+  if (!result.status) {
+    return
   }
+
+  init()
+  categoryNameEl.value = ''
+  categoryKeyEl.value = ''
+  categoryColorEl.value = ''
+  const button = document.getElementById('submitCategory')
+  button.innerText = 'Add'
+  button.onclick = projectFuncs.addCategory
+  displayMessage(true, 'Category successfully updated')
 }
 
 const removeCategory = async (categoryId) => {
@@ -244,13 +247,14 @@ const removeCategory = async (categoryId) => {
     `/projects/${Store.project._id}/categories/${categoryId}`,
     'DELETE'
   )
-  if (result.status === true) {
-    document.getElementById('categoryForm').hidden = true
-    init()
-    displayMessage(result.status, 'Category successfully removed')
-  } else {
-    displayMessage(result.status, 'Could not remove Category')
+
+  if (!result.status) {
+    return
   }
+
+  document.getElementById('categoryForm').hidden = true
+  init()
+  displayMessage(true, 'Category successfully removed')
 }
 
 const showNewClassification = () => {
@@ -268,7 +272,7 @@ const showNewClassification = () => {
     button.innerText = 'ADD'
     document.getElementById('classificationName').value = ''
     button.onclick = () => projectFuncs.addClassification()
-    if (form.hidden === false) {
+    if (!form.hidden) {
       return
     }
   }
@@ -286,13 +290,14 @@ const addClassification = async () => {
       name: classificationNameEl.value,
     }
   )
-  if (result.status === true) {
-    classificationNameEl.value = ''
-    init()
-    displayMessage(result.status, 'Classification successfully added')
-  } else {
-    displayMessage(result.status, 'Could not add classification')
+
+  if (!result.status) {
+    return
   }
+
+  classificationNameEl.value = ''
+  init()
+  displayMessage(true, 'Classification successfully added')
 }
 
 const showEditClassification = async (classificationId, node) => {
@@ -323,11 +328,11 @@ const showEditClassification = async (classificationId, node) => {
   document.getElementById('classificationName').value = classification.name
   button.innerText = 'UPDATE'
   button.onclick = () => projectFuncs.updateClassification(classificationId)
-  if (form.hidden === false) {
+  if (!form.hidden) {
     return
   }
 
-  if (form.hidden === true) node.nextSibling.hidden = false
+  if (form.hidden) node.nextSibling.hidden = false
   form.hidden = !form.hidden
 }
 
@@ -341,16 +346,17 @@ const updateClassification = async (classificationId) => {
       name: classificationNameEl.value,
     }
   )
-  if (result.status === true) {
-    init()
-    classificationNameEl.value = ''
-    const button = document.getElementById('submitClassification')
-    button.innerText = 'Add'
-    button.onclick = projectFuncs.addClassification
-    displayMessage(result.status, 'Classification successfully updated')
-  } else {
-    displayMessage(result.status, 'Could not update classification')
+
+  if (!result.status) {
+    return
   }
+
+  init()
+  classificationNameEl.value = ''
+  const button = document.getElementById('submitClassification')
+  button.innerText = 'Add'
+  button.onclick = projectFuncs.addClassification
+  displayMessage(true, 'Classification successfully updated')
 }
 
 const removeClassification = async (classificationId) => {
@@ -358,13 +364,14 @@ const removeClassification = async (classificationId) => {
     `/projects/${Store.project._id}/classifications/${classificationId}`,
     'DELETE'
   )
-  if (result.status === true) {
-    document.getElementById('classificationForm').hidden = true
-    init()
-    displayMessage(result.status, 'Classification successfully removed')
-  } else {
-    displayMessage(result.status, 'Could not remove classification')
+
+  if (!result.status) {
+    return
   }
+
+  document.getElementById('classificationForm').hidden = true
+  init()
+  displayMessage(true, 'Classification successfully removed')
 }
 
 const checkTexts = async () => {
@@ -373,30 +380,32 @@ const checkTexts = async () => {
     password: Store.password,
   })
 
-  if (result.status === true) {
-    init()
-    displayMessage(result.status, 'All texts checked')
-  } else {
-    displayMessage(result.status, 'Could not check texts')
+  if (!result.status) {
+    return
   }
+
+  init()
+  displayMessage(true, 'All texts checked')
 }
 
 const exportTexts = async () => {
   const folderPath = document.getElementById('exportPath').value
   if (folderPath === '') {
     displayMessage(false, 'Export path can not be empty')
+    return
   }
+
   const result = await sendData(`/texts/export`, 'POST', {
     projectId: Store.project._id,
     folderPath,
     password: Store.password,
   })
 
-  if (result.status === true) {
-    displayMessage(result.status, 'Text files successfully exported')
-  } else {
-    displayMessage(result.status, 'Could not export text files')
+  if (!result.status) {
+    return
   }
+
+  displayMessage(true, 'Text files successfully exported')
 }
 
 const showProjectForm = () => {

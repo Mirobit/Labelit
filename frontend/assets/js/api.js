@@ -1,9 +1,8 @@
-import { closeMessage } from './components/message.js'
+import { displayMessage } from './components/message.js'
 
 const BASE_URL = window.location.origin
 
 const sendData = async (endpoint, type, data) => {
-  closeMessage()
   const url = BASE_URL + '/api' + endpoint
   const options = {
     method: type,
@@ -15,11 +14,12 @@ const sendData = async (endpoint, type, data) => {
     body: JSON.stringify(data),
   }
   const response = await fetch(url, options)
-  return response.json()
+  const result = await response.json()
+  handleError(result)
+  return result
 }
 
 const getData = async (endpoint) => {
-  closeMessage()
   const url = BASE_URL + '/api' + endpoint
   const options = {
     method: 'GET',
@@ -29,13 +29,19 @@ const getData = async (endpoint) => {
   }
 
   const response = await fetch(url, options)
-  return response.json()
+  const result = await response.json()
+  handleError(result)
+  return result
 }
 
-const handleError = (result) => {
-  if (result.status === false) {
-    // TODO: display error
-  }
+const handleError = async (result) => {
+  if (result.status) return
+
+  const message =
+    result.message === 'server'
+      ? "Unexpected server error. Couldn't finish action."
+      : result.message
+  displayMessage(false, message)
 }
 
 export { sendData, getData }

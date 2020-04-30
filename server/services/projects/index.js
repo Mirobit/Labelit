@@ -74,7 +74,9 @@ const checkPassword = async (projectName, password, projectPassword) => {
       await Project.findOne({ name: projectName }).select('+password')
     ).password
   }
-  return hash(password) === projectPassword
+
+  if (hash(password) === projectPassword) return true
+  else throw { name: 'Custom', message: 'Invalid project password' }
 }
 
 const addCategory = async (projectId, newCategory) => {
