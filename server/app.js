@@ -4,6 +4,8 @@ require('dotenv').config()
 const express = require('express')
 const path = require('path')
 const mongoose = require('mongoose')
+const logger = require('pino')('./error.log')
+
 const routes = require('./routes')
 
 mongoose.Promise = Promise
@@ -25,8 +27,8 @@ const app = express()
 app.use(express.json())
 
 // Security
-app.disable('x-powered-by')
 app.use((req, res, next) => {
+  res.removeHeader('X-Powered-By')
   res.header('X-Frame-Options', 'DENY')
   res.header('Strict-Transport-Security', 'max-age=31536000')
   res.header('X-Content-Type-Options', 'nosniff')
@@ -47,8 +49,8 @@ app.use((error, req, res, next) => {
   let message = error.message
   if (error.name !== 'Custom') {
     message = 'server'
-    console.log(error)
-    // TODO: winston logging
+    if (process.env.NODE_ENV === 'development') console.log(error)
+    else logger.info(error)
   }
   res.json({ status: false, message })
 })

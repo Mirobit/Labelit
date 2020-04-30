@@ -50,7 +50,7 @@ See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md)
 - User system
 - Be able to host server remotely and upload text data
 - ~~Enable classification of texts (for ML)~~
-- Better error handling
+- ~~Better error handling~~
 - Subfolder support
 - Import JSON file
 - Testing with ava
