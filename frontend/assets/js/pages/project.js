@@ -191,12 +191,13 @@ const showEditCategory = async (categoryId, node) => {
     (category) => category._id === categoryId
   )
 
-  node.nextSibling.hidden = false
   if (document.getElementById('categoryName').value === category.name) {
     form.hidden = !form.hidden
-    node.nextSibling.hidden = true
+    node.nextSibling.hidden = form.hidden
     return
   }
+
+  node.nextSibling.hidden = false
   document.getElementById('categoryName').value = category.name
   document.getElementById('categoryKey').value = category.key
   document.getElementById('categoryColor').value =
@@ -315,16 +316,16 @@ const showEditClassification = async (classificationId, node) => {
   const classification = Store.project.classifications.find(
     (classification) => classification._id === classificationId
   )
-  node.nextSibling.hidden = false
 
   if (
     document.getElementById('classificationName').value === classification.name
   ) {
     form.hidden = !form.hidden
-    node.nextSibling.hidden = true
+    node.nextSibling.hidden = form.hidden
     return
   }
 
+  node.nextSibling.hidden = false
   document.getElementById('classificationName').value = classification.name
   button.innerText = 'UPDATE'
   button.onclick = () => projectFuncs.updateClassification(classificationId)
