@@ -6,6 +6,7 @@ const path = require('path')
 const mongoose = require('mongoose')
 const logger = require('pino')('./error.log')
 
+const security = require('./middleware/security')
 const routes = require('./routes')
 
 mongoose.Promise = Promise
@@ -24,27 +25,11 @@ mongoose
   })
 
 const app = express()
+
 app.use(express.json())
-
-// Security
-app.use((req, res, next) => {
-  res.removeHeader('X-Powered-By')
-  res.header('X-Frame-Options', 'DENY')
-  res.header('Strict-Transport-Security', 'max-age=31536000')
-  res.header('X-Content-Type-Options', 'nosniff')
-  res.header('Referrer-Policy', 'same-origin')
-  res.header('X-XSS-Protection', '1; mode=block')
-  res.header(
-    'Content-Security-Policy',
-    "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src data: 'self'"
-  )
-  next()
-})
-
+app.use(security)
 app.use(express.static(path.join(__dirname, '../frontend/assets')))
-
 app.use(routes)
-
 app.use((error, req, res, next) => {
   let message = error.message
   if (error.name !== 'Custom') {
