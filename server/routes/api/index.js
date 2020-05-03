@@ -6,5 +6,8 @@ const projectsRoutes = require('./projects')
 
 router.use('/texts', textsRoutes)
 router.use('/projects', projectsRoutes)
+router.use((req, res) => {
+  throw { name: 'Custom', message: 'Invalid API route' }
+})
 
 module.exports = router
