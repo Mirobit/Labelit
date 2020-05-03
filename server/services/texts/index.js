@@ -126,7 +126,7 @@ const update = async (
       category: newWord.category,
     })
   }
-  if (text.status === 'new') {
+  if (text.status !== 'confirmed') {
     project.textUpdatedCount++
     project.progress = Math.round(
       (project.textUpdatedCount / project.textCount) * 100
@@ -142,8 +142,9 @@ const remove = async (id) => {
 
 const checkAll = async (projectId, password) => {
   let totalHits = 0
+  let unconfirmedTexts = 0
   const project = await Project.findById(projectId).select(
-    'password words categories name'
+    'password words categories name textCount textUpdatedCount progress'
   )
 
   await checkPassword(project.name, password, project.password)
@@ -162,19 +163,24 @@ const checkAll = async (projectId, password) => {
 
     if (hits > 0) {
       totalHits += hits
-      Text.findOneAndUpdate(
-        { _id: text._id },
-        {
-          contentEncHtml: encrypt(contentHtml, password),
-          status: 'unconfirmed',
-        },
-        {
-          runValidators: true,
-          new: true,
-        }
-      ).exec()
+      const textDb = await Text.findById(text._id)
+      textDb.contentEncHtml = encrypt(contentHtml, password)
+      if (textDb.status === 'confirmed') {
+        unconfirmedTexts++
+        textDb.status = 'unconfirmed'
+      }
+      await textDb.save()
     }
   }
+
+  if (unconfirmedTexts > 0) {
+    project.textUpdatedCount = project.textUpdatedCount - unconfirmedTexts
+    project.progress = Math.round(
+      (project.textUpdatedCount / project.textCount) * 100
+    )
+    await project.save()
+  }
+
   return totalHits
 }
 
