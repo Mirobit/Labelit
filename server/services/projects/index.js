@@ -19,9 +19,9 @@ const list = async () => {
 const create = async (data) => {
   const project = await new Project(data)
   const textData = await fileHandler.read(
-    data.folderPath,
     project._id,
-    data.password
+    data.password,
+    data.folderPath
   )
   project.textCount = textData.textCount
   const texts = await Text.insertMany(textData.texts)

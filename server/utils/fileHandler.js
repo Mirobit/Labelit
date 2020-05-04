@@ -2,44 +2,52 @@ const fs = require('fs').promises
 const path = require('path')
 const { encrypt, decrypt } = require('./crypter')
 
-const read = async (folderPath, projectId, password) => {
+const read = async (projectId, password, folderPath, subFolder = '') => {
   let stat
   let textCount = 0
-  const texts = []
+  let texts = []
 
   // Check if path is valid
   try {
     stat = await fs.lstat(folderPath)
   } catch (error) {
-    throw new Error('Path does not exist')
+    throw { name: 'Custom', message: 'Project path does not exist' }
   }
 
   try {
-    // Check if directory or file
-    if (stat.isFile()) {
-      const content = await fs.readFile(folderPath)
-      texts[0] = { name: stat.name, content, project: projectId }
-    } else {
-      const files = await fs.readdir(folderPath, { withFileTypes: true })
-      for (const file of files) {
-        if (file.isDirectory()) return
-        textCount++
-        const content = await fs.readFile(
-          path.join(folderPath, file.name),
-          'utf8'
+    const files = await fs.readdir(path.join(folderPath, subFolder), {
+      withFileTypes: true,
+    })
+
+    if (files.length === 0) return { textCount, texts }
+    for (const file of files) {
+      if (file.isDirectory()) {
+        const result = await read(
+          projectId,
+          password,
+          folderPath,
+          path.join(subFolder, file.name)
         )
-        const contentEnc = encrypt(content, password)
-        texts.push({
-          name: file.name,
-          contentEncOrg: contentEnc,
-          contentEncSaved: contentEnc,
-          contentEncHtml: contentEnc,
-          project: projectId,
-        })
+        texts = texts.concat(result.texts)
+        textCount += result.textCount
+        continue
       }
+      textCount++
+      const content = await fs.readFile(
+        path.join(folderPath, subFolder, file.name),
+        'utf8'
+      )
+      const contentEnc = encrypt(content, password)
+      texts.push({
+        name: path.join(subFolder, file.name),
+        contentEncOrg: contentEnc,
+        contentEncSaved: contentEnc,
+        contentEncHtml: contentEnc,
+        project: projectId,
+      })
     }
   } catch (error) {
-    throw new Error('Error reading files')
+    throw { name: 'Custom', message: 'Could not read files' }
   }
 
   return { textCount, texts }
@@ -56,7 +64,7 @@ const write = async (
   try {
     stat = await fs.lstat(folderPath)
   } catch (error) {
-    throw new Error('Path does not exist')
+    throw { name: 'Custom', message: 'Path does not exist' }
   }
   const totalPath = path.join(folderPath, `Labelit - ${projectName}`)
   await fs.mkdir(totalPath, { recursive: true })
@@ -72,8 +80,15 @@ const write = async (
               pClassification._id.toString() == classification.toString()
           ).name
       )
+    var divider = process.platform === 'win32' ? '\\' : '/'
+    let subFolder = text.name.split(divider)
+    const fileName = subFolder.pop()
+    subFolder = subFolder.join(divider)
+    if (subFolder.length > 0) {
+      await fs.mkdir(path.join(totalPath, subFolder), { recursive: true })
+    }
     fs.writeFile(
-      path.join(totalPath, text.name),
+      path.join(totalPath, subFolder, fileName),
       decrypt(text.contentEncSaved, password)
     )
   }

@@ -11,7 +11,7 @@ Just create a project, import your data (text files), create categories for name
 - Texts and replaced words are stored encrypted (AES-256) in the database
 - Easy to use texteditor: single click selection, keyboard shortcuts and duplicate detection
 - All texts can be checked against previously found sensitive words (project based wordlist)
-- Lightweight single-page application (no heavy frontend framework -> 17 vs ~80 mb, 180 vs ~2400 dependencies)
+- Lightweight single-page application (no heavy frontend framework -> 12 vs ~80 mb, 180 vs ~2400 dependencies)
 - Not a feature, more a notice: ES6 -> IE 11 not supported (on purpose, IE needs be to vanished from the web)
 
 <img src="https://i.imgur.com/JduLdHt.png" width="400" style="margin-left: 20px"> <img src="https://i.imgur.com/zE1ChFB.png" width="400">
@@ -51,6 +51,6 @@ See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md)
 - Be able to host server remotely and upload text data
 - ~~Enable classification of texts (for ML)~~
 - ~~Better error handling~~
-- Subfolder support
+- ~~Subfolder support~~
 - Import JSON file
 - Testing with ava
