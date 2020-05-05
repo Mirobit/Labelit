@@ -14,7 +14,7 @@ const login = async (username, password) => {
   }
 
   return jwt.sign({ username, role: userRole }, process.env.SECRET, {
-    expiresIn: '7d',
+    expiresIn: 1209600,
   })
 }
 
