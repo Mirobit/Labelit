@@ -24,7 +24,7 @@ const init = () => {
 const route = async () => {
   const route = window.location.pathname
 
-  if (!Store.loggedIn && route !== '/login') {
+  if (localStorage.getItem('identity') === null && route !== '/login') {
     window.location.pathname = '/login'
     return
   }
