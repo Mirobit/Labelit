@@ -11,7 +11,7 @@ class Store {
 
   password = ''
   project = {}
-  user = {}
+  loggedIn = false
 }
 
 export default new Store()

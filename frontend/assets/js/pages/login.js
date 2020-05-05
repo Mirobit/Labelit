@@ -4,17 +4,17 @@ import { displayMessage } from '../components/message.js'
 import Store from '../store.js'
 
 const init = () => {
-  // document.getElementById('navPathHeader').hidden = true
   document.title = `Labelit`
   displayMessage(false, 'You are not logged-in or your session exired')
   Store.loginPage.hidden = false
+  document.addEventListener('keyup', handleEnterPassword)
 }
 
 const close = () => {
   Store.loginPage.hidden = true
-  // document.getElementById('navPathHeader').hidden = false
   document.getElementById('userPassword').value = ''
   document.getElementById('username').value = ''
+  document.removeEventListener('keyup', handleEnterPassword)
 }
 
 const login = async () => {
@@ -27,8 +27,13 @@ const login = async () => {
     return
   }
 
+  Store.loggedIn = true
   localStorage.setItem('identity', result.jwtToken)
   switchPage(close, '/')
+}
+
+const handleEnterPassword = (event) => {
+  if (event.key === 'Enter') login()
 }
 
 export { init, login }

@@ -38,7 +38,7 @@ const handleError = (result) => {
   if (result.status === 200) return
 
   if (result.status === 401) {
-    window.location.pathname = '/login/'
+    window.location.pathname = '/login'
     return
   }
 

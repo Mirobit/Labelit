@@ -23,19 +23,21 @@ const init = () => {
 
 const route = async () => {
   const route = window.location.pathname
+
+  if (!Store.loggedIn && route !== '/login') {
+    window.location.pathname = '/login'
+    return
+  }
+
   if (route === '/') {
     homeFuncs.init()
-  } else if (route.includes('/login/')) {
+  } else if (route === '/login') {
     loginFuncs.init()
   } else if (route.includes('/text/')) {
-    if (checkIfPassword(route)) {
-      return
-    }
+    if (checkIfPassword(route)) return
     textFuncs.init()
   } else if (route.includes('/project/')) {
-    if (checkIfPassword(route)) {
-      return
-    }
+    if (checkIfPassword(route)) return
     projectFuncs.init()
   } else {
     displayMessage(false, 'Invalid url')
