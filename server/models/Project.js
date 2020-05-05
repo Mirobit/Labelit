@@ -21,6 +21,11 @@ const projectSchema = new Schema(
       required: true,
       select: false,
     },
+    inputMode: {
+      type: String,
+      required: true,
+      enum: ['folder', 'csv', 'json'],
+    },
     textCount: {
       type: Number,
       required: true,

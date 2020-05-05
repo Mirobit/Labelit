@@ -28,6 +28,7 @@ router.post(
     await projectsService.create({
       name: req.body.name,
       description: req.body.description,
+      inputMode: req.body.inputMode,
       folderPath: req.body.folderPath,
       password: req.body.password,
       classActive: req.body.classification,

@@ -49,6 +49,7 @@ const createProject = async () => {
   const classification = document.getElementById('classificationNew').checked
   const passwordEl = document.getElementById('passwordNew')
   const passwordRepeatEl = document.getElementById('passwordRepeatNew')
+  const inputMode = document.getElementById('inputMode').value
   const folderPath = document.getElementById('folderPathNew').value
 
   if (passwordEl.value !== passwordRepeatEl.value) {
@@ -69,6 +70,7 @@ const createProject = async () => {
     description,
     folderPath,
     password: passwordEl.value,
+    inputMode,
     classification,
   })
 

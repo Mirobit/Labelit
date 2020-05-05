@@ -1,6 +1,6 @@
 const Text = require('../models/Text')
 const Project = require('../models/Project')
-const fileHandler = require('../utils/fileHandler')
+const { readFolder, readCSV } = require('../utils/fileHandler')
 const { hash } = require('../utils/crypter')
 
 const get = async (name) => {
@@ -18,11 +18,17 @@ const list = async () => {
 
 const create = async (data) => {
   const project = await new Project(data)
-  const textData = await fileHandler.read(
-    project._id,
-    data.password,
-    data.folderPath
-  )
+  let textData
+  if (data.inputMode === 'csv') {
+    textData = await readCSV(project._id, data.password, data.folderPath)
+  } else if (data.inputMode === 'folder') {
+    textData = await readFolder(project._id, data.password, data.folderPath)
+  } else if (data.inputMode === 'json') {
+    // TODO
+  } else {
+    throw { status: 400, message: 'Invalid input mode' }
+  }
+
   project.textCount = textData.textCount
   const texts = await Text.insertMany(textData.texts)
   project.texts = texts.map((text) => text._id)

@@ -1,6 +1,6 @@
 const Text = require('../models/Text')
 const Project = require('../models/Project')
-const fileHandler = require('../utils/fileHandler')
+const { writeFolder } = require('../utils/fileHandler')
 const { checkPassword } = require('./projects')
 const { encrypt, decrypt, hash } = require('../utils/crypter')
 
@@ -194,7 +194,7 @@ const exportAll = async (projectId, folderPath, password) => {
 
   await checkPassword(project.name, password)
 
-  await fileHandler.write(
+  await writeFolder(
     folderPath,
     project.name,
     project.texts,
