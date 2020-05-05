@@ -4,11 +4,11 @@ const crypto = require('crypto')
 const algorithm = 'aes-256-cbc'
 const iv = process.env.SALT_SECRET
 
-const generateKey = password => {
+const generateKey = (password) => {
   return hash(password).substr(0, 32)
 }
 
-const hash = text => {
+const hash = (text) => {
   return crypto
     .createHash('sha256')
     .update(text + iv)
@@ -20,7 +20,6 @@ const encrypt = (text, password) => {
   const cipher = crypto.createCipheriv(algorithm, key, iv)
   let encrypted = cipher.update(text)
   encrypted = Buffer.concat([encrypted, cipher.final()])
-
   return encrypted.toString('hex')
 }
 

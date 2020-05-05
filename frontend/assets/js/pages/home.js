@@ -87,4 +87,24 @@ const createProject = async () => {
   displayMessage(true, 'Project successfully created')
 }
 
+// const uploadProject = async () => {
+//   const myfiles = document.getElementById('myfile').files
+//   console.log(myfiles)
+//   const myFormData = new FormData()
+//   for (let i = 0; i < myfiles.length; i++) {
+//     myFormData.append(myfiles[i].name, myfiles[i])
+//   }
+
+//   console.log(myFormData)
+
+//   const url = window.location.origin
+//   const options = {
+//     method: 'POST',
+//     body: myFormData,
+//   }
+//   const response = await fetch(window.location.origin + '/api/upload', options)
+
+//   console.log(response)
+// }
+
 export { createProject, init, openProject }
