@@ -248,7 +248,7 @@ const getNextText = async (prev = false) => {
     `/texts/next/${textId}/${Store.project._id}/${showConfirmed}/${prev}`
   )
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 
@@ -297,7 +297,7 @@ const changeShowConfirmed = async (element) => {
     showConfirmed: element.checked,
   })
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 

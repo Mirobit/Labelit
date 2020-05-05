@@ -27,17 +27,17 @@ const close = () => {
 }
 
 const submitPassword = async () => {
-  const passwordDiv = document.getElementById('password')
+  const password = document.getElementById('password').value
   const result = await sendData(`/projects/password`, 'POST', {
     projectName: Store.project.name,
-    password: passwordDiv.value,
+    password,
   })
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 
-  Store.password = passwordDiv.value
+  Store.password = password
   switchPage(close, goNext)
 }
 

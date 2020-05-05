@@ -11,7 +11,7 @@ const init = async () => {
   Store.project = {}
   setNavPath(close)
   const result = await getData('/projects')
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
   const projectList = document.getElementById('projectlist')
@@ -72,7 +72,7 @@ const createProject = async () => {
     classification,
   })
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 

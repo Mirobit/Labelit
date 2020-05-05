@@ -8,7 +8,7 @@ const init = async () => {
   const projectName = window.location.pathname.match(/^\/project\/(.{1,})$/)[1]
 
   const result = await getData(`/projects/${projectName}`)
-  if (!result.status) {
+  if (result.status !== 200) {
     document.title = `Labelit - Project`
     setNavPath(close, projectName)
     return
@@ -97,7 +97,7 @@ const updateProject = async () => {
     description: document.getElementById('projectDescriptionInput').value,
   })
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 
@@ -114,7 +114,7 @@ const removeProject = async () => {
   if (!confirmed) return
   const result = await sendData(`/projects/${Store.project._id}`, 'DELETE')
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 
@@ -164,7 +164,7 @@ const addCategory = async () => {
     }
   )
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 
@@ -229,7 +229,7 @@ const updateCategory = async (categoryId) => {
     }
   )
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 
@@ -249,7 +249,7 @@ const removeCategory = async (categoryId) => {
     'DELETE'
   )
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 
@@ -292,7 +292,7 @@ const addClassification = async () => {
     }
   )
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 
@@ -348,7 +348,7 @@ const updateClassification = async (classificationId) => {
     }
   )
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 
@@ -366,7 +366,7 @@ const removeClassification = async (classificationId) => {
     'DELETE'
   )
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 
@@ -381,7 +381,7 @@ const checkTexts = async () => {
     password: Store.password,
   })
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 
@@ -402,7 +402,7 @@ const exportTexts = async () => {
     password: Store.password,
   })
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 

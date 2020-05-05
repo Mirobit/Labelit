@@ -1,5 +1,6 @@
 import { sendData } from '../api.js'
 import { switchPage } from '../index.js'
+import { displayMessage } from '../components/message.js'
 import Store from '../store.js'
 
 const init = () => {
@@ -22,7 +23,7 @@ const login = async () => {
     userPassword: document.getElementById('userPassword').value,
   })
 
-  if (!result.status) {
+  if (result.status !== 200) {
     return
   }
 

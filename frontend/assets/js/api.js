@@ -38,7 +38,6 @@ const handleError = (result) => {
   if (result.status === 200) return
 
   if (result.status === 401) {
-    result.status = false
     window.location.pathname = '/login/'
     return
   }
@@ -49,7 +48,6 @@ const handleError = (result) => {
       ? result.message
       : "Unexpected server error. Couldn't finish action."
   )
-  result.status = false
 }
 
 export { sendData, getData }
