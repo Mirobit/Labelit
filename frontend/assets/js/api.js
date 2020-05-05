@@ -8,7 +8,7 @@ const sendData = async (endpoint, type, data) => {
     method: type,
     headers: {
       Accept: 'application/json',
-      Authorization: 'test',
+      Authorization: `Bearer ${localStorage.getItem('identity')}`,
       'Content-Type': 'application/json;charset=UTF-8',
     },
     body: JSON.stringify(data),
@@ -24,7 +24,7 @@ const getData = async (endpoint) => {
   const options = {
     method: 'GET',
     headers: {
-      Authorization: 'test',
+      Authorization: `Bearer ${localStorage.getItem('identity')}`,
     },
   }
 
@@ -34,14 +34,22 @@ const getData = async (endpoint) => {
   return result
 }
 
-const handleError = async (result) => {
-  if (result.status) return
+const handleError = (result) => {
+  if (result.status === 200) return
 
-  const message =
-    result.message === 'server'
-      ? "Unexpected server error. Couldn't finish action."
-      : result.message
-  displayMessage(false, message)
+  if (result.status === 401) {
+    result.status = false
+    window.location.pathname = '/login/'
+    return
+  }
+
+  displayMessage(
+    false,
+    result.status === 400
+      ? result.message
+      : "Unexpected server error. Couldn't finish action."
+  )
+  result.status = false
 }
 
 export { sendData, getData }

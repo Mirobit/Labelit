@@ -1,7 +1,7 @@
-const Text = require('../../models/Text')
-const Project = require('../../models/Project')
-const fileHandler = require('../../utils/fileHandler')
-const { hash } = require('../../utils/crypter')
+const Text = require('../models/Text')
+const Project = require('../models/Project')
+const fileHandler = require('../utils/fileHandler')
+const { hash } = require('../utils/crypter')
 
 const get = async (name) => {
   const project = await Project.findOne({ name }).populate({
@@ -55,7 +55,7 @@ const checkPassword = async (projectName, password, projectPassword) => {
   }
 
   if (hash(password) === projectPassword) return true
-  else throw { name: 'Custom', message: 'Invalid project password' }
+  else throw { status: 400, message: 'Invalid project password' }
 }
 
 const addCategory = async (projectId, newCategory) => {
@@ -68,7 +68,7 @@ const addCategory = async (projectId, newCategory) => {
         category.color === newCategory.color
     )
   ) {
-    throw { name: 'Custom', message: 'Duplicate category' }
+    throw { status: 400, message: 'Duplicate category' }
   }
   project.categories.push(newCategory)
 
@@ -89,7 +89,7 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
         category.color === categoryData.color)
   )
 
-  if (dupIndex !== -1) throw { name: 'Custom', message: 'Duplicate category' }
+  if (dupIndex !== -1) throw { status: 400, message: 'Duplicate category' }
 
   project.categories[catIndex] = { ...categoryData, _id: categoryId }
 
@@ -112,7 +112,7 @@ const addClassification = async (projectId, newClassification) => {
         newClassification.name.toUpperCase()
     )
   ) {
-    throw { name: 'Custom', message: 'Duplicate classification' }
+    throw { status: 400, message: 'Duplicate classification' }
   }
   project.classifications.push(newClassification)
 
@@ -140,7 +140,7 @@ const updateClassification = async (
   )
 
   if (dupIndex !== -1)
-    throw { name: 'Custom', message: 'Duplicate classification' }
+    throw { status: 400, message: 'Duplicate classification' }
 
   project.classifications[classIndex] = {
     ...classificationData,

@@ -14,7 +14,6 @@ const init = async () => {
   if (!result.status) {
     return
   }
-
   const projectList = document.getElementById('projectlist')
   let projectListHTML = ''
   projects = result.projects

@@ -1,8 +1,8 @@
-const Text = require('../../models/Text')
-const Project = require('../../models/Project')
-const fileHandler = require('../../utils/fileHandler')
-const { checkPassword } = require('../projects')
-const { encrypt, decrypt, hash } = require('../../utils/crypter')
+const Text = require('../models/Text')
+const Project = require('../models/Project')
+const fileHandler = require('../utils/fileHandler')
+const { checkPassword } = require('./projects')
+const { encrypt, decrypt, hash } = require('../utils/crypter')
 
 const checkWorldlist = (contentHtml, words, categories, password, status) => {
   let hits = 0
@@ -37,7 +37,7 @@ const load = async (textId, password) => {
       'password categories classifications classActive showConfirmed words name',
   })
   if (hash(password) !== data.project.password) {
-    throw { name: 'Custom', message: 'Invalid project password' }
+    throw { status: 400, message: 'Invalid project password' }
   }
 
   let { contentHtml, hits } = checkWorldlist(

@@ -2,7 +2,7 @@ const crypto = require('crypto')
 
 // TODO: make class
 const algorithm = 'aes-256-cbc'
-const iv = process.env.SALT_SECRET
+const iv = process.env.SECRET
 
 const generateKey = (password) => {
   return hash(password).substr(0, 32)

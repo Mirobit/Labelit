@@ -53,12 +53,12 @@ if (process.env.REMOTE_MODE) {
 app.use(routes)
 app.use((error, req, res, next) => {
   let message = error.message
-  if (error.name !== 'Custom') {
+  if (error.stack) {
     message = 'server'
     if (process.env.NODE_ENV === 'development') console.log(error)
     else logger.info(error)
   }
-  res.json({ status: false, message })
+  res.json({ status: error.status ? error.status : 500, message })
 })
 
 app.listen(process.env.PORT, () => {

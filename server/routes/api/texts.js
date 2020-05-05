@@ -9,7 +9,7 @@ router.post(
   asyncWrap(async (req, res) => {
     const data = await textsService.load(req.params.textId, req.body.password)
     res.json({
-      status: true,
+      status: 200,
       ...data,
     })
   })
@@ -26,7 +26,7 @@ router.get(
       req.params.prev === 'true'
     )
     res.json({
-      status: true,
+      status: 200,
       textId,
     })
   })
@@ -46,7 +46,7 @@ router.put(
       req.body.password,
       req.body.classifications
     )
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 
@@ -58,7 +58,7 @@ router.post(
       req.body.projectId,
       req.body.password
     )
-    res.json({ status: true, hits: result })
+    res.json({ status: 200, hits: result })
   })
 )
 
@@ -71,7 +71,7 @@ router.post(
       req.body.folderPath,
       req.body.password
     )
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 

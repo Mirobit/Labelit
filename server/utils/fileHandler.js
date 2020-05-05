@@ -11,7 +11,7 @@ const read = async (projectId, password, folderPath, subFolder = '') => {
   try {
     stat = await fs.lstat(folderPath)
   } catch (error) {
-    throw { name: 'Custom', message: 'Project path does not exist' }
+    throw { status: 400, message: 'Project path does not exist' }
   }
 
   try {
@@ -47,7 +47,7 @@ const read = async (projectId, password, folderPath, subFolder = '') => {
       })
     }
   } catch (error) {
-    throw { name: 'Custom', message: 'Could not read files' }
+    throw { status: 400, message: 'Could not read files' }
   }
 
   return { textCount, texts }
@@ -64,7 +64,7 @@ const write = async (
   try {
     stat = await fs.lstat(folderPath)
   } catch (error) {
-    throw { name: 'Custom', message: 'Path does not exist' }
+    throw { status: 400, message: 'Path does not exist' }
   }
   const totalPath = path.join(folderPath, `Labelit - ${projectName}`)
   await fs.mkdir(totalPath, { recursive: true })

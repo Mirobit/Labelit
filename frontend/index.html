@@ -35,6 +35,46 @@
           ><span id="navPath3divider" hidden> > </span
           ><span id="navPath3"></span>
         </div>
+        <!-- Login Page Start-->
+        <div id="loginPage" class="row text-center" hidden>
+          <div style="margin-left: 40%;">
+            <div class="form-bottom">
+              <input
+                type="text"
+                class="form-control form-control-alternative"
+                placeholder="Username"
+                id="username"
+                aria-describedby="usernameHelp"
+                minlength="1"
+              />
+            </div>
+            <div class="form-bottom">
+              <input
+                type="password"
+                class="form-control form-control-alternative"
+                placeholder="User password"
+                id="userPassword"
+                aria-describedby="userPasswordHelp"
+                minlength="1"
+              />
+            </div>
+            <div>
+              <button
+                type="button"
+                class="btn btn-main"
+                id="login"
+                onclick="loginFuncs.login()"
+              >
+                <i
+                  class="fa fa-unlock-alt fa-lg"
+                  style="margin-right: 10px;"
+                ></i
+                >Login
+              </button>
+            </div>
+          </div>
+        </div>
+        <!-- Login Page End-->
         <!-- Home Page Start -->
         <div id="homePage" class="row" hidden>
           <div class="col-5">

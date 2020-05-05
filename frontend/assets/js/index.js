@@ -4,6 +4,7 @@ import * as passwordFuncs from './pages/password.js'
 import * as textFuncs from './pages/text.js'
 import * as projectFuncs from './pages/project.js'
 import * as homeFuncs from './pages/home.js'
+import * as loginFuncs from './pages/login.js'
 import Store from './store.js'
 import { closeMessage, displayMessage } from './components/message.js'
 
@@ -13,6 +14,7 @@ const init = () => {
     projectFuncs,
     textFuncs,
     passwordFuncs,
+    loginFuncs,
   }
 
   Object.entries(pages).forEach(([name, page]) => (window[name] = page))
@@ -23,6 +25,8 @@ const route = async () => {
   const route = window.location.pathname
   if (route === '/') {
     homeFuncs.init()
+  } else if (route.includes('/login/')) {
+    loginFuncs.init()
   } else if (route.includes('/text/')) {
     if (checkIfPassword(route)) {
       return

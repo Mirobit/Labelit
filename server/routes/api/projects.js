@@ -8,7 +8,7 @@ router.get(
   '/:name',
   asyncWrap(async (req, res) => {
     const project = await projectsService.get(req.params.name)
-    res.json({ status: true, project })
+    res.json({ status: 200, project })
   })
 )
 
@@ -17,7 +17,7 @@ router.get(
   '/',
   asyncWrap(async (req, res) => {
     const projects = await projectsService.list()
-    res.json({ status: true, projects })
+    res.json({ status: 200, projects })
   })
 )
 
@@ -32,7 +32,7 @@ router.post(
       password: req.body.password,
       classActive: req.body.classification,
     })
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 
@@ -45,7 +45,7 @@ router.put(
       description: req.body.description,
       showConfirmed: req.body.showConfirmed,
     })
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 
@@ -54,7 +54,7 @@ router.delete(
   '/:id',
   asyncWrap(async (req, res) => {
     await projectsService.remove(req.params.id)
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 
@@ -63,7 +63,7 @@ router.post(
   '/password',
   asyncWrap(async (req, res) => {
     await projectsService.checkPassword(req.body.projectName, req.body.password)
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 
@@ -78,7 +78,7 @@ router.post(
       color: req.body.color,
       colorHex: req.body.colorHex,
     })
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 
@@ -97,7 +97,7 @@ router.put(
         colorHex: req.body.colorHex,
       }
     )
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 
@@ -109,7 +109,7 @@ router.delete(
       req.params.projectId,
       req.params.categoryId
     )
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 
@@ -120,7 +120,7 @@ router.post(
     await projectsService.addClassification(req.params.projectId, {
       name: req.body.name,
     })
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 
@@ -135,7 +135,7 @@ router.put(
         name: req.body.name,
       }
     )
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 
@@ -147,7 +147,7 @@ router.delete(
       req.params.projectId,
       req.params.classificationId
     )
-    res.json({ status: true })
+    res.json({ status: 200 })
   })
 )
 
