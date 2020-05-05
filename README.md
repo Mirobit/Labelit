@@ -39,7 +39,7 @@ To start the app, simply run:
 npm start
 ```
 
-Go to your browser and enter `http://localhost:8000/`
+Go to your browser and enter `http://localhost:8000/`. You can login with `admin` and the password from the `.env` file
 
 ## How To
 
