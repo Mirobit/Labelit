@@ -87,14 +87,14 @@ const writeFolder = async (
     if (subFolder.length > 0) {
       await fs.mkdir(path.join(totalPath, subFolder), { recursive: true })
     }
-    fs.writeFile(
+    await fs.writeFile(
       path.join(totalPath, subFolder, fileName),
       decrypt(text.contentEncSaved, password)
     )
   }
 
   if (classActive)
-    fs.writeFile(
+    await fs.writeFile(
       path.join(totalPath, 'classifications.json'),
       JSON.stringify(classContent, null, 4)
     )
@@ -125,6 +125,50 @@ const readJSON = async (projectId, password, filePath) => {
   }
 
   return { textCount, texts }
+}
+
+const writeJSON = async (
+  exportPath,
+  projectName,
+  texts,
+  password,
+  classActive,
+  projectClassifications
+) => {
+  try {
+    stat = await fs.lstat(exportPath)
+  } catch (error) {
+    throw { status: 400, message: 'Export path does not exist' }
+  }
+
+  const totalPath = path.join(exportPath, `Labelit - ${projectName}`)
+  await fs.mkdir(totalPath, { recursive: true })
+
+  const output = []
+  for (const text of texts) {
+    if (text.status !== 'confirmed') continue
+    const entry = {
+      id: text.name,
+      text: decrypt(text.contentEncSaved, password),
+    }
+    if (classActive) {
+      entry.classifications = text.classifications
+        .map(
+          (classification) =>
+            projectClassifications.find(
+              (pClassification) =>
+                pClassification._id.toString() == classification.toString()
+            ).name
+        )
+        .join(',')
+    }
+    output.push(entry)
+  }
+
+  await fs.writeFile(
+    path.join(totalPath, 'export.json'),
+    JSON.stringify(output, null, 4)
+  )
 }
 
 const readCSV = async (projectId, password, filePath) => {
@@ -213,4 +257,11 @@ const writeCSV = async (
   await csvWriter.writeRecords(output)
 }
 
-module.exports = { readFolder, writeFolder, readCSV, writeCSV, readJSON }
+module.exports = {
+  readFolder,
+  writeFolder,
+  readCSV,
+  writeCSV,
+  readJSON,
+  writeJSON,
+}

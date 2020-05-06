@@ -1,6 +1,6 @@
 const Text = require('../models/Text')
 const Project = require('../models/Project')
-const { writeFolder, writeCSV } = require('../utils/fileHandler')
+const { writeFolder, writeCSV, writeJSON } = require('../utils/fileHandler')
 const { checkPassword } = require('./projects')
 const { encrypt, decrypt, hash } = require('../utils/crypter')
 
@@ -211,7 +211,14 @@ const exportAll = async (projectId, exportPath, exportMode, password) => {
       project.classifications
     )
   } else if (project.inputMode === 'json') {
-    // TODO
+    await writeJSON(
+      exportPath,
+      project.name,
+      project.texts,
+      password,
+      project.classActive,
+      project.classifications
+    )
   } else {
     throw { status: 400, message: 'Invalid inputMode' }
   }
