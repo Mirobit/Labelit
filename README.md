@@ -46,7 +46,7 @@ Use `admin` as username and the password from the `.env` file to sign in.
 
 ## How To
 
-See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md)
+See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md) and the [examples](https://github.com/Mirobit/Labelit/blob/master/examples) folder.
 
 ## ToDo
 
