@@ -50,7 +50,7 @@ const createProject = async () => {
   const passwordEl = document.getElementById('passwordNew')
   const passwordRepeatEl = document.getElementById('passwordRepeatNew')
   const inputMode = document.getElementById('inputMode').value
-  const folderPath = document.getElementById('folderPathNew').value
+  const inputPath = document.getElementById('inputPathNew').value
 
   if (passwordEl.value !== passwordRepeatEl.value) {
     passwordEl.classList.add('is-invalid')
@@ -68,7 +68,7 @@ const createProject = async () => {
   const result = await sendData('/projects', 'POST', {
     name,
     description,
-    folderPath,
+    inputPath,
     password: passwordEl.value,
     inputMode,
     classification,
@@ -82,7 +82,7 @@ const createProject = async () => {
   document.getElementById('descriptionNew').value = ''
   document.getElementById('passwordNew').value = ''
   document.getElementById('passwordRepeatNew').value = ''
-  document.getElementById('folderPathNew').value = ''
+  document.getElementById('inputPathNew').value = ''
   document.getElementById('classificationNew').checked = false
   init()
   displayMessage(true, 'Project successfully created')

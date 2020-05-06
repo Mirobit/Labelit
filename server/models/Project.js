@@ -12,7 +12,7 @@ const projectSchema = new Schema(
       type: String,
       required: true,
     },
-    folderPath: {
+    inputPath: {
       type: String,
       required: true,
     },

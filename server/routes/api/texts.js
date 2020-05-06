@@ -68,7 +68,7 @@ router.post(
   asyncWrap(async (req, res) => {
     await textsService.exportAll(
       req.body.projectId,
-      req.body.folderPath,
+      req.body.exportPath,
       req.body.password
     )
     res.json({ status: 200 })

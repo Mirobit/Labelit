@@ -2,20 +2,20 @@ const fs = require('fs').promises
 const path = require('path')
 const { encrypt, decrypt } = require('./crypter')
 
-const readFolder = async (projectId, password, folderPath, subFolder = '') => {
+const readFolder = async (projectId, password, inputPath, subFolder = '') => {
   let stat
   let textCount = 0
   let texts = []
 
   // Check if path is valid
   try {
-    stat = await fs.lstat(folderPath)
+    stat = await fs.lstat(inputPath)
   } catch (error) {
     throw { status: 400, message: 'Project path does not exist' }
   }
 
   try {
-    const files = await fs.readdir(path.join(folderPath, subFolder), {
+    const files = await fs.readdir(path.join(inputPath, subFolder), {
       withFileTypes: true,
     })
 
@@ -25,7 +25,7 @@ const readFolder = async (projectId, password, folderPath, subFolder = '') => {
         const result = await read(
           projectId,
           password,
-          folderPath,
+          inputPath,
           path.join(subFolder, file.name)
         )
         texts = texts.concat(result.texts)
@@ -34,7 +34,7 @@ const readFolder = async (projectId, password, folderPath, subFolder = '') => {
       }
       textCount++
       const content = await fs.readFile(
-        path.join(folderPath, subFolder, file.name),
+        path.join(inputPath, subFolder, file.name),
         'utf8'
       )
       const contentEnc = encrypt(content, password)
@@ -54,7 +54,7 @@ const readFolder = async (projectId, password, folderPath, subFolder = '') => {
 }
 
 const writeFolder = async (
-  folderPath,
+  exportPath,
   projectName,
   texts,
   password,
@@ -62,11 +62,11 @@ const writeFolder = async (
   projectClassifications
 ) => {
   try {
-    stat = await fs.lstat(folderPath)
+    stat = await fs.lstat(exportPath)
   } catch (error) {
     throw { status: 400, message: 'Export path does not exist' }
   }
-  const totalPath = path.join(folderPath, `Labelit - ${projectName}`)
+  const totalPath = path.join(exportPath, `Labelit - ${projectName}`)
   await fs.mkdir(totalPath, { recursive: true })
   const classContent = {}
 
@@ -135,7 +135,7 @@ const readCSV = async (projectId, password, filePath) => {
 }
 
 const writeCSV = async (
-  folderPath,
+  exportPath,
   projectName,
   texts,
   password,
@@ -143,12 +143,12 @@ const writeCSV = async (
   projectClassifications
 ) => {
   try {
-    stat = await fs.lstat(folderPath)
+    stat = await fs.lstat(exportPath)
   } catch (error) {
     throw { status: 400, message: 'Export path does not exist' }
   }
 
-  const totalPath = path.join(folderPath, `Labelit - ${projectName}`)
+  const totalPath = path.join(exportPath, `Labelit - ${projectName}`)
   await fs.mkdir(totalPath, { recursive: true })
 
   const header = [

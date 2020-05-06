@@ -390,15 +390,15 @@ const checkTexts = async () => {
 }
 
 const exportTexts = async () => {
-  const folderPath = document.getElementById('exportPath').value
-  if (folderPath === '') {
+  const exportPath = document.getElementById('exportPath').value
+  if (exportPath === '') {
     displayMessage(false, 'Export path can not be empty')
     return
   }
 
   const result = await sendData(`/texts/export`, 'POST', {
     projectId: Store.project._id,
-    folderPath,
+    exportPath,
     password: Store.password,
   })
 

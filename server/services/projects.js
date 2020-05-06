@@ -20,9 +20,9 @@ const create = async (data) => {
   const project = await new Project(data)
   let textData
   if (data.inputMode === 'csv') {
-    textData = await readCSV(project._id, data.password, data.folderPath)
+    textData = await readCSV(project._id, data.password, data.inputPath)
   } else if (data.inputMode === 'folder') {
-    textData = await readFolder(project._id, data.password, data.folderPath)
+    textData = await readFolder(project._id, data.password, data.inputPath)
   } else if (data.inputMode === 'json') {
     // TODO
   } else {

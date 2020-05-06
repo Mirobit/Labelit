@@ -29,7 +29,7 @@ router.post(
       name: req.body.name,
       description: req.body.description,
       inputMode: req.body.inputMode,
-      folderPath: req.body.folderPath,
+      inputPath: req.body.inputPath,
       password: req.body.password,
       classActive: req.body.classification,
     })
