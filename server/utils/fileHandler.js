@@ -100,6 +100,33 @@ const writeFolder = async (
     )
 }
 
+const readJSON = async (projectId, password, filePath) => {
+  const texts = []
+  let textCount = 0
+
+  try {
+    var jsonData = await fs.readFile(filePath, 'utf8')
+  } catch (error) {
+    throw { status: 400, message: 'File path does not exist' }
+  }
+
+  const parsed = JSON.parse(jsonData)
+
+  for (const entry of parsed) {
+    textCount++
+    const contentEnc = encrypt(entry.text, password)
+    texts.push({
+      name: entry.id,
+      contentEncOrg: contentEnc,
+      contentEncSaved: contentEnc,
+      contentEncHtml: contentEnc,
+      project: projectId,
+    })
+  }
+
+  return { textCount, texts }
+}
+
 const readCSV = async (projectId, password, filePath) => {
   const parseCSV = require('csv-parse/lib/sync')
   const texts = []
@@ -119,11 +146,9 @@ const readCSV = async (projectId, password, filePath) => {
 
   for (const line of parsed) {
     textCount++
-    const id = line[0]
-    const content = line[1]
-    const contentEnc = encrypt(content, password)
+    const contentEnc = encrypt(line[1], password)
     texts.push({
-      name: id,
+      name: line[0],
       contentEncOrg: contentEnc,
       contentEncSaved: contentEnc,
       contentEncHtml: contentEnc,
@@ -188,4 +213,4 @@ const writeCSV = async (
   await csvWriter.writeRecords(output)
 }
 
-module.exports = { readFolder, writeFolder, readCSV, writeCSV }
+module.exports = { readFolder, writeFolder, readCSV, writeCSV, readJSON }

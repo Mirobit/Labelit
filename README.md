@@ -8,7 +8,7 @@ Just create a project, import your data, create categories for named entities an
 ## Features
 
 - Create projects with custom categories, classifications and wordlists
-- Import a CSV file or a folder with raw text files
+- Import a CSV/JSON file or a folder with raw text files
 - Texts and replaced words are stored AES-256 encrypted in the database
 - Easy to use texteditor: single click selection, keyboard shortcuts and duplicate detection
 - All texts can be checked against previously found sensitive words (project based wordlist)
@@ -45,7 +45,7 @@ Use `admin` as username and the password from the `.env` file to sign in.
 
 ## How To
 
-See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md) and the [examples](https://github.com/Mirobit/Labelit/blob/master/examples) folder.
+See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md) and the input [examples](https://github.com/Mirobit/Labelit/blob/master/examples) folder.
 
 ## ToDo
 

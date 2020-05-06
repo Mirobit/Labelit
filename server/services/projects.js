@@ -1,6 +1,6 @@
 const Text = require('../models/Text')
 const Project = require('../models/Project')
-const { readFolder, readCSV } = require('../utils/fileHandler')
+const { readFolder, readCSV, readJSON } = require('../utils/fileHandler')
 const { hash } = require('../utils/crypter')
 
 const get = async (name) => {
@@ -24,7 +24,7 @@ const create = async (data) => {
   } else if (data.inputMode === 'folder') {
     textData = await readFolder(project._id, data.password, data.inputPath)
   } else if (data.inputMode === 'json') {
-    // TODO
+    textData = await readJSON(project._id, data.password, data.inputPath)
   } else {
     throw { status: 400, message: 'Invalid input mode' }
   }
