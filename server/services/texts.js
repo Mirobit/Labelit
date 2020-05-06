@@ -1,6 +1,6 @@
 const Text = require('../models/Text')
 const Project = require('../models/Project')
-const { writeFolder } = require('../utils/fileHandler')
+const { writeFolder, writeCSV } = require('../utils/fileHandler')
 const { checkPassword } = require('./projects')
 const { encrypt, decrypt, hash } = require('../utils/crypter')
 
@@ -186,22 +186,36 @@ const checkAll = async (projectId, password) => {
 
 const exportAll = async (projectId, folderPath, password) => {
   const project = await Project.findById(projectId)
-    .select('name classActive classifications texts')
+    .select('name classActive classifications texts inputMode')
     .populate({
       path: 'texts',
       select: 'name contentEncSaved status classifications',
     })
 
   await checkPassword(project.name, password)
-
-  await writeFolder(
-    folderPath,
-    project.name,
-    project.texts,
-    password,
-    project.classActive,
-    project.classifications
-  )
+  if (project.inputMode === 'folder') {
+    await writeFolder(
+      folderPath,
+      project.name,
+      project.texts,
+      password,
+      project.classActive,
+      project.classifications
+    )
+  } else if (project.inputMode === 'csv') {
+    await writeCSV(
+      folderPath,
+      project.name,
+      project.texts,
+      password,
+      project.classActive,
+      project.classifications
+    )
+  } else if (project.inputMode === 'json') {
+    // TODO
+  } else {
+    throw { status: 400, message: 'Invalid inputMode' }
+  }
 }
 
 module.exports = {
