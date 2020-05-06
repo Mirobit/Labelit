@@ -49,7 +49,7 @@ const createProject = async () => {
   const classification = document.getElementById('classificationNew').checked
   const passwordEl = document.getElementById('passwordNew')
   const passwordRepeatEl = document.getElementById('passwordRepeatNew')
-  const inputMode = document.getElementById('inputMode').value
+  const inputMode = document.getElementById('inputModeNew').value
   const inputPath = document.getElementById('inputPathNew').value
 
   if (passwordEl.value !== passwordRepeatEl.value) {
@@ -83,9 +83,25 @@ const createProject = async () => {
   document.getElementById('passwordNew').value = ''
   document.getElementById('passwordRepeatNew').value = ''
   document.getElementById('inputPathNew').value = ''
+  document.getElementById('inputModeNew').value = 'folder'
   document.getElementById('classificationNew').checked = false
   init()
   displayMessage(true, 'Project successfully created')
+}
+
+const changeInputMode = (newValue) => {
+  const strs = {
+    csvHelper: 'Path of the csv file',
+    jsonHelper: 'Path of the json file',
+    folderHelper: 'Path to the folder with the text files',
+    csvPlaceholder: 'C:\\myfiles\\data.csv',
+    jsonPlaceholder: 'C:\\myfiles\\data.json',
+    folderPlaceholder: 'C:\\myfiles\\projectfolder',
+  }
+  document.getElementById('inputPathNew').placeholder =
+    strs[newValue + 'Placeholder']
+  document.getElementById('inputPathNewHelp').innerText =
+    strs[newValue + 'Helper']
 }
 
 // const uploadProject = async () => {
@@ -108,4 +124,4 @@ const createProject = async () => {
 //   console.log(response)
 // }
 
-export { createProject, init, openProject }
+export { createProject, init, changeInputMode, openProject }
