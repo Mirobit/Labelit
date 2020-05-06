@@ -9,6 +9,7 @@ import Store from './store.js'
 import { closeMessage, displayMessage } from './components/message.js'
 
 const init = () => {
+  if (navigator.platform === 'Win32') Store.os = 'Win'
   const pages = {
     homeFuncs,
     projectFuncs,

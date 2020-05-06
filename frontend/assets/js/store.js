@@ -12,6 +12,7 @@ class Store {
   password = ''
   project = {}
   loggedIn = false
+  os = 'Mac'
 }
 
 export default new Store()

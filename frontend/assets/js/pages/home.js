@@ -9,6 +9,7 @@ const init = async () => {
   document.title = `Labelit - Projects`
   Store.password = ''
   Store.project = {}
+  changeInputMode('folder')
   setNavPath(close)
   const result = await getData('/projects')
   if (result.status !== 200) {
@@ -94,12 +95,15 @@ const changeInputMode = (newValue) => {
     csvHelper: 'Path of the csv file',
     jsonHelper: 'Path of the json file',
     folderHelper: 'Path to the folder with the text files',
-    csvPlaceholder: 'C:\\myfiles\\data.csv',
-    jsonPlaceholder: 'C:\\myfiles\\data.json',
-    folderPlaceholder: 'C:\\myfiles\\projectfolder',
+    csvPlaceholderWin: 'C:\\Users\\username\\Documents\\data.csv',
+    jsonPlaceholderWin: 'C:\\Users\\username\\Documents\\data.json',
+    folderPlaceholderWin: 'C:\\Users\\username\\Documents\\MyProject',
+    csvPlaceholderMac: '/Users/username/Documents/data.csv',
+    jsonPlaceholderMac: '/Users/username/Documents/data.json',
+    folderPlaceholderMac: '/Users/username/Documents/MyProject',
   }
   document.getElementById('inputPathNew').placeholder =
-    strs[newValue + 'Placeholder']
+    strs[newValue + 'Placeholder' + Store.os]
   document.getElementById('inputPathNewHelp').innerText =
     strs[newValue + 'Helper']
 }

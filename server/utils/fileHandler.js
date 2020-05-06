@@ -22,7 +22,7 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
     if (files.length === 0) return { textCount, texts }
     for (const file of files) {
       if (file.isDirectory()) {
-        const result = await read(
+        const result = await readFolder(
           projectId,
           password,
           inputPath,
