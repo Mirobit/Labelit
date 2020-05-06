@@ -69,6 +69,7 @@ router.post(
     await textsService.exportAll(
       req.body.projectId,
       req.body.exportPath,
+      req.body.exportMode,
       req.body.password
     )
     res.json({ status: 200 })

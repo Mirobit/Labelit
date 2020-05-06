@@ -221,6 +221,14 @@
                   >
                     Edit
                   </button>
+                  <button
+                    type="button"
+                    class="btn btn-outline-danger btn-sm"
+                    id="removeCategory"
+                    onclick="projectFuncs.removeProject()"
+                  >
+                    <span class="fa fa-trash-o fa-lg" aria-hidden="true"></span>
+                  </button>
                 </span>
 
                 <form id="projectForm" class="form-bottom" hidden>
@@ -258,9 +266,19 @@
                       class="form-control form-control-sm form-control-alternative"
                       placeholder="Export path"
                       id="exportPath"
-                      style="width: 165px;"
+                      style="width: 150px;"
                     />
-
+                    <select
+                      class="form-control form-control-sm form-control-alternative"
+                      id="exportMode"
+                      style="width: 80px;"
+                      onchange="homeFuncs.changeInputMode(this.value)"
+                      aria-describedby="exportModeHelp"
+                    >
+                      <option value="folder">.txt files</option>
+                      <option value="csv">CSV file</option>
+                      <!-- <option value="json">JSON file</option> -->
+                    </select>
                     <button
                       type="button"
                       class="btn btn-outline-main btn-sm"
@@ -269,19 +287,6 @@
                     >
                       Export
                     </button>
-                    <span style="margin-left: 35px;">
-                      <button
-                        type="button"
-                        class="btn btn-danger btn-sm"
-                        id="removeCategory"
-                        onclick="projectFuncs.removeProject()"
-                      >
-                        <span
-                          class="fa fa-trash-o fa-lg"
-                          aria-hidden="true"
-                        ></span>
-                      </button>
-                    </span>
                   </div>
                 </div>
               </div>

@@ -184,16 +184,15 @@ const checkAll = async (projectId, password) => {
   return totalHits
 }
 
-const exportAll = async (projectId, exportPath, password) => {
+const exportAll = async (projectId, exportPath, exportMode, password) => {
   const project = await Project.findById(projectId)
     .select('name classActive classifications texts inputMode')
     .populate({
       path: 'texts',
       select: 'name contentEncSaved status classifications',
     })
-
   await checkPassword(project.name, password)
-  if (project.inputMode === 'folder') {
+  if (exportMode === 'folder') {
     await writeFolder(
       exportPath,
       project.name,
@@ -202,7 +201,7 @@ const exportAll = async (projectId, exportPath, password) => {
       project.classActive,
       project.classifications
     )
-  } else if (project.inputMode === 'csv') {
+  } else if (exportMode === 'csv') {
     await writeCSV(
       exportPath,
       project.name,

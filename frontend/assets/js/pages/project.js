@@ -16,6 +16,7 @@ const init = async () => {
   // Main
   Store.project = result.project
   document.title = `Labelit - Project: ${Store.project.name}`
+  document.getElementById('exportMode').value = Store.project.inputMode
   setNavPath(close, Store.project.name)
 
   // Texts
@@ -82,6 +83,8 @@ const init = async () => {
 const close = () => {
   Store.projectPage.hidden = true
   document.getElementById('classifications').hidden = true
+  document.getElementById('categories').hidden = true
+  document.getElementById('projectForm').hiddden = true
   document.getElementById('exportPath').value = ''
 }
 
@@ -399,6 +402,7 @@ const exportTexts = async () => {
   const result = await sendData(`/texts/export`, 'POST', {
     projectId: Store.project._id,
     exportPath,
+    exportMode: document.getElementById('exportMode').value,
     password: Store.password,
   })
 

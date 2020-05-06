@@ -9,7 +9,7 @@ Just create a project, import your data, create categories for named entities an
 
 - Create projects with custom categories, classifications and wordlists
 - Import a CSV file or a folder with raw text files
-- Texts and replaced words are stored encrypted (AES-256) in the database
+- Texts and replaced words are stored AES-256 encrypted in the database
 - Easy to use texteditor: single click selection, keyboard shortcuts and duplicate detection
 - All texts can be checked against previously found sensitive words (project based wordlist)
 - Lightweight single-page application (no heavy frontend framework -> 15 vs 85 mb, 200 vs 2500 dependencies)
