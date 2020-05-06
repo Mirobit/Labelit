@@ -8,6 +8,7 @@ Just create a project, import your data (text files), create categories for name
 ## Features
 
 - Create projects with custom categories and wordlists
+- Import a CSV file or a folder with raw text files
 - Texts and replaced words are stored encrypted (AES-256) in the database
 - Easy to use texteditor: single click selection, keyboard shortcuts and duplicate detection
 - All texts can be checked against previously found sensitive words (project based wordlist)
@@ -54,5 +55,5 @@ See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md)
 - ~~Enable classification of texts (for ML)~~
 - ~~Better error handling~~
 - ~~Subfolder support~~
-- Import JSON file
+- ~~Import single file (CSV)~~
 - Testing with ava
