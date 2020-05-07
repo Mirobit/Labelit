@@ -12,7 +12,7 @@ Just create a project, import your data, create categories for named entities an
 - Texts and replaced words are stored AES-256 encrypted in the database
 - Easy to use texteditor: single click selection, keyboard shortcuts and duplicate detection
 - All texts can be checked against previously found sensitive words (project based wordlist)
-- Lightweight single-page application (no heavy frontend framework -> 15 vs 85 mb, 200 vs 2500 dependencies)
+- Lightweight single-page application
 
 <img src="https://i.imgur.com/JduLdHt.png" width="400" style="margin-left: 20px"> <img src="https://i.imgur.com/zE1ChFB.png" width="400">
 
@@ -45,7 +45,7 @@ Use `admin` as username and the password from the `.env` file to sign in.
 
 ## How To
 
-See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md) and the input [examples](https://github.com/Mirobit/Labelit/blob/master/examples) folder.
+See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md) and check the [examples](https://github.com/Mirobit/Labelit/blob/master/examples) folder, to see how the input data needs to be structured.
 
 ## ToDo
 
