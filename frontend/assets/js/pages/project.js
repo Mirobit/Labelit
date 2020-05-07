@@ -154,6 +154,20 @@ const addCategory = async () => {
   const categoryNameEl = document.getElementById('categoryName')
   const categoryKeyEl = document.getElementById('categoryKey')
   const categoryColorEl = document.getElementById('categoryColor')
+
+  if (!categoryNameEl.value) {
+    displayMessage(false, 'Category name required')
+    return
+  }
+  if (!categoryKeyEl.value) {
+    displayMessage(false, 'Category shortcut key required')
+    return
+  }
+  if (!categoryColorEl.value) {
+    displayMessage(false, 'Category color required')
+    return
+  }
+
   const colorArr = categoryColorEl.value.split(',')
 
   const result = await sendData(
@@ -219,6 +233,16 @@ const updateCategory = async (categoryId) => {
   const categoryNameEl = document.getElementById('categoryName')
   const categoryKeyEl = document.getElementById('categoryKey')
   const categoryColorEl = document.getElementById('categoryColor')
+
+  if (!categoryNameEl.value) {
+    displayMessage(false, 'Category name required')
+    return
+  }
+  if (!categoryKeyEl.value) {
+    displayMessage(false, 'Category shortcut key required')
+    return
+  }
+
   const colorArr = categoryColorEl.value.split(',')
 
   const result = await sendData(
@@ -287,6 +311,11 @@ const showNewClassification = () => {
 const addClassification = async () => {
   const classificationNameEl = document.getElementById('classificationName')
 
+  if (!classificationNameEl.value) {
+    displayMessage(false, 'Classification name required')
+    return
+  }
+
   const result = await sendData(
     `/projects/${Store.project._id}/classifications`,
     'POST',
@@ -342,6 +371,11 @@ const showEditClassification = async (classificationId, node) => {
 
 const updateClassification = async (classificationId) => {
   const classificationNameEl = document.getElementById('classificationName')
+
+  if (!classificationNameEl.value) {
+    displayMessage(false, 'Classification name required')
+    return
+  }
 
   const result = await sendData(
     `/projects/${Store.project._id}/classifications/${classificationId}`,
