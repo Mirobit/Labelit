@@ -4,6 +4,8 @@ This document will tell you how to use the Labelit Platform. If you have problem
 
 ## 1. Landing Page
 
+![homepage](https://user-images.githubusercontent.com/50407361/81276241-080d5c00-9053-11ea-8cba-e280278c8eac.png)
+
 ### 1.1 New Project
 
 To create a new project, enter the project details into the "New Project" section. The project description is optional.
