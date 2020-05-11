@@ -28,7 +28,7 @@ Make sure that you installed [Node.js](https://nodejs.org/en/download/) and [Mon
 ```bash
 git clone https://github.com/Mirobit/Labelit.git
 cd Labelit
-npm install
+npm install --production
 ```
 
 Now open the `.env.example` file and follow the instructions.
@@ -55,4 +55,4 @@ See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md) and chec
 - ~~Better error handling~~
 - ~~Subfolder support~~
 - ~~Import single file (CSV)~~
-- Testing with ava
+- ~~Testing with ava~~

@@ -18,11 +18,14 @@
     "pino": "^6.2.1"
   },
   "devDependencies": {
-    "cross-env": "^7.0.2"
+    "ava": "^3.8.2",
+    "cross-env": "^7.0.2",
+    "mongodb-memory-server": "^6.6.0"
   },
   "scripts": {
     "start": "node server/app.js",
-    "dev": "cross-env NODE_ENV=development nodemon server/app.js"
+    "dev": "cross-env NODE_ENV=development nodemon server/app.js",
+    "test": "ava --verbose"
   },
   "repository": {
     "type": "git",
@@ -36,5 +39,11 @@
   "bugs": {
     "url": "https://github.com/mirobit/labelit/issues"
   },
-  "homepage": "https://github.com/mirobit/labelit#readme"
+  "homepage": "https://github.com/mirobit/labelit#readme",
+  "ava": {
+    "files": [
+      "server/tests/*.js",
+      "!server/tests/db.js"
+    ]
+  }
 }
