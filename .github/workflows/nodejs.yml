@@ -28,6 +28,6 @@ jobs:
       uses: actions/cache@v1.1.2
       with:
         path: node_modules/.cache/mongodb-memory-server/mongodb-binaries
-        key: mongo-${{ hashFiles('node-modules/.cache/mongodb-memory-server/mongodb-binaries/*/*') }}
+        key: mongo-4.0.x
     - run: npm install
     - run: npm test
