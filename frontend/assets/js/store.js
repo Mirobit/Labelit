@@ -9,7 +9,7 @@ class Store {
 
   messageDiv = document.getElementById('message')
 
-  password = ''
+  password = null
   project = {}
   loggedIn = false
   os = 'Mac'

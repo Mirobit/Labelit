@@ -46,7 +46,7 @@ const route = async () => {
 }
 
 const checkIfPassword = (goUrl) => {
-  if (Store.password === '') {
+  if (Store.password === null) {
     passwordFuncs.init(goUrl)
     return true
   }

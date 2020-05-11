@@ -7,7 +7,7 @@ let projects = []
 
 const init = async () => {
   document.title = `Labelit - Projects`
-  Store.password = ''
+  Store.password = null
   Store.project = {}
   changeInputMode('folder')
   setNavPath(close)
@@ -54,12 +54,17 @@ const createProject = async () => {
   const inputPath = document.getElementById('inputPathNew').value
 
   if (name === '') {
-    displayMessage(false, 'Project name is required')
+    displayMessage(false, 'Project name required')
     return
   }
 
   if (inputPath === '') {
-    displayMessage(false, 'Import path is required')
+    displayMessage(false, 'Import path required')
+    return
+  }
+
+  if (passwordEl.value === '') {
+    displayMessage(false, 'Project password required')
     return
   }
 
