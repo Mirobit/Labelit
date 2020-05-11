@@ -69,13 +69,14 @@ const addCategory = async (projectId, newCategory) => {
   if (
     project.categories.some(
       (category) =>
-        category.name.toUpperCase() === newCategory.name.toUpperCase() ||
-        category.key === newCategory.key ||
-        category.color === newCategory.color
+        category.name.toUpperCase() === newCategory.name.toUpperCase()
     )
-  ) {
-    throw { status: 400, message: 'Duplicate category' }
-  }
+  )
+    throw { status: 400, message: 'Duplicate category name' }
+
+  if (project.categories.some((category) => category.key === newCategory.key))
+    throw { status: 400, message: 'Duplicate category shortcut key' }
+
   project.categories.push(newCategory)
 
   await project.save()
@@ -87,15 +88,23 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
   const catIndex = project.categories.findIndex(
     (category) => category._id == categoryId
   )
-  const dupIndex = project.categories.findIndex(
-    (category, index) =>
-      index !== catIndex &&
-      (category.name.toUpperCase() === categoryData.name.toUpperCase() ||
-        category.key === categoryData.key ||
-        category.color === categoryData.color)
-  )
 
-  if (dupIndex !== -1) throw { status: 400, message: 'Duplicate category' }
+  if (
+    project.categories.some(
+      (category, index) =>
+        index !== catIndex &&
+        category.name.toUpperCase() === categoryData.name.toUpperCase()
+    )
+  )
+    throw { status: 400, message: 'Duplicate category name' }
+
+  if (
+    project.categories.some(
+      (category, index) =>
+        index !== catIndex && category.name.key === categoryData.name.key
+    )
+  )
+    throw { status: 400, message: 'Duplicate category shortcut key' }
 
   project.categories[catIndex] = { ...categoryData, _id: categoryId }
 
@@ -135,17 +144,16 @@ const updateClassification = async (
   const classIndex = project.classifications.findIndex(
     (classification) => classification._id == classificationId
   )
-  const dupIndex = project.classifications.findIndex(
-    (classification, index) => {
+
+  if (
+    project.classifications.some((classification, index) => {
       return (
         index !== classIndex &&
         classification.name.toUpperCase() ===
           classificationData.name.toUpperCase()
       )
-    }
+    })
   )
-
-  if (dupIndex !== -1)
     throw { status: 400, message: 'Duplicate classification' }
 
   project.classifications[classIndex] = {
