@@ -53,6 +53,16 @@ const createProject = async () => {
   const inputMode = document.getElementById('inputModeNew').value
   const inputPath = document.getElementById('inputPathNew').value
 
+  if (name === '') {
+    displayMessage(false, 'Project name is required')
+    return
+  }
+
+  if (inputPath === '') {
+    displayMessage(false, 'Import path is required')
+    return
+  }
+
   if (passwordEl.value !== passwordRepeatEl.value) {
     passwordEl.classList.add('is-invalid')
     passwordRepeatEl.classList.add('is-invalid')
