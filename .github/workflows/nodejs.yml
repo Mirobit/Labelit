@@ -27,7 +27,7 @@ jobs:
     - name: Caching Mongodb Memory Server
       uses: actions/cache@v1.1.2
       with:
-        path: node-modules/.cache/mongodb-memory-server
-        key: mongo
+        path: node_modules/.cache/mongodb-memory-server/mongodb-binaries
+        key: ${{ hashFiles('node-modules/.cache/mongodb-memory-server/mongodb-binaries/*/*') }}
     - run: npm install
     - run: npm test
