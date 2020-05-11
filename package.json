@@ -20,7 +20,7 @@
   "devDependencies": {
     "ava": "^3.8.2",
     "cross-env": "^7.0.2",
-    "mongodb-memory-server": "^6.6.0"
+    "mongodb-memory-server-core": "^6.6.0"
   },
   "scripts": {
     "start": "node server/app.js",

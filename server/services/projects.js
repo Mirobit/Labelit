@@ -37,7 +37,6 @@ const create = async (data) => {
   try {
     await project.save()
   } catch (error) {
-    console.log(project.id)
     await Text.deleteMany({ project: project.id })
     if (error.code === 11000) {
       throw { status: 400, message: 'Project name needs to be unique' }
