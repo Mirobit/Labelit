@@ -13,7 +13,7 @@
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.11",
+    "mongoose": "^5.9.13",
     "path": "^0.12.7",
     "pino": "^6.2.1"
   },
