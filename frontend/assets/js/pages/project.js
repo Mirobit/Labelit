@@ -95,6 +95,11 @@ const openText = (textId) => {
 const updateProject = async () => {
   const newProjectName = document.getElementById('projectNameInput').value
 
+  if (newProjectName === '') {
+    displayMessage(false, 'Project name required')
+    return
+  }
+
   const result = await sendData(`/projects/${Store.project._id}`, 'PUT', {
     name: newProjectName,
     description: document.getElementById('projectDescriptionInput').value,

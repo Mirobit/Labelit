@@ -51,10 +51,18 @@ const update = async (id, data) => {
     if (data[prop] === undefined) delete data[prop]
   }
 
-  await Project.findOneAndUpdate({ _id: id }, data, {
-    new: true,
-    runValidators: true,
-  })
+  try {
+    await Project.findOneAndUpdate({ _id: id }, data, {
+      new: true,
+      runValidators: true,
+    })
+  } catch (error) {
+    if (error.code === 11000) {
+      throw { status: 400, message: 'Project name already exists' }
+    } else {
+      throw error
+    }
+  }
 }
 
 const remove = async (id) => {
