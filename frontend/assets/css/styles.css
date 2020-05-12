@@ -122,6 +122,10 @@ body {
   width: 100%;
   background-color: white;
 }
+.btn:focus,
+.btn.focus {
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
 .btn-outline-grey {
   color: #525f7f;
   background-color: #fff;
@@ -138,17 +142,33 @@ body {
   border-color: #fff;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
-
 .btn-main:hover {
   color: #fff;
   background-color: #83afb1;
   border-color: #fff;
 }
-.btn-main:focus,
-.btn-main.focus {
+.btn-steelblue {
+  color: #fff;
+  background-color: #4281a4;
+  border-color: #4281a4;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
 }
-
+.btn-steelblue:hover {
+  color: #fff;
+  background-color: #5a8ca7;
+  border-color: #5a8ca7;
+}
+.btn-congopink {
+  color: #fff;
+  background-color: #fe938c;
+  border-color: #fe938c;
+  box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+.btn-congopink:hover {
+  color: #fff;
+  background-color: #f8a9a4;
+  border-color: #f8a9a4;
+}
 .btn-outline-main {
   color: #93c4c6;
   border-color: #93c4c6;
@@ -204,6 +224,12 @@ body {
 .textmenu > :last-child {
   margin-bottom: 0 !important;
 }
+.alert-success {
+  background-color: #93c4c6;
+}
+.alert-warning {
+  background-color: #f5365c;
+}
 
 #headerText {
   color: white;
@@ -217,7 +243,7 @@ body {
   margin-top: 75px;
 }
 #message {
-  max-width: 400px;
+  max-width: 368px;
   margin-top: 20px;
 }
 

@@ -29,7 +29,7 @@ const init = async () => {
         status = '<span class="unconfirmed"></span>'
       return (
         outputHTML +
-        `<div><span class="link" onclick="projectFuncs.openText('${text._id}')">${text.name}</span>${status}</div>
+        `<div><span class="link" style="border-bottom: 1px dotted;" onclick="projectFuncs.openText('${text._id}')">${text.name}</span>${status}</div>
     `
       )
     },
