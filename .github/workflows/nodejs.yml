@@ -24,10 +24,10 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-    - name: Caching Mongodb Memory Server
+    - name: Caching Mongodb Server
       uses: actions/cache@v1.1.2
       with:
-        path: node_modules/.cache
-        key: mongodb-4.0.x
+        path: node_modules/.cache/mongodb-memory-server
+        key: mongod-4.0.x
     - run: npm install
     - run: npm test
