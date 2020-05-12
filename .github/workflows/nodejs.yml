@@ -27,7 +27,7 @@ jobs:
     - name: Caching Mongodb Memory Server
       uses: actions/cache@v1.1.2
       with:
-        path: node_modules
-        key: mongo-4.0.x
+        path: node_modules/.cache
+        key: mongodb-4.0.x
     - run: npm install
     - run: npm test
