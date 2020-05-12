@@ -11,7 +11,7 @@ router.use('/texts', auth, textsRoutes)
 router.use('/projects', auth, projectsRoutes)
 router.use('/auth', authRoutes)
 router.use((req, res) => {
-  throw { status: 400, message: 'Invalid API route' }
+  throw new ValError('Invalid API route')
 })
 
 module.exports = router

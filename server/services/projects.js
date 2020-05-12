@@ -26,7 +26,7 @@ const create = async (data) => {
   } else if (data.inputMode === 'json') {
     textData = await readJSON(project._id, data.password, data.inputPath)
   } else {
-    throw { status: 400, message: 'Invalid input mode' }
+    throw new ValError('Invalid input mode')
   }
 
   project.textCount = textData.textCount
@@ -39,7 +39,7 @@ const create = async (data) => {
   } catch (error) {
     await Text.deleteMany({ project: project.id })
     if (error.code === 11000) {
-      throw { status: 400, message: 'Project name needs to be unique' }
+      throw new ValError('Project name already exists')
     } else {
       throw error
     }
@@ -58,7 +58,7 @@ const update = async (id, data) => {
     })
   } catch (error) {
     if (error.code === 11000) {
-      throw { status: 400, message: 'Project name already exists' }
+      throw new ValError('Project name already exists')
     } else {
       throw error
     }
@@ -76,9 +76,8 @@ const checkPassword = async (projectName, password, projectPassword) => {
       await Project.findOne({ name: projectName }).select('+password')
     ).password
   }
-
   if (hash(password) === projectPassword) return true
-  else throw { status: 400, message: 'Invalid project password' }
+  else throw new ValError('Invalid project password')
 }
 
 const addCategory = async (projectId, newCategory) => {
@@ -89,10 +88,10 @@ const addCategory = async (projectId, newCategory) => {
         category.name.toUpperCase() === newCategory.name.toUpperCase()
     )
   )
-    throw { status: 400, message: 'Duplicate category name' }
+    throw new ValError('Duplicate category name')
 
   if (project.categories.some((category) => category.key === newCategory.key))
-    throw { status: 400, message: 'Duplicate category shortcut key' }
+    throw new ValError('Duplicate category shortcut key')
 
   project.categories.push(newCategory)
 
@@ -113,7 +112,7 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
         category.name.toUpperCase() === categoryData.name.toUpperCase()
     )
   )
-    throw { status: 400, message: 'Duplicate category name' }
+    throw new ValError('Duplicate category name')
 
   if (
     project.categories.some(
@@ -121,7 +120,7 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
         index !== catIndex && category.name.key === categoryData.name.key
     )
   )
-    throw { status: 400, message: 'Duplicate category shortcut key' }
+    throw new ValError('Duplicate category shortcut key')
 
   project.categories[catIndex] = { ...categoryData, _id: categoryId }
 
@@ -144,7 +143,7 @@ const addClassification = async (projectId, newClassification) => {
         newClassification.name.toUpperCase()
     )
   ) {
-    throw { status: 400, message: 'Duplicate classification' }
+    throw new ValError('Duplicate classificiation')
   }
   project.classifications.push(newClassification)
 
@@ -171,7 +170,7 @@ const updateClassification = async (
       )
     })
   )
-    throw { status: 400, message: 'Duplicate classification' }
+    throw new ValError('Duplicate classification')
 
   project.classifications[classIndex] = {
     ...classificationData,

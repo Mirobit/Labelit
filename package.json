@@ -43,7 +43,8 @@
   "ava": {
     "files": [
       "server/tests/*.js",
-      "!server/tests/db.js"
+      "!server/tests/db.js",
+      "!server/tests/error.js"
     ]
   }
 }

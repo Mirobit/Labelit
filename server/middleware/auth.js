@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const { AuthError } = require('../utils/errors')
 
 const auth = (req, res, next) => {
   const authHeader = req.headers.authorization
@@ -8,12 +9,12 @@ const auth = (req, res, next) => {
 
     jwt.verify(token, process.env.SECRET, (err, user) => {
       if (err) {
-        throw { status: 401, message: 'Invalid sessions, please logout' }
+        throw new AuthError('Invalid sessions, please logout')
       }
       req.user = user
     })
   } else {
-    throw { status: 401, message: 'Not signed in' }
+    throw new AuthError('Not signed in')
   }
   next()
 }

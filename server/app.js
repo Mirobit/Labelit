@@ -7,6 +7,9 @@ const mongoose = require('mongoose')
 const logger = require('pino')('./error.log')
 const fs = require('fs')
 
+const { ValError } = require('./utils/errors')
+global.ValError = ValError
+
 const security = require('./middleware/security')
 const routes = require('./routes')
 
@@ -31,29 +34,29 @@ app.use(express.json())
 app.use(security)
 app.use(express.static(path.join(__dirname, '../frontend/assets')))
 
-// Only for remote servers
-if (process.env.REMOTE_MODE) {
-  const Busboy = require('busboy')
-  app.post('/api/upload', (req, res) => {
-    const busboy = new Busboy({ headers: req.headers })
-    busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
-      const saveTo = path.join('.', filename)
-      console.log('Uploading: ' + saveTo)
-      file.pipe(fs.createWriteStream(saveTo))
-    })
-    busboy.on('finish', function () {
-      console.log('Upload complete')
-      res.writeHead(200, { Connection: 'close' })
-      res.end('test')
-    })
-    return req.pipe(busboy)
-  })
-}
+// // Only for remote servers
+// if (process.env.REMOTE_MODE) {
+//   const Busboy = require('busboy')
+//   app.post('/api/upload', (req, res) => {
+//     const busboy = new Busboy({ headers: req.headers })
+//     busboy.on('file', function (fieldname, file, filename, encoding, mimetype) {
+//       const saveTo = path.join('.', filename)
+//       console.log('Uploading: ' + saveTo)
+//       file.pipe(fs.createWriteStream(saveTo))
+//     })
+//     busboy.on('finish', function () {
+//       console.log('Upload complete')
+//       res.writeHead(200, { Connection: 'close' })
+//       res.end('test')
+//     })
+//     return req.pipe(busboy)
+//   })
+// }
 
 app.use(routes)
 app.use((error, req, res, next) => {
   let message = error.message
-  if (error.stack) {
+  if (!error.status) {
     message = 'server'
     if (process.env.NODE_ENV === 'development') console.log(error)
     else logger.info(error)

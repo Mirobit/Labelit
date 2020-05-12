@@ -11,7 +11,7 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
   try {
     stat = await fs.lstat(inputPath)
   } catch (error) {
-    throw { status: 400, message: 'Project path does not exist' }
+    throw new ValError('Project path does not exist')
   }
 
   try {
@@ -47,7 +47,7 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
       })
     }
   } catch (error) {
-    throw { status: 400, message: 'Could not read files' }
+    throw new ValError('Files could not be read')
   }
 
   return { textCount, texts }
@@ -64,7 +64,7 @@ const writeFolder = async (
   try {
     stat = await fs.lstat(exportPath)
   } catch (error) {
-    throw { status: 400, message: 'Export path does not exist' }
+    throw new ValError('Export path does not exist')
   }
   const totalPath = path.join(exportPath, `Labelit - ${projectName}`)
   await fs.mkdir(totalPath, { recursive: true })
@@ -107,7 +107,7 @@ const readJSON = async (projectId, password, filePath) => {
   try {
     var jsonData = await fs.readFile(filePath, 'utf8')
   } catch (error) {
-    throw { status: 400, message: 'File path does not exist' }
+    throw new ValError('File path does not exist')
   }
 
   const parsed = JSON.parse(jsonData)
@@ -138,7 +138,7 @@ const writeJSON = async (
   try {
     stat = await fs.lstat(exportPath)
   } catch (error) {
-    throw { status: 400, message: 'Export path does not exist' }
+    throw new ValError('Export path does not exist')
   }
 
   const totalPath = path.join(exportPath, `Labelit - ${projectName}`)
@@ -179,7 +179,7 @@ const readCSV = async (projectId, password, filePath) => {
   try {
     var csvData = await fs.readFile(filePath, 'utf8')
   } catch (error) {
-    throw { status: 400, message: 'File path does not exist' }
+    throw new ValError('File path does not exist')
   }
 
   const parsed = parseCSV(csvData, {
@@ -214,7 +214,7 @@ const writeCSV = async (
   try {
     stat = await fs.lstat(exportPath)
   } catch (error) {
-    throw { status: 400, message: 'Export path does not exist' }
+    throw new ValError('Export path does not exist')
   }
 
   const totalPath = path.join(exportPath, `Labelit - ${projectName}`)

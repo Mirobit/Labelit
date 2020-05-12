@@ -3,7 +3,7 @@
 <img align="left" height="200" src="https://raw.githubusercontent.com/Mirobit/Labelit/master/frontend/assets/images/logo.svg">Labelit is a simple and straightforward tool for fast anonymization or pseudonymization and labeling of text data. This is particularly relevant if you're planning to work with text corpora (e.g. twitter posts) that contain a lot of personal references. Labelit allows you to remove personal information while maintaining the informational and semantical content. On top of that, with Labelit you can label text corpora with self-selected classes - a necessary preprocessing step for all kinds of quantitive analyses.  
 Just create a project, import your data, create categories for named entities and start replacing sensitive information with your predefined words.
 
-**Warning:** The software is still in early development and currently only works in a local enviroment. Do not use it on a remote server, there is no file upload yet. Also does not work in Safari and IE (no support planned).
+**Warning:** The software is still in early development and currently only works in a local enviroment. Do not use it on a remote server, there is no file upload yet. Labelit does not work in Safari and IE (no support planned).
 
 ## Features
 

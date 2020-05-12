@@ -37,7 +37,7 @@ const load = async (textId, password) => {
       'password categories classifications classActive showConfirmed words name',
   })
   if (hash(password) !== data.project.password) {
-    throw { status: 400, message: 'Invalid project password' }
+    throw new ValError('Invalid project password')
   }
 
   let { contentHtml, hits } = checkWorldlist(
@@ -220,7 +220,7 @@ const exportAll = async (projectId, exportPath, exportMode, password) => {
       project.classifications
     )
   } else {
-    throw { status: 400, message: 'Invalid inputMode' }
+    throw new ValError('Invalid input mode')
   }
 }
 
