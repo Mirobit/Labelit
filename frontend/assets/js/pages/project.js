@@ -53,7 +53,7 @@ const init = async () => {
       (outputHTML, category) =>
         outputHTML +
         `<button type="button" class="btn btn-${category.color} btn-sm" style="margin-bottom: 10px;" onclick="projectFuncs.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
-    </button><span class="remove middle" onclick="projectFuncs.removeCategory('${category._id}')" hidden></span>
+    </button><span class="remove top" onclick="projectFuncs.removeCategory('${category._id}')" hidden></span>
     `,
       ''
     )
@@ -68,8 +68,8 @@ const init = async () => {
       classificationMenuHTML = Store.project.classifications.reduce(
         (outputHTML, classification) =>
           outputHTML +
-          `<button type="button" class="btn btn-secondary btn-sm" onclick="projectFuncs.showEditClassification('${classification._id}', this)">${classification.name} <span class="sr-only">key</span>
-      </button><span class="remove middle" onclick="projectFuncs.removeClassification('${classification._id}')" hidden></span>
+          `<button type="button" class="btn btn-secondary btn-sm" style="margin-bottom: 10px;" onclick="projectFuncs.showEditClassification('${classification._id}', this)">${classification.name} <span class="sr-only">key</span>
+      </button><span class="remove top" onclick="projectFuncs.removeClassification('${classification._id}')" hidden></span>
       `,
         ''
       )

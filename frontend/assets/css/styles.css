@@ -11,8 +11,8 @@ body {
   display: flex;
   align-items: flex-start;
 }
-.middle {
-  vertical-align: middle;
+.top {
+  vertical-align: top;
 }
 .wrapper {
   min-height: calc(100vh - 65px);
@@ -34,6 +34,9 @@ body {
 .menuHeader {
   font-weight: bold;
   margin-bottom: 10px;
+}
+.editForm {
+  margin-top: 15px;
 }
 .labeled {
   color: white;
@@ -305,7 +308,4 @@ body {
 #texteditorHeader {
   margin-bottom: 15px;
   font-size: 21px;
-}
-#categoryForm {
-  margin-top: 15px;
 }
