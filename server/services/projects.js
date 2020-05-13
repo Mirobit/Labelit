@@ -117,7 +117,7 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
   if (
     project.categories.some(
       (category, index) =>
-        index !== catIndex && category.name.key === categoryData.name.key
+        index !== catIndex && category.key === categoryData.key
     )
   )
     throw new ValError('Duplicate category shortcut key')
