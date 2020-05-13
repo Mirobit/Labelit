@@ -52,7 +52,7 @@ const init = async () => {
     categoryMenuHTML = Store.project.categories.reduce(
       (outputHTML, category) =>
         outputHTML +
-        `<button type="button" class="btn btn-${category.color} btn-sm" onclick="projectFuncs.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
+        `<button type="button" class="btn btn-${category.color} btn-sm" style="margin-bottom: 10px;" onclick="projectFuncs.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
     </button><span class="remove middle" onclick="projectFuncs.removeCategory('${category._id}')" hidden></span>
     `,
       ''
