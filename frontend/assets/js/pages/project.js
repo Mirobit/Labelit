@@ -92,7 +92,7 @@ const openText = (textId) => {
   switchPage(close, `/project/${encodeURI(Store.project.name)}/text/${textId}`)
 }
 
-const updateProject = async () => {
+const editProject = async () => {
   const newProjectName = document.getElementById('projectNameInput').value
 
   if (newProjectName === '') {
@@ -110,7 +110,7 @@ const updateProject = async () => {
   }
 
   document.getElementById('projectForm').hidden = true
-  history.pushState(null, '', `/project/${newProjectName}`)
+  history.pushState(null, '', `/project/${result.projectName}`)
   init()
   displayMessage(true, 'Project successfully updated')
 }
@@ -464,7 +464,7 @@ const showProjectForm = () => {
 export {
   init,
   showProjectForm,
-  updateProject,
+  editProject,
   removeProject,
   addCategory,
   showNewCategory,

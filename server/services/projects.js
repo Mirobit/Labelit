@@ -63,6 +63,8 @@ const update = async (id, data) => {
       throw error
     }
   }
+
+  return data.name
 }
 
 const remove = async (id) => {

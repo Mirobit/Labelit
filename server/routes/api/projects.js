@@ -41,12 +41,12 @@ router.post(
 router.put(
   '/:id',
   asyncWrap(async (req, res) => {
-    await projectsService.update(req.params.id, {
+    const projectName = await projectsService.update(req.params.id, {
       name: req.body.name,
       description: req.body.description,
       showConfirmed: req.body.showConfirmed,
     })
-    res.json({ status: 200 })
+    res.json({ status: 200, projectName })
   })
 )
 
