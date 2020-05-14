@@ -33,10 +33,9 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
         continue
       }
       textCount++
-      const content = await fs.readFile(
-        path.join(inputPath, subFolder, file.name),
-        'utf8'
-      )
+      const content = (
+        await fs.readFile(path.join(inputPath, subFolder, file.name), 'utf8')
+      ).replace(/</g, '&lt')
       const contentEnc = encrypt(content, password)
       texts.push({
         name: path.join(subFolder, file.name),
@@ -114,9 +113,9 @@ const readJSON = async (projectId, password, filePath) => {
 
   for (const entry of parsed) {
     textCount++
-    const contentEnc = encrypt(entry.text, password)
+    const contentEnc = encrypt(entry.text.replace(/</g, '&lt'), password)
     texts.push({
-      name: entry.id,
+      name: entry.id.replace(/</g, '&lt'),
       contentEncOrg: contentEnc,
       contentEncSaved: contentEnc,
       contentEncHtml: contentEnc,
@@ -190,9 +189,9 @@ const readCSV = async (projectId, password, filePath) => {
 
   for (const line of parsed) {
     textCount++
-    const contentEnc = encrypt(line[1], password)
+    const contentEnc = encrypt(line[1].replace(/</g, '&lt'), password)
     texts.push({
-      name: line[0],
+      name: line[0].replace(/</g, '&lt'),
       contentEncOrg: contentEnc,
       contentEncSaved: contentEnc,
       contentEncHtml: contentEnc,
