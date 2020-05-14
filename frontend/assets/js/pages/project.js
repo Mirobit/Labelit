@@ -53,14 +53,14 @@ const init = async () => {
     Store.project.categories.forEach((category) => {
       // Category button
       const catDiv = catParent.appendChild(document.createElement('button'))
-      catDiv.classList = `btn btn-${category.color} btn-sm btn-buttom`
+      catDiv.classList = `btn btn-${category.color} btn-sm btn-bottom`
       catDiv.onclick = function () {
         showEditCategory(category._id, this)
       }
       catDiv.innerText = category.name
       // Key badge
       const keyBadge = catDiv.appendChild(document.createElement('span'))
-      keyBadge.classList = 'badge badge-light badge-buttom'
+      keyBadge.classList = 'badge badge-light badge-left'
       keyBadge.innerText = category.keyUp
       // Remove image
       const removeDiv = catParent.appendChild(document.createElement('span'))
@@ -81,7 +81,7 @@ const init = async () => {
         const classDiv = classParent.appendChild(
           document.createElement('button')
         )
-        classDiv.classList = 'btn btn-secondary btn-sm btn-buttom'
+        classDiv.classList = 'btn btn-secondary btn-sm btn-bottom'
         classDiv.onclick = function () {
           showEditClassification(classification._id, this)
         }

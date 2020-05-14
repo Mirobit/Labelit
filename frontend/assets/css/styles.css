@@ -87,7 +87,7 @@ body {
   height: 14px;
   margin-left: 5px;
 }
-.badge-buttom {
+.badge-left {
   margin-left: 5px;
 }
 .categoryButton {
@@ -96,6 +96,9 @@ body {
 /* .categoryButton > :last-child {
   margin-bottom: 0 !important;
 } */
+.progress-bar {
+  background-color: #525f7f;
+}
 .projectcard {
   margin-bottom: 15px;
   width: 23rem;
@@ -235,7 +238,6 @@ body {
 .btn-outline-main.focus {
   box-shadow: 0 0 0 0 rgba(94, 114, 228, 0.5);
 }
-
 .custom-checkbox .custom-control-input:checked ~ .custom-control-label::before {
   border-color: #93c4c6;
 }
@@ -254,7 +256,6 @@ body {
   border-color: #93c4c6;
   box-shadow: none;
 }
-
 .footer {
   float: right;
   padding-right: 10%;
@@ -266,7 +267,9 @@ body {
   color: #5e72e4;
   cursor: pointer;
 }
-
+.card-body {
+  padding-bottom: 10px;
+}
 .textmenu {
   box-shadow: 0 2px 3px rgba(10, 10, 10, 0.1), 0 0 0 1px rgba(10, 10, 10, 0.1);
   border-radius: 2px;
@@ -314,4 +317,9 @@ body {
 #texteditorHeader {
   margin-bottom: 15px;
   font-size: 21px;
+}
+#texts {
+  max-height: 50vh;
+  margin-bottom: 25px;
+  overflow: auto;
 }

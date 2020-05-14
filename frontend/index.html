@@ -259,36 +259,6 @@
                 </form>
                 <div id="projectDescription"></div>
                 <div id="projectProgress"></div>
-                <div class="row">
-                  <div class="inline" style="padding-left: 15px;">
-                    <input
-                      type="text"
-                      class="form-control form-control-sm form-control-alternative"
-                      placeholder="Export path"
-                      id="exportPath"
-                      style="width: 150px;"
-                    />
-                    <select
-                      class="form-control form-control-sm form-control-alternative"
-                      id="exportMode"
-                      style="width: 80px;"
-                      onchange="homeFuncs.changeInputMode(this.value)"
-                      aria-describedby="exportModeHelp"
-                    >
-                      <option value="folder">.txt files</option>
-                      <option value="csv">CSV file</option>
-                      <option value="json">JSON file</option>
-                    </select>
-                    <button
-                      type="button"
-                      class="btn btn-outline-main btn-sm"
-                      id="exportTexts"
-                      onclick="projectFuncs.exportTexts()"
-                    >
-                      Export
-                    </button>
-                  </div>
-                </div>
               </div>
             </div>
             <div class="card projectcard" id="categories">
@@ -421,6 +391,36 @@
                   </button>
                 </span>
                 <div id="texts"></div>
+                <div class="row">
+                  <div class="inline" style="margin-left: 15px;">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm form-control-alternative"
+                      placeholder="Export path"
+                      id="exportPath"
+                      style="width: 150px;"
+                    />
+                    <select
+                      class="form-control form-control-sm form-control-alternative"
+                      id="exportMode"
+                      style="width: 80px;"
+                      onchange="homeFuncs.changeInputMode(this.value)"
+                      aria-describedby="exportModeHelp"
+                    >
+                      <option value="folder">.txt files</option>
+                      <option value="csv">CSV file</option>
+                      <option value="json">JSON file</option>
+                    </select>
+                    <button
+                      type="button"
+                      class="btn btn-outline-main btn-sm"
+                      id="exportTexts"
+                      onclick="projectFuncs.exportTexts()"
+                    >
+                      Export
+                    </button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
