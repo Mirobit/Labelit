@@ -87,6 +87,9 @@ body {
   height: 14px;
   margin-left: 5px;
 }
+.badge-buttom {
+  margin-left: 5px;
+}
 .categoryButton {
   margin-bottom: 12px;
 }
@@ -124,6 +127,9 @@ body {
 .saveButton {
   width: 100%;
   background-color: white;
+}
+.btn-bottom {
+  margin-bottom: 10px;
 }
 .btn:focus,
 .btn.focus {

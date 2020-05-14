@@ -47,36 +47,54 @@ const init = async () => {
   </div>`
 
   // Categories
-  let categoryMenuHTML = 'No categories'
+  const catParent = document.getElementById('projectCategories')
   if (Store.project.categories.length > 0) {
-    categoryMenuHTML = Store.project.categories.reduce(
-      (outputHTML, category) =>
-        outputHTML +
-        `<button type="button" class="btn btn-${category.color} btn-sm" style="margin-bottom: 10px;" onclick="projectFuncs.showEditCategory('${category._id}', this)">${category.name} <span class="badge badge-light">${category.keyUp}</span><span class="sr-only">key</span>
-    </button><span class="remove top" onclick="projectFuncs.removeCategory('${category._id}')" hidden></span>
-    `,
-      ''
-    )
-  }
-  document.getElementById('projectCategories').innerHTML = categoryMenuHTML
+    catParent.innerText = ''
+    Store.project.categories.forEach((category) => {
+      // Category button
+      const catDiv = catParent.appendChild(document.createElement('button'))
+      catDiv.classList = `btn btn-${category.color} btn-sm btn-buttom`
+      catDiv.onclick = function () {
+        showEditCategory(category._id, this)
+      }
+      catDiv.innerText = category.name
+      // Key badge
+      const keyBadge = catDiv.appendChild(document.createElement('span'))
+      keyBadge.classList = 'badge badge-light badge-buttom'
+      keyBadge.innerText = category.keyUp
+      // Remove image
+      const removeDiv = catParent.appendChild(document.createElement('span'))
+      removeDiv.classList = 'remove top'
+      removeDiv.onclick = () => removeCategory(category._id)
+      removeDiv.hidden = true
+    })
+  } else catParent.innerText = 'No categories'
 
   // Classifications
   if (Store.project.classActive) {
     document.getElementById('classifications').hidden = false
-    let classificationMenuHTML = 'No classifications'
+    const classParent = document.getElementById('projectClassifications')
     if (Store.project.classifications.length > 0) {
-      classificationMenuHTML = Store.project.classifications.reduce(
-        (outputHTML, classification) =>
-          outputHTML +
-          `<button type="button" class="btn btn-secondary btn-sm" style="margin-bottom: 10px;" onclick="projectFuncs.showEditClassification('${classification._id}', this)">${classification.name} <span class="sr-only">key</span>
-      </button><span class="remove top" onclick="projectFuncs.removeClassification('${classification._id}')" hidden></span>
-      `,
-        ''
-      )
-    }
-    document.getElementById(
-      'projectClassifications'
-    ).innerHTML = classificationMenuHTML
+      classParent.innerText = ''
+      Store.project.classifications.forEach((classification) => {
+        // Classification button
+        const classDiv = classParent.appendChild(
+          document.createElement('button')
+        )
+        classDiv.classList = 'btn btn-secondary btn-sm btn-buttom'
+        classDiv.onclick = function () {
+          showEditClassification(classification._id, this)
+        }
+        classDiv.innerText = classification.name
+        // Remove image
+        const removeDiv = classParent.appendChild(
+          document.createElement('span')
+        )
+        removeDiv.classList = 'remove top'
+        removeDiv.onclick = () => removeClassification(classification._id)
+        removeDiv.hidden = true
+      })
+    } else classParent.innerText = 'No classifications'
   }
 }
 
