@@ -31,6 +31,26 @@ test.before(async (t) => {
     textCount: 0,
   }).save()
 
+  t.context.project3 = await new Project({
+    name: 'Test Project 3',
+    description: 'Test description',
+    inputMode: 'folder',
+    inputPath: './examples/raw_txt_files',
+    password: hash('ava'),
+    classActive: false,
+    textCount: 0,
+  }).save()
+
+  t.context.project4 = await new Project({
+    name: 'Test Project 4',
+    description: 'Test description',
+    inputMode: 'folder',
+    inputPath: './examples/raw_txt_files',
+    password: hash('ava'),
+    classActive: false,
+    textCount: 0,
+  }).save()
+
   t.context.projectC = {
     name: 'New Project',
     description: 'Test description',
@@ -54,7 +74,6 @@ test.before(async (t) => {
     color: 'green',
     colorHex: '#ffffff',
   }
-
   t.context.cat2 = {
     name: 'Company',
     key: 'c',
@@ -62,7 +81,6 @@ test.before(async (t) => {
     color: 'green',
     colorHex: '#ffffff',
   }
-
   t.context.cat3 = {
     name: 'Company',
     key: 'd',
@@ -70,7 +88,6 @@ test.before(async (t) => {
     color: 'green',
     colorHex: '#ffffff',
   }
-
   t.context.cat4 = {
     name: 'Entity',
     key: 'e',
@@ -78,7 +95,6 @@ test.before(async (t) => {
     color: 'green',
     colorHex: '#ffffff',
   }
-
   t.context.cat5 = {
     name: 'Country',
     key: 'e',
@@ -86,7 +102,6 @@ test.before(async (t) => {
     color: 'green',
     colorHex: '#ffffff',
   }
-
   t.context.catR = {
     name: 'Names',
     key: 'n',
@@ -98,15 +113,12 @@ test.before(async (t) => {
   t.context.clasC = {
     name: 'Good',
   }
-
   t.context.clasD1 = {
     name: 'Bad',
   }
-
   t.context.clasD2 = {
     name: 'Bad',
   }
-
   t.context.clasR = {
     name: 'Good',
   }
@@ -124,7 +136,7 @@ test('Project: Create: Invalid path', async (t) => {
 
 test('Project: List all', async (t) => {
   const projects = await projectServices.list()
-  t.is(projects.length, 2)
+  t.is(projects.length, 4)
 })
 
 test('Project: Show by name', async (t) => {
@@ -176,6 +188,64 @@ test('Project: Add category: Duplicate Key', async (t) => {
   t.is(error.message, 'Duplicate category shortcut key')
 })
 
+test('Project: Update category', async (t) => {
+  await projectServices.addCategory(t.context.project3._id, t.context.cat1)
+  const categoryId = String(
+    (await projectServices.get(t.context.project3.name)).categories.find(
+      (cat) => cat.name === t.context.cat1.name
+    )._id
+  )
+  await projectServices.updateCategory(
+    t.context.project3._id,
+    categoryId,
+    t.context.catR
+  )
+  const categoryNew = (
+    await projectServices.get(t.context.project3.name)
+  ).categories.find((cat) => cat.name === t.context.catR.name)
+  delete categoryNew._id
+
+  t.deepEqual(categoryNew, t.context.catR)
+})
+
+test('Project: Update category: Duplicate Name', async (t) => {
+  await projectServices.addCategory(t.context.project4._id, t.context.cat1)
+  await projectServices.addCategory(t.context.project4._id, t.context.cat2)
+
+  const categoryId = String(
+    (await projectServices.get(t.context.project4.name)).categories.find(
+      (cat) => cat.name === t.context.cat1.name
+    )._id
+  )
+  const error = await t.throwsAsync(
+    projectServices.updateCategory(
+      t.context.project4._id,
+      categoryId,
+      t.context.cat2
+    )
+  )
+  t.is(error.message, 'Duplicate category name')
+})
+
+test('Project: Update category: Duplicate Key', async (t) => {
+  await projectServices.addCategory(t.context.project4._id, t.context.catR)
+  await projectServices.addCategory(t.context.project4._id, t.context.cat4)
+
+  const categoryId = String(
+    (await projectServices.get(t.context.project4.name)).categories.find(
+      (cat) => cat.name === t.context.catR.name
+    )._id
+  )
+  const error = await t.throwsAsync(
+    projectServices.updateCategory(
+      t.context.project4._id,
+      categoryId,
+      t.context.cat5
+    )
+  )
+  t.is(error.message, 'Duplicate category shortcut key')
+})
+
 test('Project: Remove category', async (t) => {
   await projectServices.addCategory(t.context.project2._id, t.context.catR)
   const categories = (await projectServices.get(t.context.project2.name))
@@ -204,6 +274,31 @@ test('Project: Add classification: Duplicate Name', async (t) => {
   )
   const error = await t.throwsAsync(
     projectServices.addClassification(t.context.project2._id, t.context.clasD2)
+  )
+  t.is(error.message, 'Duplicate classification')
+})
+
+test('Project: Update classification: Duplicate Name', async (t) => {
+  await projectServices.addClassification(
+    t.context.project4._id,
+    t.context.clasC
+  )
+  await projectServices.addClassification(
+    t.context.project4._id,
+    t.context.clasD1
+  )
+
+  const classificationId = String(
+    (await projectServices.get(t.context.project4.name)).classifications.find(
+      (clas) => clas.name === t.context.clasC.name
+    )._id
+  )
+  const error = await t.throwsAsync(
+    projectServices.updateClassification(
+      t.context.project4._id,
+      classificationId,
+      t.context.clasD1
+    )
   )
   t.is(error.message, 'Duplicate classification')
 })
