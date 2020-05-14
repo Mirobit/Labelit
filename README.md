@@ -51,6 +51,7 @@ See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md) and chec
 
 - User system
 - Be able to host server remotely and upload text data
+- Schema validation
 - ~~Enable classification of texts (for ML)~~
 - ~~Better error handling~~
 - ~~Subfolder support~~

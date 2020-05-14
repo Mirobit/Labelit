@@ -4,10 +4,12 @@ const { readFolder, readCSV, readJSON } = require('../utils/fileHandler')
 const { hash } = require('../utils/crypter')
 
 const get = async (name) => {
-  const project = await Project.findOne({ name }).populate({
-    path: 'texts',
-    select: 'name status',
-  })
+  const project = await Project.findOne({ name })
+    .populate({
+      path: 'texts',
+      select: 'name status',
+    })
+    .lean()
   return project
 }
 
@@ -155,7 +157,7 @@ const addClassification = async (projectId, newClassification) => {
         newClassification.name.toUpperCase()
     )
   ) {
-    throw new ValError('Duplicate classificiation')
+    throw new ValError('Duplicate classification')
   }
 
   newClassification.name = newClassification.name.replace(/<.*?>/gm, '')
