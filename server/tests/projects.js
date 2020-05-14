@@ -1,3 +1,6 @@
+'use strict'
+require('./init')
+
 const test = require('ava')
 
 const db = require('./db')
@@ -7,7 +10,6 @@ const Project = require('../models/Project')
 const { hash } = require('../utils/crypter')
 
 test.before(async (t) => {
-  require('./error')
   await db.connect()
   t.context.projectR = await new Project({
     name: 'Test Project',
@@ -28,6 +30,22 @@ test.before(async (t) => {
     classActive: false,
     textCount: 0,
   }).save()
+
+  t.context.projectC = {
+    name: 'New Project',
+    description: 'Test description',
+    inputMode: 'folder',
+    inputPath: './examples/raw_txt_files',
+    password: 'ava',
+  }
+
+  t.context.projectE = {
+    name: 'New Project 2',
+    description: 'Test description',
+    inputMode: 'folder',
+    inputPath: './notexistingfolder',
+    password: 'ava',
+  }
 
   t.context.cat1 = {
     name: 'Person',
@@ -92,6 +110,16 @@ test.before(async (t) => {
   t.context.clasR = {
     name: 'Good',
   }
+})
+test('Project: Create', async (t) => {
+  await projectServices.create(t.context.projectC)
+  const project = await projectServices.get(t.context.projectC.name)
+  t.is(project.name, t.context.projectC.name)
+})
+
+test('Project: Create: Invalid path', async (t) => {
+  const error = await t.throwsAsync(projectServices.create(t.context.projectE))
+  t.is(error.message, 'Project path does not exist')
 })
 
 test('Project: List all', async (t) => {
