@@ -31,3 +31,5 @@ jobs:
         key: mongo-4.0.14
     - run: npm install
     - run: npm test
+      env:
+        SECRET: 0123456789ABCDEF 
