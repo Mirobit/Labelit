@@ -11,8 +11,12 @@ body {
   display: flex;
   align-items: flex-start;
 }
-.top {
+.trash {
   vertical-align: top;
+  margin-top: 6px;
+  margin-right: 8px;
+  color: red;
+  cursor: pointer;
 }
 .wrapper {
   min-height: calc(100vh - 65px);
@@ -72,7 +76,7 @@ body {
   margin-left: 3px;
 }
 .confirmed {
-  background: url('..//images/confirm.png');
+  background: url('..//images/confirm2.png');
   background-size: 100% 100%;
   display: inline-block;
   width: 14px;

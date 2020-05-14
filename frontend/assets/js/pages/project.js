@@ -62,9 +62,9 @@ const init = async () => {
       const keyBadge = catDiv.appendChild(document.createElement('span'))
       keyBadge.classList = 'badge badge-light badge-left'
       keyBadge.innerText = category.keyUp
-      // Remove image
+      // Remove icon
       const removeDiv = catParent.appendChild(document.createElement('span'))
-      removeDiv.classList = 'remove top'
+      removeDiv.classList = 'fa fa-trash-o trash'
       removeDiv.onclick = () => removeCategory(category._id)
       removeDiv.hidden = true
     })
@@ -90,7 +90,7 @@ const init = async () => {
         const removeDiv = classParent.appendChild(
           document.createElement('span')
         )
-        removeDiv.classList = 'remove top'
+        removeDiv.classList = 'fa fa-trash-o trash'
         removeDiv.onclick = () => removeClassification(classification._id)
         removeDiv.hidden = true
       })
@@ -149,9 +149,7 @@ const removeProject = async () => {
 
 const showNewCategory = () => {
   Array.from(
-    document
-      .getElementById('projectCategories')
-      .getElementsByClassName('remove')
+    document.getElementById('projectCategories').getElementsByClassName('trash')
   ).forEach((element) => {
     element.hidden = true
   })
@@ -217,9 +215,7 @@ const addCategory = async () => {
 
 const showEditCategory = async (categoryId, node) => {
   Array.from(
-    document
-      .getElementById('projectCategories')
-      .getElementsByClassName('remove')
+    document.getElementById('projectCategories').getElementsByClassName('trash')
   ).forEach((element) => {
     element.hidden = true
   })
@@ -312,7 +308,7 @@ const showNewClassification = () => {
   Array.from(
     document
       .getElementById('projectClassifications')
-      .getElementsByClassName('remove')
+      .getElementsByClassName('trash')
   ).forEach((element) => {
     element.hidden = true
   })
@@ -360,7 +356,7 @@ const showEditClassification = async (classificationId, node) => {
   Array.from(
     document
       .getElementById('projectClassifications')
-      .getElementsByClassName('remove')
+      .getElementsByClassName('trash')
   ).forEach((element) => {
     element.hidden = true
   })
