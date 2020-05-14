@@ -110,7 +110,7 @@ const openText = (textId) => {
   switchPage(close, `/project/${encodeURI(Store.project.name)}/text/${textId}`)
 }
 
-const editProject = async () => {
+const updateProject = async () => {
   const newProjectName = document.getElementById('projectNameInput').value
 
   if (newProjectName === '') {
@@ -470,7 +470,7 @@ const exportTexts = async () => {
   displayMessage(true, 'Text files successfully exported')
 }
 
-const showProjectForm = () => {
+const showEditProject = () => {
   document.getElementById('projectNameInput').value = Store.project.name
   document.getElementById('projectDescriptionInput').value =
     Store.project.description
@@ -481,19 +481,15 @@ const showProjectForm = () => {
 
 export {
   init,
-  showProjectForm,
-  editProject,
+  showEditProject,
+  updateProject,
   removeProject,
   addCategory,
   showNewCategory,
-  showEditCategory,
   updateCategory,
-  removeCategory,
   addClassification,
   showNewClassification,
-  showEditClassification,
   updateClassification,
-  removeClassification,
   exportTexts,
   checkTexts,
   openText,
