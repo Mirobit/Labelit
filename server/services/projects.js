@@ -17,6 +17,9 @@ const list = async () => {
 }
 
 const create = async (data) => {
+  data.name = data.name.replace(/<.*?>/gm, '-')
+  data.description = data.description.replace(/<.*?>/gm, '-')
+
   const project = await new Project(data)
   let textData
   if (data.inputMode === 'csv') {
@@ -49,6 +52,7 @@ const create = async (data) => {
 const update = async (id, data) => {
   for (let prop in data) {
     if (data[prop] === undefined) delete data[prop]
+    else data[prop] = data[prop].replace(/<.*?>/gm, '-')
   }
 
   try {
@@ -95,6 +99,9 @@ const addCategory = async (projectId, newCategory) => {
   if (project.categories.some((category) => category.key === newCategory.key))
     throw new ValError('Duplicate category shortcut key')
 
+  for (const prop in newCategory) {
+    newCategory[prop] = newCategory[prop].replace(/<.*?>/gm, '')
+  }
   project.categories.push(newCategory)
 
   await project.save()
@@ -124,6 +131,9 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
   )
     throw new ValError('Duplicate category shortcut key')
 
+  for (const prop in categoryData) {
+    categoryData[prop] = categoryData[prop].replace(/<.*?>/gm, '')
+  }
   project.categories[catIndex] = { ...categoryData, _id: categoryId }
 
   await project.save()
@@ -147,6 +157,8 @@ const addClassification = async (projectId, newClassification) => {
   ) {
     throw new ValError('Duplicate classificiation')
   }
+
+  newClassification.name = newClassification.name.replace(/<.*?>/gm, '')
   project.classifications.push(newClassification)
 
   await project.save()
@@ -174,6 +186,7 @@ const updateClassification = async (
   )
     throw new ValError('Duplicate classification')
 
+  classificationData.name = classificationData.name.replace(/<.*?>/gm, '')
   project.classifications[classIndex] = {
     ...classificationData,
     _id: classificationId,
