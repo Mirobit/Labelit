@@ -8,7 +8,6 @@ class Store {
   loginPage = document.getElementById('loginPage')
 
   messageDiv = document.getElementById('message')
-  messageTextSpan = document.getElementById('messageTexts')
 
   password = null
   project = {}

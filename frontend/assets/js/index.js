@@ -18,6 +18,7 @@ const init = () => {
     loginFuncs,
   }
 
+  window.closeMessage = closeMessage
   Object.entries(pages).forEach(([name, page]) => (window[name] = page))
   route()
 }

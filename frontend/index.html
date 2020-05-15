@@ -376,7 +376,7 @@
               <div class="card-body">
                 <span class="inline">
                   <div class="subHeader">Text Overview</div>
-                  <span style="float: right; margin-left: auto;"
+                  <span class="float-right"
                     ><button
                       class="btn btn-outline-main btn-sm"
                       onclick="projectFuncs.showImportTexts()"
@@ -557,8 +557,12 @@
         </div>
         <!-- Password Page End-->
         <div id="message" class="alert alert-dismissible" role="alert" hidden>
-          <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a
-          ><span id="messageText"></span>
+          <span id="messageText"></span>
+          <i
+            class="fa fa-times pointer float-right"
+            aria-hidden="true"
+            onclick="closeMessage()"
+          ></i>
         </div>
       </div>
     </div>
