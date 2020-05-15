@@ -79,94 +79,93 @@
         <div id="homePage" class="row" hidden>
           <div class="col-5">
             <div class="subHeader">Create New Project</div>
-            <form>
-              <div class="row form-bottom">
-                <div class="col-6">
-                  <input
-                    type="text"
-                    class="form-control-alternative form-control"
-                    placeholder="Name"
-                    maxlength="50"
-                    id="nameNew"
-                    aria-describedby="nameHelp"
-                  />
-                  <small id="nameHelp" class="form-text text-muted"
-                    >Unique project name</small
-                  >
-                </div>
-
-                <div class="col-6">
-                  <input
-                    type="text"
-                    class="form-control-alternative form-control"
-                    placeholder="Description"
-                    id="descriptionNew"
-                    aria-describedby="descriptionHelp"
-                  />
-                  <small id="descriptionHelp" class="form-text text-muted"
-                    >Project description (optional)</small
-                  >
-                </div>
-              </div>
-              <div class="row form-bottom">
-                <div class="col-6">
-                  <input
-                    type="password"
-                    placeholder="Password"
-                    class="form-control-alternative form-control"
-                    id="passwordNew"
-                    aria-describedby="passwordHelp"
-                  />
-                </div>
-                <div class="col-6">
-                  <input
-                    type="password"
-                    placeholder="Repeat password"
-                    class="form-control-alternative form-control"
-                    id="passwordRepeatNew"
-                    aria-describedby="passwordHelp"
-                  />
-                </div>
-                <div class="col-12">
-                  <small id="passwordHelp" class="form-text text-muted"
-                    >The password is used for text encryption. It can not be
-                    recovered!</small
-                  >
-                </div>
+            <div class="row form-bottom">
+              <div class="col-6">
+                <input
+                  type="text"
+                  class="form-control-alternative form-control"
+                  placeholder="Name"
+                  maxlength="50"
+                  id="nameNew"
+                  aria-describedby="nameHelp"
+                />
+                <small id="nameHelp" class="form-text text-muted"
+                  >Unique project name</small
+                >
               </div>
 
-              <div class="row form-bottom">
-                <div class="col-12">
-                  <select
-                    class="form-control form-control-sm form-control-alternative"
-                    id="inputModeNew"
-                    style="width: 180px;"
-                    onchange="homeFuncs.changeInputMode(this.value)"
-                    aria-describedby="inputModeNewHelp"
-                  >
-                    <option value="folder" selected>Raw .txt files</option>
-                    <option value="csv">CSV file</option>
-                    <option value="json">JSON file</option>
-                  </select>
-                  <small id="inputModeNewHelp" class="form-text text-muted"
-                    >How to import the data</small
-                  >
-                </div>
+              <div class="col-6">
+                <input
+                  type="text"
+                  class="form-control-alternative form-control"
+                  placeholder="Description"
+                  id="descriptionNew"
+                  aria-describedby="descriptionHelp"
+                />
+                <small id="descriptionHelp" class="form-text text-muted"
+                  >Project description (optional)</small
+                >
               </div>
-              <div class="row form-bottom">
-                <div class="col-12">
-                  <input
-                    type="text"
-                    class="form-control-alternative form-control"
-                    id="inputPathNew"
-                    aria-describedby="inputPathNewHelp"
-                  />
-                  <small id="inputPathNewHelp" class="form-text text-muted"
-                    >Path to the folder with the text files</small
-                  >
-                </div>
+            </div>
+            <div class="row form-bottom">
+              <div class="col-6">
+                <input
+                  type="password"
+                  placeholder="Password"
+                  class="form-control-alternative form-control"
+                  id="passwordNew"
+                  aria-describedby="passwordHelp"
+                />
               </div>
-              <!-- <input type="file" id="myfile" name="myfile" multiple />
+              <div class="col-6">
+                <input
+                  type="password"
+                  placeholder="Repeat password"
+                  class="form-control-alternative form-control"
+                  id="passwordRepeatNew"
+                  aria-describedby="passwordHelp"
+                />
+              </div>
+              <div class="col-12">
+                <small id="passwordHelp" class="form-text text-muted"
+                  >The password is used for text encryption. It can not be
+                  recovered!</small
+                >
+              </div>
+            </div>
+
+            <div class="row form-bottom">
+              <div class="col-12">
+                <select
+                  class="form-control form-control-sm form-control-alternative"
+                  id="inputModeNew"
+                  style="width: 180px;"
+                  onchange="homeFuncs.changeInputMode(this.value)"
+                  aria-describedby="inputModeNewHelp"
+                >
+                  <option value="folder" selected>Raw .txt files</option>
+                  <option value="csv">CSV file</option>
+                  <option value="json">JSON file</option>
+                </select>
+                <small id="inputModeNewHelp" class="form-text text-muted"
+                  >How to import the data</small
+                >
+              </div>
+            </div>
+            <div class="row form-bottom">
+              <div class="col-12">
+                <input
+                  type="text"
+                  class="form-control-alternative form-control"
+                  id="inputPathNew"
+                  aria-describedby="inputPathNewHelp"
+                />
+                <small id="inputPathNewHelp" class="form-text text-muted"
+                  >Path to the folder with the text files</small
+                >
+              </div>
+            </div>
+            <!-- <input type="file" id="myfile" name="myfile" multiple />
               <button
                 type="button"
                 class="btn btn-main"
@@ -174,30 +173,29 @@
               >
                 upload
               </button> -->
-              <div class="row">
-                <div class="col-8">
-                  <div class="custom-control custom-checkbox mb-3">
-                    <input
-                      class="custom-control-input"
-                      id="classificationNew"
-                      type="checkbox"
-                    /><label
-                      class="custom-control-label text-muted"
-                      for="classificationNew"
-                      >Enable classification of texts</label
-                    >
-                  </div>
+            <div class="row">
+              <div class="col-8">
+                <div class="custom-control custom-checkbox mb-3">
+                  <input
+                    class="custom-control-input"
+                    id="classificationNew"
+                    type="checkbox"
+                  /><label
+                    class="custom-control-label text-muted"
+                    for="classificationNew"
+                    >Enable classification of texts</label
+                  >
                 </div>
               </div>
-              <button
-                type="button"
-                class="btn btn-main"
-                onclick="homeFuncs.createProject()"
-              >
-                <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
-                Create Project
-              </button>
-            </form>
+            </div>
+            <button
+              type="button"
+              class="btn btn-main"
+              onclick="homeFuncs.createProject()"
+            >
+              <i class="fa fa-pencil-square-o fa-lg" aria-hidden="true"></i>
+              Create Project
+            </button>
           </div>
           <div class="col-1"></div>
           <div class="col-4">
@@ -231,7 +229,7 @@
                   </button>
                 </span>
 
-                <form id="projectForm" class="form-bottom" hidden>
+                <div id="projectForm" class="form-bottom" hidden>
                   <span class="inline">
                     <input
                       type="text"
@@ -256,7 +254,7 @@
                   >
                     Update
                   </button>
-                </form>
+                </div>
                 <div id="projectDescription"></div>
                 <div id="projectProgress"></div>
               </div>
@@ -275,7 +273,7 @@
                   </button>
                 </span>
                 <div id="projectCategories"></div>
-                <form id="categoryForm" class="editForm" hidden>
+                <div id="categoryForm" class="editForm" hidden>
                   <span class="inline">
                     <input
                       type="text"
@@ -336,7 +334,7 @@
                       ADD
                     </button>
                   </span>
-                </form>
+                </div>
               </div>
             </div>
             <div class="card projectcard" id="classifications" hidden>
@@ -353,7 +351,7 @@
                   </button>
                 </span>
                 <div id="projectClassifications"></div>
-                <form id="classificationForm" class="editForm" hidden>
+                <div id="classificationForm" class="editForm" hidden>
                   <span class="inline">
                     <input
                       type="text"
@@ -372,7 +370,7 @@
                       Add
                     </button>
                   </span>
-                </form>
+                </div>
               </div>
             </div>
           </div>
@@ -434,13 +432,11 @@
         <div id="textPage" hidden>
           <div id="textForm">
             <div class="inline">
-              <div>
-                <div
-                  id="texteditor"
-                  class="texteditor"
-                  onclick="textFuncs.clickWord()"
-                ></div>
-              </div>
+              <div
+                id="texteditor"
+                class="texteditor"
+                onclick="textFuncs.clickWord()"
+              ></div>
 
               <div class="sidebar">
                 <div id="categorymenu" class="textmenu"></div>

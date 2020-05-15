@@ -272,6 +272,9 @@ body {
   color: #5e72e4;
   cursor: pointer;
 }
+.link:hover {
+  color: #233dd2;
+}
 .card-body {
   padding-bottom: 10px;
 }
