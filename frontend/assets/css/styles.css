@@ -15,7 +15,7 @@ body {
   vertical-align: top;
   margin-top: 6px;
   margin-right: 8px;
-  color: red;
+  color: #f5365c;
   cursor: pointer;
 }
 .wrapper {
@@ -68,7 +68,7 @@ body {
 .confirm {
   color: rgb(114, 143, 87);
   cursor: pointer;
-  background: url('..//images/confirm.png');
+  background: url('..//images/confirm2.png');
   background-size: 100% 100%;
   display: inline-block;
   width: 16px;
@@ -79,9 +79,10 @@ body {
   background: url('..//images/confirm2.png');
   background-size: 100% 100%;
   display: inline-block;
-  width: 14px;
-  height: 14px;
+  width: 15px;
+  height: 15px;
   margin-left: 5px;
+  vertical-align: middle;
 }
 .unconfirmed {
   background: url('..//images/unconfirmed.png');
@@ -324,6 +325,6 @@ body {
 }
 #texts {
   max-height: 50vh;
-  margin-bottom: 25px;
+  margin-bottom: 10px;
   overflow: auto;
 }
