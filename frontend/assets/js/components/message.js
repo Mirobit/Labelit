@@ -1,7 +1,6 @@
 import Store from '../store.js'
 
 const displayMessage = (success, message) => {
-  Store.messageDiv.hidden = false
   if (success) {
     Store.messageDiv.classList.add('alert-success')
     Store.messageDiv.classList.remove('alert-warning')
@@ -11,6 +10,7 @@ const displayMessage = (success, message) => {
     Store.messageDiv.classList.remove('alert-success')
     document.getElementById('messageText').innerText = message
   }
+  Store.messageDiv.hidden = false
 }
 
 const closeMessage = () => {

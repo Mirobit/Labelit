@@ -110,6 +110,15 @@ const openText = (textId) => {
   switchPage(close, `/project/${encodeURI(Store.project.name)}/text/${textId}`)
 }
 
+const showEditProject = () => {
+  document.getElementById('projectNameInput').value = Store.project.name
+  document.getElementById('projectDescriptionInput').value =
+    Store.project.description
+  document.getElementById('projectForm').hidden = !document.getElementById(
+    'projectForm'
+  ).hidden
+}
+
 const updateProject = async () => {
   const newProjectName = document.getElementById('projectNameInput').value
 
@@ -463,16 +472,36 @@ const exportTexts = async () => {
     return
   }
 
-  displayMessage(true, 'Text files successfully exported')
+  displayMessage(true, 'Texts successfully exported')
 }
 
-const showEditProject = () => {
-  document.getElementById('projectNameInput').value = Store.project.name
-  document.getElementById('projectDescriptionInput').value =
-    Store.project.description
-  document.getElementById('projectForm').hidden = !document.getElementById(
-    'projectForm'
+const showImportTexts = () => {
+  document.getElementById('importMode').value = Store.project.inputMode
+  document.getElementById('importForm').hidden = !document.getElementById(
+    'importForm'
   ).hidden
+}
+
+const importTexts = async () => {
+  const importPath = document.getElementById('importPath').value
+  if (importPath === '') {
+    displayMessage(false, 'Import path can not be empty')
+    return
+  }
+
+  const result = await sendData(`/texts/import`, 'POST', {
+    projectId: Store.project._id,
+    importPath,
+    importMode: document.getElementById('importMode').value,
+    password: Store.password,
+  })
+
+  if (result.status !== 200) {
+    return
+  }
+
+  init()
+  displayMessage(true, 'Texts successfully imported')
 }
 
 export {
@@ -486,6 +515,8 @@ export {
   addClassification,
   showNewClassification,
   updateClassification,
+  showImportTexts,
+  importTexts,
   exportTexts,
   checkTexts,
   openText,

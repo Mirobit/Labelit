@@ -76,4 +76,18 @@ router.post(
   })
 )
 
+// Import Texts
+router.post(
+  '/import',
+  asyncWrap(async (req, res) => {
+    await textsService.importTexts(
+      req.body.projectId,
+      req.body.importPath,
+      req.body.importMode,
+      req.body.password
+    )
+    res.json({ status: 200 })
+  })
+)
+
 module.exports = router

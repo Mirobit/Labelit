@@ -1,6 +1,13 @@
 const Text = require('../models/Text')
 const Project = require('../models/Project')
-const { writeFolder, writeCSV, writeJSON } = require('../utils/fileHandler')
+const {
+  readFolder,
+  readCSV,
+  readJSON,
+  writeFolder,
+  writeCSV,
+  writeJSON,
+} = require('../utils/fileHandler')
 const { checkPassword } = require('./projects')
 const { encrypt, decrypt, hash } = require('../utils/crypter')
 
@@ -186,7 +193,7 @@ const checkAll = async (projectId, password) => {
 
 const exportAll = async (projectId, exportPath, exportMode, password) => {
   const project = await Project.findById(projectId)
-    .select('name classActive classifications texts inputMode')
+    .select('name classActive classifications texts')
     .populate({
       path: 'texts',
       select: 'name contentEncSaved status classifications',
@@ -220,7 +227,38 @@ const exportAll = async (projectId, exportPath, exportMode, password) => {
       project.classifications
     )
   } else {
-    throw new ValError('Invalid input mode')
+    throw new ValError('Invalid export mode')
+  }
+}
+
+const importTexts = async (projectId, importPath, importMode, password) => {
+  const project = await Project.findById(projectId)
+  await checkPassword(project.name, password)
+
+  let textData
+  if (importMode === 'csv') {
+    textData = await readCSV(project._id, password, importPath)
+  } else if (importMode === 'folder') {
+    textData = await readFolder(project._id, password, importPath)
+  } else if (importMode === 'json') {
+    textData = await readJSON(project._id, password, importPath)
+  } else {
+    throw new ValError('Invalid import mode')
+  }
+
+  project.textCount += textData.textCount
+  project.progress = Math.round(
+    (project.textUpdatedCount / project.textCount) * 100
+  )
+  const texts = await Text.insertMany(textData.texts)
+  project.texts = project.texts.concat(texts.map((text) => text._id))
+
+  try {
+    await project.save()
+  } catch (error) {
+    // clean up
+    await Text.deleteMany({ project: project.id })
+    throw error
   }
 }
 
@@ -232,4 +270,5 @@ module.exports = {
   getNext,
   exportAll,
   checkAll,
+  importTexts,
 }

@@ -266,10 +266,7 @@ const updateText = async () => {
     .getElementById('classificationsmenu')
     .querySelectorAll('input[type=checkbox]:checked')
   if (classActive && classList.length === 0) {
-    displayMessage(
-      false,
-      'Can not save before at least one classification is selected'
-    )
+    displayMessage(false, 'Please select at least one classification')
     return
   }
 

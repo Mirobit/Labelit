@@ -42,6 +42,7 @@ const create = async (data) => {
   try {
     await project.save()
   } catch (error) {
+    // Cleanup texts for non existing project
     await Text.deleteMany({ project: project.id })
     if (error.code === 11000) {
       throw new ValError('Project name already exists')

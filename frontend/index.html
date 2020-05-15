@@ -228,7 +228,8 @@
                     <span class="fa fa-trash-o fa-lg" aria-hidden="true"></span>
                   </button>
                 </span>
-
+                <div id="projectDescription"></div>
+                <div id="projectProgress"></div>
                 <div id="projectForm" class="form-bottom" hidden>
                   <span class="inline">
                     <input
@@ -247,7 +248,6 @@
                     />
                   </span>
                   <button
-                    type="button"
                     class="btn btn-main btn-sm"
                     id="updateProject"
                     onclick="projectFuncs.updateProject()"
@@ -255,8 +255,6 @@
                     Update
                   </button>
                 </div>
-                <div id="projectDescription"></div>
-                <div id="projectProgress"></div>
               </div>
             </div>
             <div class="card projectcard" id="categories">
@@ -264,7 +262,6 @@
                 <span class="inline">
                   <div class="subHeader">Categories for Anonymization</div>
                   <button
-                    type="button"
                     class="btn btn-outline-main btn-sm"
                     style="float: right; margin-left: auto;"
                     onclick="projectFuncs.showNewCategory()"
@@ -379,22 +376,63 @@
               <div class="card-body">
                 <span class="inline">
                   <div class="subHeader">Text Overview</div>
-                  <button
-                    type="button"
-                    class="btn btn-outline-main btn-sm"
-                    style="float: right; margin-left: auto;"
-                    onclick="projectFuncs.checkTexts()"
-                  >
-                    Check
-                  </button>
+                  <span style="float: right; margin-left: auto;"
+                    ><button
+                      class="btn btn-outline-main btn-sm"
+                      onclick="projectFuncs.showImportTexts()"
+                    >
+                      <i
+                        class="fa fa-plus fa-lg"
+                        title="Add new texts"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                    <button
+                      class="btn btn-outline-main btn-sm"
+                      onclick="projectFuncs.checkTexts()"
+                    >
+                      <i
+                        class="fa fa-refresh fa-lg"
+                        title="Check texts against wordlist"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                  </span>
                 </span>
+                <div id="importForm" class="form-bottom" hidden>
+                  <span class="inline">
+                    <input
+                      type="text"
+                      class="form-control form-control-sm form-control-alternative"
+                      placeholder="Import path"
+                      id="importPath"
+                    />
+                    <select
+                      class="form-control form-control-sm form-control-alternative"
+                      id="importMode"
+                      style="width: 80px;"
+                      aria-describedby="importModeHelp"
+                    >
+                      <option value="folder">.txt files</option>
+                      <option value="csv">CSV file</option>
+                      <option value="json">JSON file</option>
+                    </select>
+                    <button
+                      class="btn btn-main btn-sm"
+                      id="importTexts"
+                      onclick="projectFuncs.importTexts()"
+                    >
+                      Import
+                    </button>
+                  </span>
+                </div>
                 <div id="texts"></div>
               </div>
             </div>
-            <div class="card projectcard" id="importExport">
+            <div class="card projectcard" id="export">
               <div class="card-body">
                 <div class="row">
-                  <div class="inline" style="margin-left: 15px;">
+                  <div class="inline row" style="margin-left: 15px;">
                     <input
                       type="text"
                       class="form-control form-control-sm form-control-alternative"
