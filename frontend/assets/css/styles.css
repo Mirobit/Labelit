@@ -19,7 +19,7 @@ body {
   cursor: pointer;
 }
 .wrapper {
-  min-height: calc(100vh - 40px);
+  min-height: calc(100vh - 30px);
 }
 .mainContent {
   margin-top: 30px;
@@ -336,7 +336,19 @@ body {
   font-size: 21px;
 }
 #texts {
-  max-height: 46vh;
+  max-height: 45vh;
   margin-bottom: 10px;
   overflow: auto;
+  scrollbar-width: thin;
+  scrollbar-color: #f4f5f7 white;
+}
+#texts::-webkit-scrollbar {
+  width: 8px;
+}
+#texts::-webkit-scrollbar-track {
+  background: white;
+}
+#texts::-webkit-scrollbar-thumb {
+  background-color: #f4f5f7;
+  border-radius: 20px;
 }
