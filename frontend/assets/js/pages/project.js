@@ -45,6 +45,9 @@ const init = async () => {
   <div class="progress">
     <div class="progress-bar" style="width: ${Store.project.progress}%;" role="progressbar" aria-valuenow="${Store.project.progress}" aria-valuemin="0" aria-valuemax="100"></div>
   </div>`
+  document.getElementById(
+    'textCountHeader'
+  ).innerText = `(${Store.project.textCount})`
 
   // Categories
   const catParent = document.getElementById('projectCategories')
