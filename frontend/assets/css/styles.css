@@ -56,10 +56,11 @@ body {
 }
 .originalWord {
   color: rgb(22, 21, 21);
-  background-color: #f5b642;
+  background-color: #fec89a;
   border-radius: 0.25rem;
   padding-left: 4px;
   padding-right: 4px;
+  margin-right: 1px;
 }
 .remove {
   color: lightcoral;
@@ -70,6 +71,7 @@ body {
   width: 16px;
   height: 16px;
   margin-left: 3px;
+  margin-top: 2px;
 }
 .confirm {
   color: rgb(114, 143, 87);
