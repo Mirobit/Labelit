@@ -20,7 +20,7 @@ const checkWorldlist = (contentHtml, words, categories, password, status) => {
   })
   words.forEach((word) => {
     const str = decrypt(word.strEnc, password)
-    const confirmHTML = `<span class="labeledarea"><span class="originalWord">${str}</span><span class="confirmDivider"></span><span class="labeled" style="background-color:${
+    const confirmHTML = `<span class="labeledarea"><span class="originalWord">${str}</span><span class="confirmDivider"></span><span class="labeled" title="${str}" style="background-color:${
       categoriesMap.get(String(word.category)).colorHex
     }">${
       categoriesMap.get(String(word.category)).name

@@ -184,6 +184,7 @@ const addLabel = (key) => {
   span.classList.add('labeledarea')
   const spanLabel = span.appendChild(document.createElement('span'))
   spanLabel.classList.add('labeled')
+  spanLabel.title = selected
   spanLabel.innerText = label.name
   spanLabel.style = 'background-color:' + label.colorHex
   const spanOriginal = span.appendChild(document.createElement('span'))
@@ -199,13 +200,9 @@ const addLabel = (key) => {
 
   // Replace other occurrences
   const confirmHTML =
-    '<span class="labeledarea"><span class="originalWord">' +
-    selected +
-    '</span><span class="confirmDivider"></span><span class="labeled" style="background-color:' +
-    label.colorHex +
-    '">' +
-    label.name +
-    '</span><span class="confirm" onclick="textFuncs.confirmLabel(this)"></span><span class="remove" onclick="textFuncs.removeLabel(this)"></span></span>'
+    `<span class="labeledarea"><span class="originalWord">${selected}</span>` +
+    `<span class="confirmDivider"></span><span class="labeled" style="background-color:${label.colorHex}">${label.name}</span>` +
+    `<span class="confirm" onclick="textFuncs.confirmLabel(this)"></span><span class="remove" onclick="textFuncs.removeLabel(this)"></span></span>`
   textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(
     new RegExp('(?![^<]*>)\\b' + selected + '\\b((?!<\\/span))', 'g'),
     confirmHTML
@@ -227,6 +224,9 @@ const addLabel = (key) => {
 const confirmLabel = (element) => {
   const parent = element.parentElement
   const divider = parent.getElementsByClassName('confirmDivider')[0]
+  element.previousSibling.title = parent.getElementsByClassName(
+    'originalWord'
+  )[0].innerText
   divider.remove()
   element.remove()
   parent.getElementsByClassName('originalWord')[0].hidden = true
