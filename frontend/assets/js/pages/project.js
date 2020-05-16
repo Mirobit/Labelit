@@ -108,6 +108,10 @@ const close = () => {
   document.getElementById('categoryForm').hidden = true
   document.getElementById('projectForm').hidden = true
   document.getElementById('importForm').hidden = true
+  document.getElementById('classificationName').value = ''
+  document.getElementById('categoryName').value = ''
+  document.getElementById('categoryKey').value = ''
+  document.getElementById('categoryColor').value = ''
   document.getElementById('importPath').value = ''
   document.getElementById('exportPath').value = ''
 }
