@@ -7,6 +7,7 @@ let projects = []
 
 const init = async () => {
   document.title = `Labelit - Projects`
+  Store.currentClose = close
   Store.password = null
   Store.project = {}
   changeInputMode('folder')

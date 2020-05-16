@@ -9,8 +9,8 @@ const newWords = []
 
 // Initialize text editor area
 const init = async (nextTextId) => {
+  Store.currentClose = close
   closeMessage()
-  textPage.hidden = false
 
   if (nextTextId === undefined) {
     textEditiorDiv = document.getElementById('texteditor')
@@ -30,7 +30,7 @@ const init = async (nextTextId) => {
   const result = await sendData(`/texts/${textId}/load`, 'POST', {
     password: Store.password,
   })
-
+  textPage.hidden = false
   // Place text
   if (result.status) {
     if (Store.project._id === undefined) {

@@ -10,6 +10,13 @@ import { closeMessage, displayMessage } from './components/message.js'
 
 const init = () => {
   if (navigator.platform === 'Win32') Store.os = 'Win'
+
+  window.onpopstate = (event) => {
+    closeMessage()
+    Store.currentClose()
+    route()
+  }
+
   const pages = {
     homeFuncs,
     projectFuncs,

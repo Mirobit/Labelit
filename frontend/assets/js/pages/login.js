@@ -6,6 +6,7 @@ import Store from '../store.js'
 const init = () => {
   document.title = `Labelit`
   displayMessage(false, 'You are not logged-in or your session exired')
+  Store.currentClose = close
   Store.loginPage.hidden = false
   document.addEventListener('keyup', handleEnterPassword)
 }

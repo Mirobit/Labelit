@@ -9,6 +9,7 @@ class Store {
 
   messageDiv = document.getElementById('message')
 
+  currentClose = null
   password = null
   project = {}
   loggedIn = false

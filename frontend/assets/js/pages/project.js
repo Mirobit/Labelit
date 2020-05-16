@@ -4,10 +4,10 @@ import Store from '../store.js'
 import { displayMessage } from '../components/message.js'
 
 const init = async () => {
-  Store.projectPage.hidden = false
+  Store.currentClose = close
   const projectName = window.location.pathname.match(/^\/project\/(.{1,})$/)[1]
-
   const result = await getData(`/projects/${projectName}`)
+  Store.projectPage.hidden = false
   if (result.status !== 200) {
     document.title = `Labelit - Project`
     setNavPath(close, projectName)
