@@ -504,7 +504,14 @@ const importTexts = async () => {
   }
 
   init()
-  displayMessage(true, 'Texts successfully imported')
+  displayMessage(
+    true,
+    `${result.new} texts successfully imported. ${
+      result.duplicates
+        ? '\n' + result.duplicates + ' duplicates were ignored!'
+        : ''
+    }`
+  )
 }
 
 export {

@@ -233,25 +233,34 @@ const exportAll = async (projectId, exportPath, exportMode, password) => {
 
 const importTexts = async (projectId, importPath, importMode, password) => {
   const project = await Project.findById(projectId)
+  const curTexts = await Text.find({ project: projectId }).select('-_id name')
   await checkPassword(project.name, password)
 
-  let textData
+  let loadedTexts
   if (importMode === 'csv') {
-    textData = await readCSV(project._id, password, importPath)
+    loadedTexts = await readCSV(project._id, password, importPath)
   } else if (importMode === 'folder') {
-    textData = await readFolder(project._id, password, importPath)
+    loadedTexts = await readFolder(project._id, password, importPath)
   } else if (importMode === 'json') {
-    textData = await readJSON(project._id, password, importPath)
+    loadedTexts = await readJSON(project._id, password, importPath)
   } else {
     throw new ValError('Invalid import mode')
   }
+  if (loadedTexts.length === 0) throw new ValError('No texts found')
 
-  project.textCount += textData.textCount
+  const newTexts = loadedTexts.filter(
+    (newText) => !curTexts.some((oldText) => newText.name === oldText.name)
+  )
+  if (newTexts.length === 0)
+    throw new ValError('All found text names/ids already exist in the project')
+
+  const texts = await Text.insertMany(newTexts)
+  project.texts = project.texts.concat(texts.map((text) => text._id))
+
+  project.textCount += newTexts.length
   project.progress = Math.round(
     (project.textUpdatedCount / project.textCount) * 100
   )
-  const texts = await Text.insertMany(textData.texts)
-  project.texts = project.texts.concat(texts.map((text) => text._id))
 
   try {
     await project.save()
@@ -259,6 +268,10 @@ const importTexts = async (projectId, importPath, importMode, password) => {
     // clean up
     await Text.deleteMany({ project: project.id })
     throw error
+  }
+  return {
+    new: newTexts.length,
+    duplicates: loadedTexts.length - newTexts.length,
   }
 }
 

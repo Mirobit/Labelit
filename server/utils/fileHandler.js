@@ -4,7 +4,6 @@ const { encrypt, decrypt } = require('./crypter')
 
 const readFolder = async (projectId, password, inputPath, subFolder = '') => {
   let stat
-  let textCount = 0
   let texts = []
 
   // Check if path is valid
@@ -19,7 +18,7 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
       withFileTypes: true,
     })
 
-    if (files.length === 0) return { textCount, texts }
+    if (files.length === 0) return texts
     for (const file of files) {
       if (file.isDirectory()) {
         const result = await readFolder(
@@ -28,11 +27,10 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
           inputPath,
           path.join(subFolder, file.name)
         )
-        texts = texts.concat(result.texts)
-        textCount += result.textCount
+        texts = texts.concat(result)
         continue
       }
-      textCount++
+
       const content = (
         await fs.readFile(path.join(inputPath, subFolder, file.name), 'utf8')
       ).replace(/</g, '&lt')
@@ -49,7 +47,7 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
     throw new ValError('Files could not be read')
   }
 
-  return { textCount, texts }
+  return texts
 }
 
 const writeFolder = async (
@@ -101,7 +99,6 @@ const writeFolder = async (
 
 const readJSON = async (projectId, password, filePath) => {
   const texts = []
-  let textCount = 0
 
   try {
     var jsonData = await fs.readFile(filePath, 'utf8')
@@ -112,7 +109,6 @@ const readJSON = async (projectId, password, filePath) => {
   const parsed = JSON.parse(jsonData)
 
   for (const entry of parsed) {
-    textCount++
     const contentEnc = encrypt(entry.text.replace(/</g, '&lt'), password)
     texts.push({
       name: entry.id.replace(/</g, '&lt'),
@@ -123,7 +119,7 @@ const readJSON = async (projectId, password, filePath) => {
     })
   }
 
-  return { textCount, texts }
+  return texts
 }
 
 const writeJSON = async (
@@ -173,7 +169,6 @@ const writeJSON = async (
 const readCSV = async (projectId, password, filePath) => {
   const parseCSV = require('csv-parse/lib/sync')
   const texts = []
-  let textCount = 0
 
   try {
     var csvData = await fs.readFile(filePath, 'utf8')
@@ -188,7 +183,6 @@ const readCSV = async (projectId, password, filePath) => {
   parsed.shift()
 
   for (const line of parsed) {
-    textCount++
     const contentEnc = encrypt(line[1].replace(/</g, '&lt'), password)
     texts.push({
       name: line[0].replace(/</g, '&lt'),
@@ -199,7 +193,7 @@ const readCSV = async (projectId, password, filePath) => {
     })
   }
 
-  return { textCount, texts }
+  return texts
 }
 
 const writeCSV = async (

@@ -23,19 +23,19 @@ const create = async (data) => {
   data.description = data.description.replace(/<.*?>/gm, '-')
 
   const project = await new Project(data)
-  let textData
+  let loadedTexts
   if (data.inputMode === 'csv') {
-    textData = await readCSV(project._id, data.password, data.inputPath)
+    loadedTexts = await readCSV(project._id, data.password, data.inputPath)
   } else if (data.inputMode === 'folder') {
-    textData = await readFolder(project._id, data.password, data.inputPath)
+    loadedTexts = await readFolder(project._id, data.password, data.inputPath)
   } else if (data.inputMode === 'json') {
-    textData = await readJSON(project._id, data.password, data.inputPath)
+    loadedTexts = await readJSON(project._id, data.password, data.inputPath)
   } else {
     throw new ValError('Invalid input mode')
   }
 
-  project.textCount = textData.textCount
-  const texts = await Text.insertMany(textData.texts)
+  project.textCount = loadedTexts.length
+  const texts = await Text.insertMany(loadedTexts)
   project.texts = texts.map((text) => text._id)
   project.password = hash(data.password)
 

@@ -80,13 +80,13 @@ router.post(
 router.post(
   '/import',
   asyncWrap(async (req, res) => {
-    await textsService.importTexts(
+    const result = await textsService.importTexts(
       req.body.projectId,
       req.body.importPath,
       req.body.importMode,
       req.body.password
     )
-    res.json({ status: 200 })
+    res.json({ status: 200, ...result })
   })
 )
 
