@@ -77,10 +77,9 @@ const writeFolder = async (
               pClassification._id.toString() == classification.toString()
           ).name
       )
-    var divider = process.platform === 'win32' ? '\\' : '/'
-    let subFolder = text.name.split(divider)
+    let subFolder = text.name.split(/\/|\\/)
     const fileName = subFolder.pop()
-    subFolder = subFolder.join(divider)
+    subFolder = subFolder.join('/')
     if (subFolder.length > 0) {
       await fs.mkdir(path.join(totalPath, subFolder), { recursive: true })
     }
