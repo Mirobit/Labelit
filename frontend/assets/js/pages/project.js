@@ -17,6 +17,7 @@ const init = async () => {
   Store.project = result.project
   document.title = `Labelit - Project: ${Store.project.name}`
   document.getElementById('exportMode').value = Store.project.inputMode
+  document.getElementById('importMode').value = Store.project.inputMode
   setNavPath(close, Store.project.name)
 
   // Texts
@@ -105,7 +106,9 @@ const close = () => {
   Store.projectPage.hidden = true
   document.getElementById('classificationForm').hidden = true
   document.getElementById('categoryForm').hidden = true
-  document.getElementById('projectForm').hiddden = true
+  document.getElementById('projectForm').hidden = true
+  document.getElementById('importForm').hidden = true
+  document.getElementById('importPath').value = ''
   document.getElementById('exportPath').value = ''
 }
 
