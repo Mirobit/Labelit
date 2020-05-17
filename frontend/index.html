@@ -376,7 +376,7 @@
               <div class="card-body">
                 <span class="inline">
                   <div class="subHeader">Text Overview</div>
-                  <span class="sub-info" id="textCountHeader">(27)</span>
+                  <span class="sub-info" id="textCountHeader">()</span>
                   <span class="float-right"
                     ><button
                       class="btn btn-outline-main btn-sm"
@@ -385,6 +385,16 @@
                       <i
                         class="fa fa-plus fa-lg"
                         title="Add new texts"
+                        aria-hidden="true"
+                      ></i>
+                    </button>
+                    <button
+                      class="btn btn-outline-main btn-sm"
+                      onclick="projectFuncs.showRemoveTexts()"
+                    >
+                      <i
+                        class="fa fa-minus fa-lg"
+                        title="Remove specific texts"
                         aria-hidden="true"
                       ></i>
                     </button>

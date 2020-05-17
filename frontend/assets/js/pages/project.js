@@ -30,7 +30,7 @@ const init = async () => {
         status = '<span class="unconfirmed"></span>'
       return (
         outputHTML +
-        `<div><span class="link" style="border-bottom: 1px dotted;" onclick="projectFuncs.openText('${text._id}')">${text.name}</span>${status}</div>
+        `<div><span class="link" data-id="${text._id}" style="border-bottom: 1px dotted;" onclick="projectFuncs.openText('${text._id}')">${text.name}</span>${status}</div>
     `
       )
     },
@@ -523,6 +523,45 @@ const importTexts = async () => {
   )
 }
 
+const showRemoveTexts = async () => {
+  const textLinks = document
+    .getElementById('texts')
+    .getElementsByClassName('link')
+
+  // Check if open
+  const removeCount = document
+    .getElementById('texts')
+    .getElementsByClassName('trash').length
+  if (removeCount > 0) {
+    for (let i = 0; i < removeCount; i++) {
+      textLinks[i].previousSibling.remove()
+    }
+    return
+  }
+
+  for (const link of textLinks) {
+    const spanRemove = document.createElement('span')
+    spanRemove.classList = 'fa fa-trash-o trash'
+    spanRemove.onclick = () => {
+      removeText(link.getAttribute('data-id'), link.textContent)
+    }
+    link.parentElement.insertBefore(spanRemove, link)
+  }
+}
+
+const removeText = async (textId, textName) => {
+  const result = confirm(`Do you really want to delete "${textName}"?`)
+  console.log(result)
+  if (!result) return
+  document.querySelectorAll(`[data-id='${textId}']`)[0].parentElement.remove()
+  document.getElementById('textCountHeader').innerText = `(${--Store.project
+    .textCount})`
+  displayMessage(
+    true,
+    `${textName} successfully removed. Only frontend for now!`
+  )
+}
+
 export {
   init,
   showEditProject,
@@ -539,4 +578,6 @@ export {
   exportTexts,
   checkTexts,
   openText,
+  showRemoveTexts,
+  removeText,
 }
