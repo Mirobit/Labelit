@@ -54,7 +54,7 @@ router.put(
 router.delete(
   '/:id',
   asyncWrap(async (req, res) => {
-    await projectsService.remove(req.params.id)
+    await projectsService.remove(req.params.id, req.body.password)
     res.json({ status: 200 })
   })
 )

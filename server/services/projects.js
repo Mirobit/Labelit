@@ -74,8 +74,16 @@ const update = async (id, data) => {
   return data.name
 }
 
-const remove = async (id) => {
-  await Project.findOneAndDelete({ _id: id })
+const remove = async (id, password) => {
+  console.log('reld')
+
+  const result = await Project.findOneAndDelete({
+    _id: id,
+    password: hash(password),
+  })
+  if (result === null)
+    throw new ValError('Can not remove project. Invalid project password')
+
   await Text.deleteMany({ project: id })
 }
 

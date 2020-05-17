@@ -153,11 +153,13 @@ const updateProject = async () => {
 }
 
 const removeProject = async () => {
-  const confirmed = confirm(
-    `Do you realy want to delete the project ${Store.project.name}? This can not be reversed! `
+  const confirmed = prompt(
+    `Do you realy want to delete the project ${Store.project.name}?\nThis can not be reversed!\n\nPlease enter the project password:`
   )
-  if (!confirmed) return
-  const result = await sendData(`/projects/${Store.project._id}`, 'DELETE')
+  if (confirmed === null) return
+  const result = await sendData(`/projects/${Store.project._id}`, 'DELETE', {
+    password: confirmed,
+  })
 
   if (result.status !== 200) {
     return
