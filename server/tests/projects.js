@@ -160,7 +160,7 @@ test('Project: Check password: Invalid password', async (t) => {
 })
 
 test('Project: Remove by id', async (t) => {
-  await projectServices.remove(t.context.projectR._id)
+  await projectServices.remove(t.context.projectR._id, 'ava')
   const result = await projectServices.get(t.context.projectR.name)
   t.is(result, null)
 })
