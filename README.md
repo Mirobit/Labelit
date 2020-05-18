@@ -14,7 +14,7 @@ Just create a project, import your data, create categories for named entities an
 - All texts can be checked against previously found sensitive words (project based wordlist)
 - Lightweight single-page application
 
-<img src="https://user-images.githubusercontent.com/13236924/82199305-ceafd880-98fd-11ea-83c1-f709fe63bdba.png" width="400" style="margin-left: 20px"> <img src="https://user-images.githubusercontent.com/13236924/82199217-b2ac3700-98fd-11ea-9dc2-5082bfb8a59f.png" width="400">
+<img src="https://user-images.githubusercontent.com/13236924/82199305-ceafd880-98fd-11ea-83c1-f709fe63bdba.png" width="400" style="margin-left: 20px"> <img src="https://user-images.githubusercontent.com/13236924/82200021-c60bd200-98fe-11ea-8306-99fbf98a5e80.png" width="400">
 
 
 ## Installation
