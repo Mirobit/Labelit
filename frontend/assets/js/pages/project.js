@@ -550,16 +550,19 @@ const showRemoveTexts = async () => {
 }
 
 const removeText = async (textId, textName) => {
-  const result = confirm(`Do you really want to delete "${textName}"?`)
-  console.log(result)
-  if (!result) return
-  document.querySelectorAll(`[data-id='${textId}']`)[0].parentElement.remove()
-  document.getElementById('textCountHeader').innerText = `(${--Store.project
-    .textCount})`
-  displayMessage(
-    true,
-    `${textName} successfully removed. Only frontend for now!`
-  )
+  const confirmation = confirm(`Do you really want to delete "${textName}"?`)
+  if (!confirmation) return
+  const result = await sendData(`/texts/remove`, 'DELETE', {
+    textId: textId,
+    password: Store.password,
+  })
+
+  if (result.status !== 200) {
+    return
+  }
+  displayMessage(true, `${textName} successfully removed.`)
+  await init()
+  showRemoveTexts()
 }
 
 export {

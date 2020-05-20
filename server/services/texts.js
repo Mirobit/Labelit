@@ -144,7 +144,8 @@ const update = async (
 }
 
 const remove = async (id) => {
-  return await Text.findOneAndDelete({ _id: id })
+  const result = await Text.findOneAndDelete({ _id: id })
+  if (result === null) throw new ValError('Text not found')
 }
 
 const checkAll = async (projectId, password) => {

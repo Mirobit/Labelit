@@ -50,6 +50,15 @@ router.put(
   })
 )
 
+// Update text
+router.delete(
+  '/:textId',
+  asyncWrap(async (req, res) => {
+    await textsService.remove(req.body.textId, req.body.password)
+    res.json({ status: 200 })
+  })
+)
+
 // Check all texts
 router.post(
   '/check',
