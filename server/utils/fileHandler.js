@@ -175,8 +175,19 @@ const readCSV = async (projectId, password, filePath) => {
     throw new ValError('File path does not exist')
   }
 
+  let delimiter = ','
+  const firstLine = csvData.split('\n')[0]
+  if (firstLine.includes(';')) {
+    if (firstLine.includes(',')) {
+      throw new ValError('Can not determine CSV delimiter')
+    } else {
+      delimiter = ';'
+    }
+  }
+
   const parsed = parseCSV(csvData, {
     columns: false,
+    delimiter,
     skip_empty_lines: true,
   })
   parsed.shift()
