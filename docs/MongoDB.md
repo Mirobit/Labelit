@@ -24,4 +24,4 @@ Restart MongoDB to apply the changes: `brew services stop mongodb-community` and
 
 Open `C:/Program Files/MongoDB/Server/4.2/bin/mongod.cfg` (the first part can be different, depeneding on your system) with a texteditor and look for the line `dbpath=/some/path`.
 Change the line to `dbpath=D:/your/new/path` and save the file.
-After restarting MongoDB, the new path is used as storage location. To do this open the Windows Service App, right-click on `MongoDB Database Server (MongoDB)` and select restart.
+After restarting MongoDB, the new path is used as storage location. To do this open the Windows Services App, right-click on `MongoDB Database Server (MongoDB)` and select restart.

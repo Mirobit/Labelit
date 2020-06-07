@@ -16,7 +16,6 @@ Just create a project, import your data, create categories for named entities an
 
 <img src="https://user-images.githubusercontent.com/13236924/82200496-5ea25200-98ff-11ea-877b-6630092b9537.png" width="400" style="margin-left: 20px"> <img src="https://user-images.githubusercontent.com/13236924/82200021-c60bd200-98fe-11ea-8306-99fbf98a5e80.png" width="400">
 
-
 ## Installation
 
 **Requirements**
@@ -46,7 +45,7 @@ Use `admin` as username and the password from the `.env` file to sign in.
 
 ## How To
 
-See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md) and check the [examples](https://github.com/Mirobit/Labelit/blob/master/examples) folder, to see how the input data needs to be structured.
+See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md) and check the [examples](https://github.com/Mirobit/Labelit/blob/master/examples) folder, to see how the input data needs to be structured. See [docs/MongoDB.md](https://github.com/Mirobit/Labelit/blob/master/docs/MongoDB.md) to find out how to change the MongoDB database location.
 
 ## ToDo
 
