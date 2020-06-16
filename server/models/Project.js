@@ -89,6 +89,10 @@ const projectSchema = new Schema(
       },
     ],
     user: { type: Schema.Types.ObjectId, required: false },
+    version: {
+      type: Number,
+      defaut: 0,
+    },
   },
   {
     timestamps: {

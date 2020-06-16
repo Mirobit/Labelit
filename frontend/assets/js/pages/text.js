@@ -208,7 +208,7 @@ const addLabel = (key) => {
     confirmHTML
   )
   // Necessary since all previously set eventlisteners are removed during innerHTML.replace
-  // No working -> spanRemove.onclick = () => removeLabel(spanRemove)
+  // Not working -> spanRemove.onclick = () => removeLabel(spanRemove)
   textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(
     new RegExp('<span class="removeInit"></span>', 'g'),
     '<span class="remove" onclick="textFuncs.removeLabel(this)"></span>'

@@ -108,7 +108,8 @@ router.delete(
   asyncWrap(async (req, res) => {
     await projectsService.removeCategory(
       req.params.projectId,
-      req.params.categoryId
+      req.params.categoryId,
+      req.body.password
     )
     res.json({ status: 200 })
   })

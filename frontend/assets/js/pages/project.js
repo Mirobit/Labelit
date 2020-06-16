@@ -313,7 +313,10 @@ const updateCategory = async (categoryId) => {
 const removeCategory = async (categoryId) => {
   const result = await sendData(
     `/projects/${Store.project._id}/categories/${categoryId}`,
-    'DELETE'
+    'DELETE',
+    {
+      password: Store.password,
+    }
   )
 
   if (result.status !== 200) {

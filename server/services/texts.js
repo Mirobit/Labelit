@@ -13,7 +13,8 @@ const { encrypt, decrypt, hash } = require('../utils/crypter')
 
 const checkWorldlist = (contentHtml, words, categories, password, status) => {
   let hits = 0
-  if (status === 'confirmed') return { contentHtml, hits }
+  if (status === 'confirmed' || categories.length === 0)
+    return { contentHtml, hits }
   const categoriesMap = new Map()
   categories.forEach((category) => {
     categoriesMap.set(String(category._id), category)
@@ -98,7 +99,7 @@ const getNext = async (textId, projectId, showConfirmed, prev = false) => {
 }
 
 const list = async (projectId) => {
-  return await Texts.find({ project: projectId })
+  return await Text.find({ project: projectId })
 }
 
 const update = async (

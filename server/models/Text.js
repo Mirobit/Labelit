@@ -35,7 +35,11 @@ const textSchema = new Schema(
       enum: ['new', 'unconfirmed', 'confirmed'],
       default: 'new',
     },
-    // user: { type: Schema.Types.ObjectId, required: true }
+    // user: { type: Schema.Types.ObjectId, required: true },
+    version: {
+      type: Number,
+      defaut: 0,
+    },
   },
   {
     timestamps: {

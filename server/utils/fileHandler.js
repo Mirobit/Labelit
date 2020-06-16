@@ -41,6 +41,7 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
         contentEncSaved: contentEnc,
         contentEncHtml: contentEnc,
         project: projectId,
+        version: TEXT_VERSION,
       })
     }
   } catch (error) {
@@ -115,6 +116,7 @@ const readJSON = async (projectId, password, filePath) => {
       contentEncSaved: contentEnc,
       contentEncHtml: contentEnc,
       project: projectId,
+      version: TEXT_VERSION,
     })
   }
 
@@ -200,6 +202,7 @@ const readCSV = async (projectId, password, filePath) => {
       contentEncSaved: contentEnc,
       contentEncHtml: contentEnc,
       project: projectId,
+      version: TEXT_VERSION,
     })
   }
 

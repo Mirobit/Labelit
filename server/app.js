@@ -13,6 +13,9 @@ global.ValError = ValError
 const security = require('./middleware/security')
 const routes = require('./routes')
 
+global.PROJECT_VERSION = 1
+global.TEXT_VERSION = 1
+
 mongoose.Promise = Promise
 mongoose
   .connect(process.env.MONGODB_URI, {
