@@ -1,6 +1,9 @@
 'use strict'
 require('./init')
 
+global.PROJECT_VERSION = 1
+global.TEXT_VERSION = 1
+
 const test = require('ava')
 
 const db = require('./db')
