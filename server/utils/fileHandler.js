@@ -31,15 +31,19 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
         continue
       }
 
-      const content = (
-        await fs.readFile(path.join(inputPath, subFolder, file.name), 'utf8')
-      ).replace(/</g, '&lt')
+      const content = await fs.readFile(
+        path.join(inputPath, subFolder, file.name),
+        'utf8'
+      )
       const contentEnc = encrypt(content, password)
       texts.push({
         name: path.join(subFolder, file.name),
-        contentEncOrg: contentEnc,
-        contentEncSaved: contentEnc,
-        contentEncHtml: contentEnc,
+        content: contentEnc,
+        contentOrg: contentEnc,
+        contentArr: encrypt(
+          JSON.stringify([{ text: content, type: 'text' }]),
+          password
+        ),
         project: projectId,
         version: TEXT_VERSION,
       })
@@ -49,6 +53,15 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
   }
 
   return texts
+}
+
+const getFullText = (contentArr, password) => {
+  contentArr = JSON.parse(decrypt(contentArr, password))
+  let str = ''
+  for (const entry of contentArr) {
+    str += entry.text
+  }
+  return str
 }
 
 const writeFolder = async (
@@ -86,7 +99,7 @@ const writeFolder = async (
     }
     await fs.writeFile(
       path.join(totalPath, subFolder, fileName),
-      decrypt(text.contentEncSaved, password)
+      decrypt(text.content, password)
     )
   }
 
@@ -109,12 +122,15 @@ const readJSON = async (projectId, password, filePath) => {
   const parsed = JSON.parse(jsonData)
 
   for (const entry of parsed) {
-    const contentEnc = encrypt(entry.text.replace(/</g, '&lt'), password)
+    const contentEnc = encrypt(content, password)
     texts.push({
       name: entry.id.replace(/</g, '&lt'),
-      contentEncOrg: contentEnc,
-      contentEncSaved: contentEnc,
-      contentEncHtml: contentEnc,
+      content: contentEnc,
+      contentOrg: contentEnc,
+      contentArr: encrypt(
+        JSON.stringify([{ text: content, type: 'text' }]),
+        password
+      ),
       project: projectId,
       version: TEXT_VERSION,
     })
@@ -145,7 +161,7 @@ const writeJSON = async (
     if (text.status !== 'confirmed') continue
     const entry = {
       id: text.name,
-      text: decrypt(text.contentEncSaved, password),
+      text: decrypt(text.content, password),
     }
     if (classActive) {
       entry.classifications = text.classifications
@@ -195,12 +211,15 @@ const readCSV = async (projectId, password, filePath) => {
   parsed.shift()
 
   for (const line of parsed) {
-    const contentEnc = encrypt(line[1].replace(/</g, '&lt'), password)
+    const contentEnc = encrypt(content, password)
     texts.push({
       name: line[0].replace(/</g, '&lt'),
-      contentEncOrg: contentEnc,
-      contentEncSaved: contentEnc,
-      contentEncHtml: contentEnc,
+      content: contentEnc,
+      contentOrg: contentEnc,
+      contentArr: encrypt(
+        JSON.stringify([{ text: content, type: 'text' }]),
+        password
+      ),
       project: projectId,
       version: TEXT_VERSION,
     })
@@ -238,7 +257,7 @@ const writeCSV = async (
     if (text.status !== 'confirmed') continue
     const line = {
       id: text.name,
-      text: decrypt(text.contentEncSaved, password),
+      text: decrypt(text.content, password),
     }
     if (classActive) {
       line.classifications = text.classifications

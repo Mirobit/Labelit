@@ -37,10 +37,9 @@ router.put(
   '/:textId',
   asyncWrap(async (req, res) => {
     await textsService.update(
-      req.body.textRaw,
-      req.body.htmlText,
       req.params.textId,
       req.body.projectId,
+      req.body.contentArr,
       req.body.user,
       req.body.newWords,
       req.body.password,

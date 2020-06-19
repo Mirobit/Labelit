@@ -157,55 +157,6 @@ const removeCategory = async (projectId, categoryId, password) => {
     { _id: projectId },
     { $pull: { categories: { _id: categoryId } } }
   )
-  // const project = await Project.findById(projectId)
-  // let categoryName = ''
-
-  // project.categories = project.categories.filter((category) => {
-  //   if (category._id != categoryId) return true
-  //   categoryName = category.name
-  //   return false
-  // })
-  // project.words = project.words.filter((word) => word.category != categoryId)
-  // const texts = await Text.find({ project: projectId })
-  // for (const text of texts) {
-  //   let changed = false
-  //   const html = decrypt(text.contentEncHtml, password)
-  //   const document = parse5.parseFragment(html, {
-  //     treeAdapter: htmlparser2Adapter,
-  //   })
-  //   const nodes = Array.from(document.childNodes)
-  //   if (nodes.length === 0) continue
-  //   console.log(document.childNodes[1].children)
-  //   const orgWord = document.childNodes[1].children[1].children[0].data
-  //   document.childNodes[1].type = 'text'
-  //   document.childNodes[1].data = orgWord
-  //   delete document.childNodes[1].name
-  //   delete document.childNodes[1].namespace
-  //   delete document.childNodes[1].attribs
-  //   delete document.childNodes[1].children
-  //   delete document.childNodes[1]['x-attribsNamespace']
-  //   delete document.childNodes[1]['x-attribsPrefix']
-  //   const htmlser = parse5.serialize(document, {
-  //     treeAdapter: htmlparser2Adapter,
-  //   })
-  //   console.log(htmlser)
-
-  // for (const match of matches) {
-  //   if (match.innerText !== categoryName) continue
-  //   changed = true
-  //   console.log(match)
-  //   const parent = match.parentElement
-  //   const originalWord = parent.getElementsByClassName('originalWord')[0]
-  //     .innerText
-  //   dom.insertBefore(match.createTextNode(originalWord), parent)
-  //   parent.remove()
-  // }
-  // if (!changed) continue
-  // console.log(parse5.serialize(dom))
-  // //dom.normalize()
-  // }
-  // return false
-  // await project.save()
 }
 
 const addClassification = async (projectId, newClassification) => {

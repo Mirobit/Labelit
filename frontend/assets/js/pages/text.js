@@ -4,8 +4,9 @@ import Store from '../store.js'
 import { closeMessage, displayMessage } from '../components/message.js'
 
 // global vars
-let textId, textEditiorDiv, categories, classActive
+let textId, textEditiorDiv, categories, classActive, contentArr
 const newWords = []
+let customMarking = false
 
 // Initialize text editor area
 const init = async (nextTextId) => {
@@ -39,7 +40,8 @@ const init = async (nextTextId) => {
     classActive = result.classActive
     document.title = `Labelit - Text: ${result.textName}`
     setNavPath(close, Store.project.name, result.textName)
-    textEditiorDiv.innerHTML = result.contentHtml
+    contentArr = result.contentArr
+    displayText()
   } else {
     document.title = `Labelit - Text: ${textId}`
     textEditiorDiv.innerHTML = ''
@@ -90,6 +92,7 @@ const init = async (nextTextId) => {
 
   // Init key event listener
   document.addEventListener('keyup', handleKeyPress)
+  document.addEventListener('keydown', handleKeyPressDown)
 }
 
 const close = () => {
@@ -98,14 +101,66 @@ const close = () => {
   document.removeEventListener('keyup', handleKeyPress)
 }
 
+const displayText = () => {
+  const wrapper = document.createElement('span')
+  for (let i = 0; i < contentArr.length; i++) {
+    const entry = contentArr[i]
+    if (entry.type === 'text') {
+      const textSpan = wrapper.appendChild(document.createElement('span'))
+      textSpan.id = i
+      textSpan.innerText = entry.text
+    } else {
+      // Create elements for labeled area
+      const labelSpan = wrapper.appendChild(document.createElement('span'))
+      labelSpan.classList.add('labeledarea')
+      const spanLabel = labelSpan.appendChild(document.createElement('span'))
+      spanLabel.classList.add('labeled')
+      spanLabel.title = entry.original
+      spanLabel.innerText = entry.text
+      spanLabel.id = i
+      spanLabel.setAttribute('style', `background-color:${entry.colorHex}`)
+
+      const spanRemove = labelSpan.appendChild(document.createElement('span'))
+      spanRemove.classList.add('remove')
+      spanRemove.onclick = function () {
+        removeLabel(this)
+      }
+      if (entry.status === 'unconfirmed') {
+        const confirmSpan = document.createElement('span')
+        confirmSpan.classList.add('originalWord')
+        confirmSpan.innerText = entry.original
+        labelSpan.prepend(confirmSpan)
+
+        const spanConfirm = labelSpan.appendChild(
+          document.createElement('span')
+        )
+        spanConfirm.classList.add('confirm')
+        spanConfirm.onclick = function () {
+          confirmLabel(this)
+        }
+      }
+    }
+  }
+  document.getElementById('texteditor').innerHTML = ''
+  document.getElementById('texteditor').appendChild(wrapper)
+}
+
 // Enables single click word selection
 const clickWord = () => {
+  if (customMarking) return
   const selection = window.getSelection()
   // Prevent error after auto click from removeLabel -> removeAllranges
   if (selection.anchorNode === null) return
 
   const node = selection.anchorNode
   const range = selection.getRangeAt(0)
+
+  // Prevent marking multiple nodes
+  if (selection.anchorNode !== selection.focusNode) {
+    range.setStart(node, selection.anchorOffset)
+    range.setEnd(node, selection.anchorOffset + 1)
+  }
+
   while (range.startOffset >= 0) {
     const firstChar = range.toString().charAt(0)
     if (
@@ -114,7 +169,9 @@ const clickWord = () => {
       firstChar === '.' ||
       firstChar === ';' ||
       firstChar === ':' ||
-      firstChar === '\n'
+      firstChar === '\n' ||
+      firstChar === '\r' ||
+      firstChar === '\r\n'
     ) {
       range.setStart(node, range.startOffset + 1)
       break
@@ -152,7 +209,12 @@ const handleKeyPress = (event) => {
   if (event.key === 'Enter') updateText()
   else if (event.key === 'ArrowRight') getNextText()
   else if (event.key === 'ArrowLeft') getNextText(true)
+  else if (event.key === 'Control') customMarking = false
   else addLabel(event.key)
+}
+
+const handleKeyPressDown = (event) => {
+  if (event.key === 'Control') customMarking = true
 }
 
 // Adds label to selected text
@@ -162,57 +224,34 @@ const addLabel = (key) => {
   })
   if (label === undefined) return
   // Get selected text
-  const highlight = window.getSelection()
-
+  const marked = window.getSelection()
   // Check if invalid marking area
   if (
-    highlight.anchorNode === null ||
-    highlight.type === 'Caret' ||
-    highlight.anchorNode.parentElement.className !== 'texteditor'
+    marked.anchorNode === null ||
+    marked.type === 'Caret' ||
+    marked.anchorNode.parentElement.parentNode.parentNode.className !==
+      'texteditor'
   ) {
     return
   }
 
-  const selected = highlight.toString()
-
-  // Delete text
+  const selected = marked.toString()
   const range = window.getSelection().getRangeAt(0)
-  range.deleteContents()
 
-  // Create elements for labeled area
-  const span = document.createElement('span')
-  span.classList.add('labeledarea')
-  const spanLabel = span.appendChild(document.createElement('span'))
-  spanLabel.classList.add('labeled')
-  spanLabel.title = selected
-  spanLabel.innerText = label.name
-  spanLabel.style = 'background-color:' + label.colorHex
-  const spanOriginal = span.appendChild(document.createElement('span'))
-  spanOriginal.classList.add('originalWord')
-  spanOriginal.hidden = true
-  spanOriginal.innerText = selected
-  const spanRemove = span.appendChild(document.createElement('span'))
-  spanRemove.classList.add('removeInit')
-
-  // Insert created element and remove selection
-  range.insertNode(span)
-  window.getSelection().removeAllRanges()
-
-  // Replace other occurrences
-  const confirmHTML =
-    `<span class="labeledarea"><span class="originalWord">${selected}</span>` +
-    `<span class="confirmDivider"></span><span class="labeled" style="background-color:${label.colorHex}">${label.name}</span>` +
-    `<span class="confirm" onclick="textFuncs.confirmLabel(this)"></span><span class="remove" onclick="textFuncs.removeLabel(this)"></span></span>`
-  textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(
-    new RegExp('(?![^<]*>)\\b' + selected + '\\b((?!<\\/span))', 'g'),
-    confirmHTML
+  // range.deleteContents()
+  const arrayIndex = parseInt(marked.anchorNode.parentNode.id)
+  const regex = new RegExp('\\b' + selected + '\\b', 'i')
+  const index = contentArr[arrayIndex].text.search(regex)
+  replaceEntry(
+    arrayIndex,
+    index,
+    index + selected.length,
+    selected,
+    label,
+    'confirmed'
   )
-  // Necessary since all previously set eventlisteners are removed during innerHTML.replace
-  // Not working -> spanRemove.onclick = () => removeLabel(spanRemove)
-  textEditiorDiv.innerHTML = textEditiorDiv.innerHTML.replace(
-    new RegExp('<span class="removeInit"></span>', 'g'),
-    '<span class="remove" onclick="textFuncs.removeLabel(this)"></span>'
-  )
+  replaceMore(selected, label)
+  displayText()
 
   // Add word to wordlist
   newWords.push({
@@ -221,25 +260,91 @@ const addLabel = (key) => {
   })
 }
 
+const replaceMore = (word, label) => {
+  let outerActive = true
+  const regex = new RegExp('\\b' + word + '\\b', 'i')
+  let i = 0
+  while (outerActive) {
+    if (i > contentArr.length - 1) break
+    if (contentArr[i].type === 'label') {
+      i++
+      continue
+    }
+    let innerActive = true
+
+    while (innerActive) {
+      const index = contentArr[i].text.search(regex)
+      if (index === -1) break
+      replaceEntry(i, index, index + word.length, word, label, 'unconfirmed')
+    }
+    i++
+  }
+}
+
+const replaceEntry = (index, start, end, word, label, status) => {
+  const text = contentArr[index]
+  let firstPart = text.text.slice(0, start)
+  let lastPart = text.text.slice(end)
+
+  contentArr.splice(index, 1, {
+    text: label.name,
+    original: word,
+    id: label._id,
+    colorHex: label.colorHex,
+    status,
+  })
+
+  if (end <= text.text.length - 1) {
+    'lastparrt',
+      contentArr.splice(index + 1, 0, {
+        text: lastPart,
+        type: 'text',
+      })
+  }
+
+  if (start > 0) {
+    contentArr.splice(index, 0, {
+      text: firstPart,
+      type: 'text',
+    })
+  }
+}
+
 const confirmLabel = (element) => {
-  const parent = element.parentElement
-  const divider = parent.getElementsByClassName('confirmDivider')[0]
-  element.previousSibling.title = parent.getElementsByClassName(
-    'originalWord'
-  )[0].innerText
-  divider.remove()
-  element.remove()
-  parent.getElementsByClassName('originalWord')[0].hidden = true
-  window.getSelection().removeAllRanges()
+  const arrIndex = parseInt(element.previousSibling.previousSibling.id)
+  contentArr[arrIndex].status = 'confirmed'
+  displayText()
 }
 
 const removeLabel = (element) => {
-  const parent = element.parentElement
-  const originalWord = parent.getElementsByClassName('originalWord')[0]
-    .innerText
-  textEditiorDiv.insertBefore(document.createTextNode(originalWord), parent)
-  parent.remove()
-  textEditiorDiv.normalize()
+  const arrIndex = parseInt(element.previousSibling.id)
+  const text = contentArr[arrIndex].original
+  let textBefore = ''
+  let textAfter = ''
+  let newIndexStart = arrIndex
+  let steps = 1
+
+  if (arrIndex > 0 && contentArr[arrIndex - 1].type === 'text') {
+    textBefore = contentArr[arrIndex - 1].text
+    newIndexStart--
+    steps++
+  }
+  if (
+    arrIndex < contentArr.length - 1 &&
+    contentArr[arrIndex + 1].type === 'text'
+  ) {
+    textAfter = contentArr[arrIndex + 1].text
+    steps++
+  }
+
+  const newText = textBefore + text + textAfter
+
+  contentArr.splice(newIndexStart, steps, {
+    text: newText,
+    type: 'text',
+  })
+
+  displayText()
 }
 
 const getNextText = async (prev = false) => {
@@ -257,7 +362,7 @@ const getNextText = async (prev = false) => {
 }
 
 const updateText = async () => {
-  if (textEditiorDiv.innerHTML.includes('<span class="confirmDivider">')) {
+  if (textEditiorDiv.innerHTML.includes('<span class="confirm">')) {
     displayMessage(false, 'Can not save before all elements are confirmed')
     return
   }
@@ -277,8 +382,7 @@ const updateText = async () => {
   }
 
   const result = await sendData(`/texts/${textId}`, 'PUT', {
-    textRaw: textEditiorDiv.innerText,
-    htmlText: textEditiorDiv.innerHTML,
+    contentArr,
     projectId: Store.project._id,
     newWords,
     password: Store.password,

@@ -11,31 +11,47 @@ const {
 const { checkPassword } = require('./projects')
 const { encrypt, decrypt, hash } = require('../utils/crypter')
 
-const checkWorldlist = (contentHtml, words, categories, password, status) => {
+const checkWorldlist = (contentArr, words, categories, password, status) => {
   let hits = 0
   if (status === 'confirmed' || categories.length === 0)
-    return { contentHtml, hits }
+    return { contentArr, hits }
   const categoriesMap = new Map()
   categories.forEach((category) => {
     categoriesMap.set(String(category._id), category)
   })
+
   words.forEach((word) => {
     const str = decrypt(word.strEnc, password)
-    const confirmHTML = `<span class="labeledarea"><span class="originalWord">${str}</span><span class="confirmDivider"></span><span class="labeled" title="${str}" style="background-color:${
-      categoriesMap.get(String(word.category)).colorHex
-    }">${
-      categoriesMap.get(String(word.category)).name
-    }</span><span class="confirm" onclick="textFuncs.confirmLabel(this)"></span><span class="remove" onclick="textFuncs.removeLabel(this)"></span></span>`
-    contentHtml = contentHtml.replace(
-      new RegExp('(?![^<]*>)\\b' + str + '\\b((?!<\\/span))', 'g'),
-      () => {
-        hits++
-        return confirmHTML
+    const regex = new RegExp('\\b' + str + '\\b', 'i')
+    let outerActive = true
+    let innerActive = true
+    let i = 0
+    while (outerActive) {
+      if (i > contentArr.length - 1) break
+      if (contentArr[i].type === 'label') {
+        i++
+        continue
       }
-    )
+      while (innerActive) {
+        const index = contentArr[i].text.search(regex)
+        if (index === -1) break
+        const category = categoriesMap.get(String(word.category))
+        hits++
+        replaceEntry(
+          contentArr,
+          i,
+          index,
+          index + str.length,
+          str,
+          category,
+          'unconfirmed'
+        )
+      }
+      i++
+    }
   })
 
-  return { contentHtml, hits }
+  return { contentArr, hits }
 }
 
 const load = async (textId, password) => {
@@ -48,8 +64,8 @@ const load = async (textId, password) => {
     throw new ValError('Invalid project password')
   }
 
-  let { contentHtml, hits } = checkWorldlist(
-    decrypt(data.contentEncHtml, password),
+  let { contentArr, hits } = checkWorldlist(
+    JSON.parse(decrypt(data.contentArr, password)),
     data.project.words,
     data.project.categories,
     password,
@@ -58,7 +74,7 @@ const load = async (textId, password) => {
   return {
     textName: data.name,
     projectId: data.project._id,
-    contentHtml,
+    contentArr,
     showConfirmed: data.project.showConfirmed,
     categories: data.project.categories,
     classActive: data.project.classActive,
@@ -103,10 +119,9 @@ const list = async (projectId) => {
 }
 
 const update = async (
-  textRaw,
-  htmlText,
   textId,
   projectId,
+  contentArr,
   user,
   newWords,
   password,
@@ -115,8 +130,7 @@ const update = async (
   const text = await Text.findOneAndUpdate(
     { _id: textId },
     {
-      contentEncSaved: encrypt(textRaw, password),
-      contentEncHtml: encrypt(htmlText, password),
+      contentArr: encrypt(JSON.stringify(contentArr), password),
       status: 'confirmed',
       classifications,
     },
@@ -159,12 +173,12 @@ const checkAll = async (projectId, password) => {
   await checkPassword(project.name, password, project.password)
 
   const texts = await Text.find({ project: projectId }).select(
-    'contentEncHtml status name'
+    'contentArr status name'
   )
 
   for (const text of texts) {
-    const { contentHtml, hits } = checkWorldlist(
-      decrypt(text.contentEncHtml, password),
+    const { contentArr, hits } = checkWorldlist(
+      JSON.parse(decrypt(text.contentArr, password)),
       project.words,
       project.categories,
       password
@@ -173,7 +187,7 @@ const checkAll = async (projectId, password) => {
     if (hits > 0) {
       totalHits += hits
       const textDb = await Text.findById(text._id)
-      textDb.contentEncHtml = encrypt(contentHtml, password)
+      textDb.contentArr = encrypt(JSON.stringify(contentArr), password)
       if (textDb.status === 'confirmed') {
         unconfirmedTexts++
         textDb.status = 'unconfirmed'
@@ -198,7 +212,7 @@ const exportAll = async (projectId, exportPath, exportMode, password) => {
     .select('name classActive classifications texts')
     .populate({
       path: 'texts',
-      select: 'name contentEncSaved status classifications',
+      select: 'name contentArr status classifications',
     })
   await checkPassword(project.name, password)
   if (exportMode === 'folder') {
@@ -274,6 +288,44 @@ const importTexts = async (projectId, importPath, importMode, password) => {
   return {
     new: newTexts.length,
     duplicates: loadedTexts.length - newTexts.length,
+  }
+}
+
+const replaceEntry = (
+  contentArr,
+  index,
+  start,
+  end,
+  word,
+  category,
+  status
+) => {
+  const text = contentArr[index]
+  console.log(text)
+  let firstPart = text.text.slice(0, start)
+  let lastPart = text.text.slice(end)
+  console.log({ lastPart })
+  contentArr.splice(index, 1, {
+    text: category.name,
+    original: word,
+    id: category._id,
+    colorHex: category.colorHex,
+    status,
+  })
+
+  if (end <= text.text.length - 1) {
+    'lastparrt',
+      contentArr.splice(index + 1, 0, {
+        text: lastPart,
+        type: 'text',
+      })
+  }
+
+  if (start > 0) {
+    contentArr.splice(index, 0, {
+      text: firstPart,
+      type: 'text',
+    })
   }
 }
 

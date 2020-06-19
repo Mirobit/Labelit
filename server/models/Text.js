@@ -17,17 +17,13 @@ const textSchema = new Schema(
       required: false,
       default: '',
     },
-    contentEncOrg: {
+    contentOrg: {
       type: String,
       required: true,
     },
-    contentEncSaved: {
+    contentArr: {
       type: String,
-      required: false,
-    },
-    contentEncHtml: {
-      type: String,
-      required: false,
+      required: true,
     },
     classifications: [{ type: Schema.Types.ObjectId }],
     status: {
