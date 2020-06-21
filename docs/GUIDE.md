@@ -66,7 +66,7 @@ Make sure to save your changes before proceeding to the next text.
 
 When you're done with editing the project texts you can press the _Check_ Button on the Project Page. This will automatically compare the database entries with all project texts to check if there are unlabeled named entities.
 
-### Keyboard shortcuts
+## Keyboard shortcuts
 
 - `ENTER` (login page): Login
 - `ENTER` (text page): Save text

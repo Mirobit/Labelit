@@ -45,7 +45,7 @@ Use `admin` as username and the password from the `.env` file to sign in.
 
 ## How To
 
-See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/GUIDE.md) and check the [examples](https://github.com/Mirobit/Labelit/blob/master/examples) folder, to see how the input data needs to be structured. See [docs/MongoDB.md](https://github.com/Mirobit/Labelit/blob/master/docs/MongoDB.md) to find out how to change the MongoDB database location.
+See [GUIDE.md](https://github.com/Mirobit/Labelit/blob/master/docs/GUIDE.md) and check the [examples](https://github.com/Mirobit/Labelit/blob/master/examples) folder, to see how the input data needs to be structured. See [MongoDB.md](https://github.com/Mirobit/Labelit/blob/master/docs/MongoDB.md) to find out how to change the MongoDB database location.
 
 ## ToDo
 
