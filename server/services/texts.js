@@ -215,6 +215,7 @@ const exportAll = async (projectId, exportPath, exportMode, password) => {
       select: 'name contentArr status classifications',
     })
   await checkPassword(project.name, password)
+
   if (exportMode === 'folder') {
     await writeFolder(
       exportPath,
@@ -233,7 +234,7 @@ const exportAll = async (projectId, exportPath, exportMode, password) => {
       project.classActive,
       project.classifications
     )
-  } else if (project.inputMode === 'json') {
+  } else if (exportMode === 'json') {
     await writeJSON(
       exportPath,
       project.name,

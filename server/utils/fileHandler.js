@@ -38,7 +38,6 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
       const contentEnc = encrypt(content, password)
       texts.push({
         name: path.join(subFolder, file.name),
-        content: contentEnc,
         contentOrg: contentEnc,
         contentArr: encrypt(
           JSON.stringify([{ text: content, type: 'text' }]),
@@ -55,7 +54,7 @@ const readFolder = async (projectId, password, inputPath, subFolder = '') => {
   return texts
 }
 
-const getFullText = (contentArr, password) => {
+const getTextFromArr = (contentArr, password) => {
   contentArr = JSON.parse(decrypt(contentArr, password))
   let str = ''
   for (const entry of contentArr) {
@@ -99,7 +98,7 @@ const writeFolder = async (
     }
     await fs.writeFile(
       path.join(totalPath, subFolder, fileName),
-      decrypt(text.content, password)
+      getTextFromArr(text.contentArr, password)
     )
   }
 
@@ -125,7 +124,6 @@ const readJSON = async (projectId, password, filePath) => {
     const contentEnc = encrypt(content, password)
     texts.push({
       name: entry.id.replace(/</g, '&lt'),
-      content: contentEnc,
       contentOrg: contentEnc,
       contentArr: encrypt(
         JSON.stringify([{ text: content, type: 'text' }]),
@@ -161,7 +159,7 @@ const writeJSON = async (
     if (text.status !== 'confirmed') continue
     const entry = {
       id: text.name,
-      text: decrypt(text.content, password),
+      text: getTextFromArr(text.contentArr, password),
     }
     if (classActive) {
       entry.classifications = text.classifications
@@ -214,7 +212,6 @@ const readCSV = async (projectId, password, filePath) => {
     const contentEnc = encrypt(content, password)
     texts.push({
       name: line[0].replace(/</g, '&lt'),
-      content: contentEnc,
       contentOrg: contentEnc,
       contentArr: encrypt(
         JSON.stringify([{ text: content, type: 'text' }]),
@@ -257,7 +254,7 @@ const writeCSV = async (
     if (text.status !== 'confirmed') continue
     const line = {
       id: text.name,
-      text: decrypt(text.content, password),
+      text: getTextFromArr(text.contentArr, password),
     }
     if (classActive) {
       line.classifications = text.classifications
