@@ -5,6 +5,7 @@ const Text = require('../models/Text')
 const Project = require('../models/Project')
 const { readFolder, readCSV, readJSON } = require('../utils/fileHandler')
 const { hash, encrypt, decrypt } = require('../utils/crypter')
+const { text } = require('express')
 
 const get = async (name) => {
   const project = await Project.findOne({ name })
@@ -153,6 +154,46 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
 }
 
 const removeCategory = async (projectId, categoryId, password) => {
+  const texts = await Text.find({ project: projectId })
+  for (let text of texts) {
+    let hits = 0
+    contentArrDe = JSON.parse(decrypt(text.contentArr, password))
+    for (let i = 0; i < contentArrDe.length; i++) {
+      const entry = contentArrDe[i]
+      if (entry.type === 'text') continue
+
+      console.log(entry.id, categoryId)
+      if (entry.id != categoryId) continue
+      hits++
+      const original = contentArrDe[i].original
+      let textBefore = ''
+      let textAfter = ''
+      let newIndexStart = i
+      let steps = 1
+
+      if (i > 0 && contentArrDe[i - 1].type === 'text') {
+        textBefore = contentArrDe[i - 1].text
+        newIndexStart--
+        steps++
+      }
+      if (i < contentArrDe.length - 1 && contentArrDe[i + 1].type === 'text') {
+        textAfter = contentArrDe[i + 1].text
+        steps++
+      }
+
+      const newText = textBefore + original + textAfter
+
+      contentArrDe.splice(newIndexStart, steps, {
+        text: newText,
+        type: 'text',
+      })
+    }
+    if (hits > 0) {
+      text.contentArr = encrypt(JSON.stringify(contentArrDe), password)
+      await text.save()
+    }
+  }
+
   await Project.findOneAndUpdate(
     { _id: projectId },
     { $pull: { categories: { _id: categoryId } } }
