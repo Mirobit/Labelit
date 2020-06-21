@@ -293,6 +293,7 @@ const updateCategory = async (categoryId) => {
       key: categoryKeyEl.value,
       color: colorArr[0],
       colorHex: colorArr[1],
+      password: Store.password,
     }
   )
 

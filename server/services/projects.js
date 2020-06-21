@@ -121,7 +121,12 @@ const addCategory = async (projectId, newCategory) => {
   await project.save()
 }
 
-const updateCategory = async (projectId, categoryId, categoryData) => {
+const updateCategory = async (
+  projectId,
+  categoryId,
+  categoryData,
+  password
+) => {
   const project = await Project.findById(projectId)
 
   const catIndex = project.categories.findIndex(
@@ -149,8 +154,24 @@ const updateCategory = async (projectId, categoryId, categoryData) => {
     categoryData[prop] = categoryData[prop].replace(/<.*?>/gm, '')
   }
   project.categories[catIndex] = { ...categoryData, _id: categoryId }
-  // TODO updat text
   await project.save()
+
+  const texts = await Text.find({ project: projectId })
+  for (let text of texts) {
+    let hits = 0
+    contentArrDe = JSON.parse(decrypt(text.contentArr, password))
+    for (let i = 0; i < contentArrDe.length; i++) {
+      if (contentArrDe[i].type === 'text') continue
+      if (contentArrDe[i].id != categoryId) continue
+      hits++
+      contentArrDe[i].text = categoryData.name
+      contentArrDe[i].colorHex = categoryData.colorHex
+    }
+    if (hits > 0) {
+      text.contentArr = encrypt(JSON.stringify(contentArrDe), password)
+      await text.save()
+    }
+  }
 }
 
 const removeCategory = async (projectId, categoryId, password) => {
@@ -161,9 +182,8 @@ const removeCategory = async (projectId, categoryId, password) => {
     for (let i = 0; i < contentArrDe.length; i++) {
       const entry = contentArrDe[i]
       if (entry.type === 'text') continue
-
-      console.log(entry.id, categoryId)
       if (entry.id != categoryId) continue
+
       hits++
       const original = contentArrDe[i].original
       let textBefore = ''

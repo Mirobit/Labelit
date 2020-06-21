@@ -301,10 +301,9 @@ const replaceEntry = (
   status
 ) => {
   const text = contentArr[index]
-  console.log(text)
   let firstPart = text.text.slice(0, start)
   let lastPart = text.text.slice(end)
-  console.log({ lastPart })
+
   contentArr.splice(index, 1, {
     text: category.name,
     original: word,

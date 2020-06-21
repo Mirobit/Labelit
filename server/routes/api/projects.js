@@ -96,7 +96,8 @@ router.put(
         keyUp: req.body.key.toUpperCase(),
         color: req.body.color,
         colorHex: req.body.colorHex,
-      }
+      },
+      req.body.password
     )
     res.json({ status: 200 })
   })
