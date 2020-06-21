@@ -99,6 +99,7 @@ const close = () => {
   Store.textPage.hidden = true
   document.getElementById('classificationsmenu').hidden = true
   document.removeEventListener('keyup', handleKeyPress)
+  document.removeEventListener('keyup', handleKeyPressDown)
 }
 
 const displayText = () => {
@@ -242,6 +243,13 @@ const addLabel = (key) => {
   const arrayIndex = parseInt(marked.anchorNode.parentNode.id)
   const regex = new RegExp('\\b' + selected + '\\b', 'i')
   const index = contentArr[arrayIndex].text.search(regex)
+  if (index === -1) {
+    displayMessage(
+      false,
+      'Can not find string in text. Please contact developer.'
+    )
+    return
+  }
   replaceEntry(
     arrayIndex,
     index,
