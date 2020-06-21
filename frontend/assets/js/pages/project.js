@@ -104,6 +104,7 @@ const init = async () => {
 
 const close = () => {
   Store.projectPage.hidden = true
+  document.getElementById('classifications').hidden = true
   document.getElementById('classificationForm').hidden = true
   document.getElementById('categoryForm').hidden = true
   document.getElementById('projectForm').hidden = true
