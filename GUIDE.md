@@ -65,3 +65,11 @@ Categorized words will be stored (hashed) in the database. For all following app
 Make sure to save your changes before proceeding to the next text.
 
 When you're done with editing the project texts you can press the _Check_ Button on the Project Page. This will automatically compare the database entries with all project texts to check if there are unlabeled named entities.
+
+### Keyboard shortcuts
+
+- `ENTER` (login page): Login
+- `ENTER` (text page): Save text
+- `ArrowLeft` (text page): Show previous text
+- `ArrowRight` (text page): Show next text
+- `CONTROL` (text page): Keep pressed while marking a string with your mouse (disables automtiv word selection on mouse click)
