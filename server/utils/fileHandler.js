@@ -121,12 +121,12 @@ const readJSON = async (projectId, password, filePath) => {
   const parsed = JSON.parse(jsonData)
 
   for (const entry of parsed) {
-    const contentEnc = encrypt(content, password)
+    const contentEnc = encrypt(entry.text, password)
     texts.push({
       name: entry.id.replace(/</g, '&lt'),
       contentOrg: contentEnc,
       contentArr: encrypt(
-        JSON.stringify([{ text: content, type: 'text' }]),
+        JSON.stringify([{ text: entry.text, type: 'text' }]),
         password
       ),
       project: projectId,
@@ -209,12 +209,12 @@ const readCSV = async (projectId, password, filePath) => {
   parsed.shift()
 
   for (const line of parsed) {
-    const contentEnc = encrypt(content, password)
+    const contentEnc = encrypt(line[1], password)
     texts.push({
       name: line[0].replace(/</g, '&lt'),
       contentOrg: contentEnc,
       contentArr: encrypt(
-        JSON.stringify([{ text: content, type: 'text' }]),
+        JSON.stringify([{ text: line[1], type: 'text' }]),
         password
       ),
       project: projectId,
