@@ -1,11 +1,7 @@
-// const parse5 = require('parse5')
-// const htmlparser2Adapter = require('parse5-htmlparser2-tree-adapter')
-
 const Text = require('../models/Text')
 const Project = require('../models/Project')
 const { readFolder, readCSV, readJSON } = require('../utils/fileHandler')
 const { hash, encrypt, decrypt } = require('../utils/crypter')
-const { text } = require('express')
 
 const get = async (name) => {
   const project = await Project.findOne({ name })
