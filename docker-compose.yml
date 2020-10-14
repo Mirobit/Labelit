@@ -5,7 +5,7 @@ services:
     environment:
       - MONGODB_URI=mongodb://mongodb:27017/labelit
     ports:
-      - '8001:8000'
+      - 8000:8000
     depends_on:
       - mongodb
 
@@ -13,8 +13,8 @@ services:
     image: mongo
     volumes:
       - db:/data/db
-    ports:
-      - '27017:27017'
+    expose:
+      - 27017:27017
 
 volumes:
   db:
