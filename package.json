@@ -8,19 +8,19 @@
   },
   "dependencies": {
     "busboy": "^0.3.1",
-    "csv-parse": "^4.9.0",
+    "csv-parse": "^4.14.1",
     "csv-writer": "^1.6.0",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
-    "mongoose": "^5.9.13",
+    "mongoose": "^5.10.14",
     "path": "^0.12.7",
-    "pino": "^6.2.1"
+    "pino": "^6.7.0"
   },
   "devDependencies": {
-    "ava": "^3.10.1",
+    "ava": "^3.13.0",
     "cross-env": "^7.0.2",
-    "mongodb-memory-server-core": "^6.6.0"
+    "mongodb-memory-server-core": "^6.9.2"
   },
   "scripts": {
     "start": "node server/app.js",
