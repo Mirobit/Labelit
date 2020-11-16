@@ -1,10 +1,11 @@
 const jwt = require('jsonwebtoken')
+const { hash } = require('../utils/crypter')
 
 const login = async (username, password) => {
   let userRole = 'user'
 
   if (username === 'admin') {
-    if (process.env.ADMIN_PASSWORD !== password) {
+    if (hash(process.env.ADMIN_PASSWORD) !== hash(password)) {
       throw new ValError('Invalid admin password')
     }
     userRole = 'admin'
